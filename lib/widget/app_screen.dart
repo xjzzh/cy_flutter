@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:cy_flutter/model/icon_data.dart';
+import 'package:cy_flutter/widget/bottom_bar.dart';
+import 'package:cy_flutter/view/home_page.dart';
 
 class AppScreen extends StatefulWidget {
   @override
@@ -20,14 +23,14 @@ class _AppScreenState extends State<AppScreen> with TickerProviderStateMixin {
 
   @override
   void initState() {
-    tabIconsList.forEach((TabIconData tab){
+    tabIconsList.forEach((TabIconData tab) {
       tab.isSelected = false;
     });
     tabIconsList[0].isSelected = true;
 
     animationController = AnimationController(
-      duration: const Duration(milliseconds: 600), vsync: this
-    );
+        duration: const Duration(milliseconds: 600), vsync: this);
+    pageBody = HomePageScreen(animationController: animationController);
     super.initState();
   }
 
@@ -40,23 +43,22 @@ class _AppScreenState extends State<AppScreen> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).canvasColor,
       body: FutureBuilder<bool>(
         future: getData(),
         builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
           if (!snapshot.hasData) {
-            return Center(
-              child: CupertinoActivityIndicator(),
-            );
+            return const SizedBox();
           } else {
             return Stack(
-              children:<Widget>[
+              children: <Widget>[
                 pageBody,
                 bottomBar(),
-              ]
+              ],
             );
           }
         },
-      )
+      ),
     );
   }
 

@@ -1,4 +1,7 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
+import 'package:cy_flutter/model/icon_data.dart';
 
 class BottomBarView extends StatefulWidget {
   const BottomBarView({Key key, this.tabIconsList, this.changeIndex, this.addClick}) : super(key:key);
@@ -35,67 +38,63 @@ class _BottomBarViewState extends State<BottomBarView> with TickerProviderStateM
           builder: (BuildContext context, Widget child) {
             return Transform(
               transform: Matrix4.translationValues(0.0, 0.0, 0.0),
-              child: Column(
-                children: <Widget>[
-                  SizedBox(
-                    height: 62,
-                    child: Padding(
-                      padding:
-                          const EdgeInsets.only(left: 8, right: 8, top: 4),
-                      child: Row(
-                        children: <Widget>[
-                          Expanded(
-                            child: TabIcons(
-                                tabIconData: widget.tabIconsList[0],
-                                removeAllSelect: () {
-                                  setRemoveAllSelection(
-                                      widget.tabIconsList[0]);
-                                  widget.changeIndex(0);
-                                }),
-                          ),
-                          Expanded(
-                            child: TabIcons(
-                                tabIconData: widget.tabIconsList[1],
-                                removeAllSelect: () {
-                                  setRemoveAllSelection(
-                                      widget.tabIconsList[1]);
-                                  widget.changeIndex(1);
-                                }),
-                          ),
-                          SizedBox(
-                            width: Tween<double>(begin: 0.0, end: 1.0)
-                                    .animate(CurvedAnimation(
-                                        parent: animationController,
-                                        curve: Curves.fastOutSlowIn))
-                                    .value *
-                                64.0,
-                          ),
-                          Expanded(
-                            child: TabIcons(
-                                tabIconData: widget.tabIconsList[2],
-                                removeAllSelect: () {
-                                  setRemoveAllSelection(
-                                    widget.tabIconsList[2]);
-                                    widget.changeIndex(2);
-                                }),
-                          ),
-                          Expanded(
-                            child: TabIcons(
-                                tabIconData: widget.tabIconsList[3],
-                                removeAllSelect: () {
-                                  setRemoveAllSelection(
-                                    widget.tabIconsList[3]);
-                                    widget.changeIndex(3);
-                                }),
-                          ),
-                        ],
+              child: BackdropFilter(
+                filter: ImageFilter.blur(
+                  sigmaX: 5.0,
+                  sigmaY: 5.0,
+                ),
+                child: Column(
+                  children: <Widget>[
+                    SizedBox(
+                      height: 45,
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 8, right: 8, top: 4),
+                        child: Row(
+                          children: <Widget>[
+                            Expanded(
+                              child: TabIcons(
+                                  tabIconData: widget.tabIconsList[0],
+                                  removeAllSelect: () {
+                                    setRemoveAllSelection(widget.tabIconsList[0]);
+                                    widget.changeIndex(0);
+                                  }),
+                            ),
+                            Expanded(
+                              child: TabIcons(
+                                  tabIconData: widget.tabIconsList[1],
+                                  removeAllSelect: () {
+                                    setRemoveAllSelection(
+                                        widget.tabIconsList[1]);
+                                    widget.changeIndex(1);
+                                  }),
+                            ),
+                            Expanded(
+                              child: TabIcons(
+                                  tabIconData: widget.tabIconsList[2],
+                                  removeAllSelect: () {
+                                    setRemoveAllSelection(
+                                      widget.tabIconsList[2]);
+                                      widget.changeIndex(2);
+                                  }),
+                            ),
+                            Expanded(
+                              child: TabIcons(
+                                  tabIconData: widget.tabIconsList[3],
+                                  removeAllSelect: () {
+                                    setRemoveAllSelection(
+                                      widget.tabIconsList[3]);
+                                      widget.changeIndex(3);
+                                  }),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                  SizedBox(
-                    height: MediaQuery.of(context).padding.bottom,
-                  )
-                ],
+                    SizedBox(
+                      height: MediaQuery.of(context).padding.bottom,
+                    )
+                  ],
+                ),
               )
             );
           }
@@ -168,10 +167,11 @@ class _TabIconsState extends State<TabIcons> with TickerProviderStateMixin {
                 ScaleTransition(
                   alignment: Alignment.center,
                   scale: Tween<double>(begin: 0.88, end: 1.0).animate(
-                      CurvedAnimation(
-                          parent: widget.tabIconData.animationController,
-                          curve:
-                              Interval(0.1, 1.0, curve: Curves.fastOutSlowIn))),
+                    CurvedAnimation(
+                      parent: widget.tabIconData.animationController,
+                      curve: Interval(0.1, 1.0, curve: Curves.fastOutSlowIn)
+                    )
+                  ),
                   child: Image.asset(widget.tabIconData.isSelected
                       ? widget.tabIconData.selectedImagePath
                       : widget.tabIconData.imagePath),
@@ -247,4 +247,3 @@ class _TabIconsState extends State<TabIcons> with TickerProviderStateMixin {
     );
   }
 }
-
