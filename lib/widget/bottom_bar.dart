@@ -1,5 +1,4 @@
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:cy_flutter/model/icon_data.dart';
 
@@ -38,15 +37,12 @@ class _BottomBarViewState extends State<BottomBarView> with TickerProviderStateM
           builder: (BuildContext context, Widget child) {
             return Transform(
               transform: Matrix4.translationValues(0.0, 0.0, 0.0),
-              child: BackdropFilter(
-                filter: ImageFilter.blur(
-                  sigmaX: 5.0,
-                  sigmaY: 5.0,
-                ),
+              child: Container(
+                color: Theme.of(context).primaryColor,
                 child: Column(
                   children: <Widget>[
                     SizedBox(
-                      height: 45,
+                      height: 50.0,
                       child: Padding(
                         padding: const EdgeInsets.only(left: 8, right: 8, top: 4),
                         child: Row(
@@ -172,9 +168,11 @@ class _TabIconsState extends State<TabIcons> with TickerProviderStateMixin {
                       curve: Interval(0.1, 1.0, curve: Curves.fastOutSlowIn)
                     )
                   ),
-                  child: Image.asset(widget.tabIconData.isSelected
+                  child: Image.asset(
+                    widget.tabIconData.isSelected
                       ? widget.tabIconData.selectedImagePath
-                      : widget.tabIconData.imagePath),
+                      : widget.tabIconData.imagePath
+                  ),
                 ),
                 Positioned(
                   top: 4,

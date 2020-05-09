@@ -17,10 +17,14 @@ class ChuYiApp extends StatelessWidget {
       theme: ThemeData(
         brightness: Brightness.light,
         primaryColorBrightness: Brightness.light,
+        platform: TargetPlatform.iOS,
+        primaryColor: Colors.white,
+        canvasColor: Color(0xFFF4EDE0),
       ),
       darkTheme: ThemeData(
         brightness: Brightness.dark,
         primaryColorBrightness: Brightness.dark,
+        platform: TargetPlatform.iOS,
       ),
       home: SafeArea(
         top: false,
