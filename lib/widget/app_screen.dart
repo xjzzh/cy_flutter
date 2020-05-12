@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:cy_flutter/model/icon_data.dart';
 import 'package:cy_flutter/widget/bottom_bar.dart';
-import 'package:cy_flutter/view/home_page.dart';
+import 'package:cy_flutter/view/home/home_page.dart';
 
 class AppScreen extends StatefulWidget {
   @override
@@ -14,7 +14,7 @@ class _AppScreenState extends State<AppScreen> with TickerProviderStateMixin {
 
   List<TabIconData> tabIconsList = TabIconData.tabIconsList;
 
-  Widget pageBody;
+  Widget pageBody = Container();
 
   Future<bool> getData() async {
     await Future<dynamic>.delayed(const Duration(milliseconds: 200));
