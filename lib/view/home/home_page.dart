@@ -1,3 +1,4 @@
+import 'package:cy_flutter/view/home/meals_list_view.dart';
 import 'package:flutter/material.dart';
 
 class HomePageScreen extends StatefulWidget {
@@ -56,7 +57,7 @@ class _HomePageScreenState extends State<HomePageScreen> with TickerProviderStat
     const int count = 9;
     listViews.add(
       TitleView(
-        titleTxt: '本周推荐',
+        titleTxt: '今日推荐',
         subTxt: '更多',
         animation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
             parent: widget.animationController,
@@ -64,6 +65,20 @@ class _HomePageScreenState extends State<HomePageScreen> with TickerProviderStat
                 Interval((1 / count) * 0, 1.0, curve: Curves.fastOutSlowIn))),
         animationController: widget.animationController,
       )
+    );
+    listViews.add(
+      /// 今日推荐Widget
+      MealsListView(
+        mainScreenAnimation: Tween<double>(begin: 0.0, end: 1.0).animate(
+          CurvedAnimation(
+            parent: widget.animationController,
+            curve: Interval(
+              (1 / count) * 1, 1.0,
+              curve: Curves.fastOutSlowIn)
+            )
+          ),
+        mainScreenAnimationController: widget.animationController,
+      ),
     );
   }
 
