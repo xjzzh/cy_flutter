@@ -67,7 +67,7 @@ class MealsListData {
 
   static List<MealsListData> tabIconsList = <MealsListData>[
     MealsListData(
-      imagePath: 'assets/fitness_app/breakfast.png',
+      imagePath: 'assets/images/breakfast.png',
       titleTxt: '早餐',
       kacl: 525,
       meals: <String>['Bread,', 'Peanut butter,', 'Apple'],
@@ -75,7 +75,7 @@ class MealsListData {
       endColor: '0XFFFFB295',
     ),
     MealsListData(
-      imagePath: 'assets/fitness_app/lunch.png',
+      imagePath: 'assets/images/lunch.png',
       titleTxt: '午餐',
       kacl: 602,
       meals: <String>['Salmon,', 'Mixed veggies,', 'Avocado'],
@@ -83,7 +83,7 @@ class MealsListData {
       endColor: '0XFF5C5EDD',
     ),
     MealsListData(
-      imagePath: 'assets/fitness_app/dinner.png',
+      imagePath: 'assets/images/dinner.png',
       titleTxt: '晚餐',
       kacl: 0,
       meals: <String>['Recommend:', '703 kcal'],

@@ -100,7 +100,7 @@ class MealsView extends StatelessWidget {
               child: Stack(
                 children: <Widget>[
                   Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
+                    padding: const EdgeInsets.only(top: 32, left: 8, right: 8, bottom: 16),
                     child: Container(
                       decoration: BoxDecoration(
                         boxShadow: <BoxShadow>[
@@ -156,7 +156,7 @@ class MealsView extends StatelessWidget {
                                 ),
                               )
                             ),
-                            mealsListData.kacl != 0 ? Row(
+                            Row(
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.end,
                               children: <Widget>[
@@ -182,27 +182,7 @@ class MealsView extends StatelessWidget {
                                   ),
                                 ),
                               ],
-                            ) : Container(
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                shape: BoxShape.circle,
-                                boxShadow: <BoxShadow>[
-                                  BoxShadow(
-                                    color: Colors.white.withOpacity(0.4),
-                                    offset: Offset(8.0, 8.0),
-                                    blurRadius: 8.0
-                                  ),
-                                ],
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.all(6.0),
-                                child: Icon(
-                                  Icons.add,
-                                  color: Color(int.parse(mealsListData.endColor)),
-                                  size: 24,
-                                ),
-                              ),
-                            )
+                            ) 
                           ],
                         ),
                       ),
