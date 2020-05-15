@@ -1,6 +1,8 @@
-import 'package:cy_flutter/model/icon_data.dart';
+import 'package:cy_flutter/model/api_data.dart';
+import 'package:cy_flutter/util/api.dart';
 import 'package:flutter/material.dart';
 
+final API _api  = API();
 class MealsListView extends StatefulWidget {
   const MealsListView({Key key, this.mainScreenAnimationController, this.mainScreenAnimation}) : super(key:key);
   
@@ -14,12 +16,19 @@ class MealsListView extends StatefulWidget {
 class _MealsListViewState extends State<MealsListView> with TickerProviderStateMixin {
   AnimationController animationController;
   List<MealsListData> mealsListData = MealsListData.tabIconsList;
+  List<Subject> breakfast = List();
   
   @override
   void initState() {
     animationController = AnimationController(
       duration: const Duration(milliseconds: 2000), vsync: this
     );
+    
+    _api.getTodayRepice((item) {
+      setState(() {
+        breakfast = item['breakfast'];
+      });
+    });
     super.initState();
   }
 
@@ -52,7 +61,7 @@ class _MealsListViewState extends State<MealsListView> with TickerProviderStateM
                 padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 16),
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (BuildContext context, int index) {
-                  final int count = mealsListData.length > 10 ? 10 : mealsListData.length;
+                  final int count = mealsListData.length > 4 ? 4 : mealsListData.length;
                   final Animation<double> animation = CurvedAnimation(
                     parent: animationController, 
                     curve: Interval(
@@ -63,11 +72,12 @@ class _MealsListViewState extends State<MealsListView> with TickerProviderStateM
                   animationController.forward();
                   return MealsView(
                     mealsListData: mealsListData[index],
+                    netWorkData: breakfast[index],
                     animation: animation,
                     animationController: animationController,
                   );
                 },
-                itemCount: mealsListData.length,
+                itemCount: breakfast.length,
               ),
             ),
           ),
@@ -79,15 +89,16 @@ class _MealsListViewState extends State<MealsListView> with TickerProviderStateM
 }
 
 class MealsView extends StatelessWidget {
-  const MealsView({Key key, this.mealsListData, this.animationController, this.animation}) : super(key: key);
+  const MealsView({Key key, this.mealsListData, this.netWorkData, this.animationController, this.animation}) : super(key: key);
   final MealsListData mealsListData;
+  final netWorkData;
   final AnimationController animationController;
   final Animation<dynamic> animation;
 
   @override
   Widget build(BuildContext context) {
     return AnimatedBuilder(
-      animation: animationController, 
+      animation: animationController,
       builder: (BuildContext context, Widget child) {
         return FadeTransition(
           opacity: animation,
@@ -100,95 +111,47 @@ class MealsView extends StatelessWidget {
               child: Stack(
                 children: <Widget>[
                   Padding(
-                    padding: const EdgeInsets.only(top: 32, left: 8, right: 8, bottom: 16),
+                    padding: const EdgeInsets.only(top: 32),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                      child: Container(
+                        width: 120,
+                        height: 160,
+                        child: FadeInImage.assetNetwork(
+                          image: '${netWorkData.images}?x-oss-process=image/resize,m_fill,w_120,h_160',
+                          placeholder: "assets/images/placeholder.jpg",
+                          fit: BoxFit.cover,
+                        ),
+                        decoration: BoxDecoration(
+                          boxShadow: <BoxShadow>[
+                            BoxShadow(
+                              color: Color(int.parse(mealsListData.endColor)).withOpacity(0.4),
+                              offset: const Offset(1.0, 4.0),
+                              blurRadius: 8.0
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    top: 32,
                     child: Container(
+                      width: 120,
+                      height: 160,
                       decoration: BoxDecoration(
-                        boxShadow: <BoxShadow>[
-                          BoxShadow(
-                            color: Color(int.parse(mealsListData.endColor)).withOpacity(0.3),
-                            offset: const Offset(1.0, 4.0),
-                            blurRadius: 8.0
-                          )
-                        ],
                         gradient: LinearGradient(
                           colors: <Color>[
                             Color(int.parse(mealsListData.startColor)),
-                            Color(int.parse(mealsListData.endColor))
+                            Color(int.parse(mealsListData.endColor)).withOpacity(.7)
                           ],
                           begin: Alignment.topLeft,
                           end: Alignment.bottomRight
                         ),
                         borderRadius: const BorderRadius.all(Radius.circular(8.0)),
                       ),
-                      child: Padding(
-                        padding: const EdgeInsets.only(top: 54, left: 16, right: 16, bottom: 8),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Text(
-                              mealsListData.titleTxt,
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16,
-                                letterSpacing: 0.2,
-                                color: Colors.white,
-                              ),
-                            ),
-                            Expanded(
-                              child: Padding(
-                                padding: const EdgeInsets.only(top: 8, bottom: 8),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    Text(
-                                      mealsListData.meals.join('\n'),
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 10,
-                                        letterSpacing: 0.2,
-                                        color: Colors.white,
-                                      ),
-                                    )
-                                  ]
-                                ),
-                              )
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: <Widget>[
-                                Text(
-                                  mealsListData.kacl.toString(),
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 24,
-                                    letterSpacing: 0.2,
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 4, bottom: 3),
-                                  child: Text(
-                                    'kcal',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 10,
-                                      letterSpacing: 0.2,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ) 
-                          ],
-                        ),
-                      ),
                     ),
                   ),
-
                   Positioned(
                     top: 0,
                     left: 0,
@@ -196,10 +159,50 @@ class MealsView extends StatelessWidget {
                       width: 84,
                       height: 84,
                       decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.2),
+                        color: Theme.of(context).canvasColor.withAlpha(100),
                         shape: BoxShape.circle,
                       ),
                     ),
+                  ),
+                  Positioned(
+                    top: 85,
+                    left: 10,
+                    width: 100,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(
+                          '${mealsListData.titleTxt}推荐',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                            letterSpacing: 0.5,
+                            color: Colors.white
+                          )
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 8),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: <Widget>[
+                              Flexible(
+                                child: Text(
+                                  "${netWorkData.title}",
+                                  textAlign: TextAlign.left,
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 14,
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        )
+                      ],
+                    )
                   ),
                   Positioned(
                     top: 0,

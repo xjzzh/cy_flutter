@@ -227,3 +227,16 @@ Try replacing 'com.example' with your signing id in Xcode:
   open ios/Runner.xcworkspace
 ```
 `rm -rf ios/Flutter/App.framework`
+
+#### Matrix4（矩阵变化） 参数：
+```dart
+scale：缩放
+transform: Matrix4.diagonal3Values(x, y, z),
+transform: 移动
+rotationZ：绕Z轴旋转
+rotationX：绕X轴旋转
+rotationY：绕Y轴旋转
+columns：设置一个新的矩阵
+compose：复合平移、旋转、缩放，形成新的状态
+copy：复制一个4*4的张量(矩阵)
+```

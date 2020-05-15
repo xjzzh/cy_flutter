@@ -1,6 +1,6 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:cy_flutter/model/icon_data.dart';
+import 'package:cy_flutter/model/api_data.dart';
 
 class BottomBarView extends StatefulWidget {
   const BottomBarView({Key key, this.tabIconsList, this.changeIndex, this.addClick}) : super(key:key);

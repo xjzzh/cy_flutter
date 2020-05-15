@@ -133,6 +133,28 @@ class _HomePageScreenState extends State<HomePageScreen> with TickerProviderStat
   }
 
   Widget getAppBar() {
+    var now = new DateTime.now();
+
+    String todayWeek() {
+      var weekday = now.weekday.toString();
+      var todayWeek = '';
+      if (weekday == '1') {
+        todayWeek = '星期一';
+      } else if (weekday == '2') {
+        todayWeek = '星期二';
+      } else if (weekday == '3') {
+        todayWeek = '星期三';
+      } else if (weekday == '4') {
+        todayWeek = '星期四';
+      } else if (weekday == '5') {
+        todayWeek = '星期五';
+      } else if (weekday == '6') {
+        todayWeek = '星期六';
+      } else {
+        todayWeek = '星期日';
+      }
+      return todayWeek;
+    }
     return Column(
       children:<Widget>[
         AnimatedBuilder(
@@ -161,7 +183,7 @@ class _HomePageScreenState extends State<HomePageScreen> with TickerProviderStat
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
                                   Text(
-                                    '5月12日 星期二',
+                                    "${new DateTime.now().month.toString()}月${new DateTime.now().day.toString()}日 ${todayWeek()}",
                                     textAlign: TextAlign.left,
                                     style: TextStyle(
                                       fontWeight: FontWeight.w500,
