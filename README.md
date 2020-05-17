@@ -160,6 +160,7 @@ Expanded // 用于展开Row，Column或Flex的子child的Widget。必须是[Row]
     Flexible(
         child: Text(
             ...
+            overflow: TextOverflow.ellipsis,
         )
     )
 ```

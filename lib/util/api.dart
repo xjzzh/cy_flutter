@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'package:cy_flutter/util/request.dart';
 import 'package:cy_flutter/model/api_data.dart';
 
@@ -21,7 +20,7 @@ class API {
     List<Subject> list1 = breakfast.map<Subject>((item) => Subject.fromMap(item)).toList();
     List<Subject> list2 = lunch.map<Subject>((item) => Subject.fromMap(item)).toList();
     List<Subject> list3 = oth.map<Subject>((item) => Subject.fromMap(item)).toList();
-    requestCallBack({'breakfast': [list1[0],list2[0],list2[1]]});
+    requestCallBack({'breakfast': [list1[0],list2[0],list2[1],list3[0]]});
   }
   
 }

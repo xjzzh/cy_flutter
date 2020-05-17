@@ -1,3 +1,4 @@
+import 'package:cy_flutter/model/api_data.dart';
 import 'package:cy_flutter/view/home/meals_list_view.dart';
 import 'package:flutter/material.dart';
 
@@ -15,6 +16,7 @@ class _HomePageScreenState extends State<HomePageScreen> with TickerProviderStat
   final ScrollController scrollController = ScrollController();
   double topBarOpacity = 0.0;
   List<Widget> listViews = <Widget>[];
+  NowDate todayDate = NowDate();
 
   @override
   void initState() {
@@ -59,10 +61,15 @@ class _HomePageScreenState extends State<HomePageScreen> with TickerProviderStat
       TitleView(
         titleTxt: '今日推荐',
         subTxt: '更多',
-        animation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
+        animation: Tween<double>(begin: 0.0, end: 1.0).animate(
+          CurvedAnimation(
             parent: widget.animationController,
-            curve:
-                Interval((1 / count) * 0, 1.0, curve: Curves.fastOutSlowIn))),
+            curve: Interval(
+              (1 / count) * 0, 1.0,
+              curve: Curves.fastOutSlowIn
+            )
+          )
+        ),
         animationController: widget.animationController,
       )
     );
@@ -74,12 +81,15 @@ class _HomePageScreenState extends State<HomePageScreen> with TickerProviderStat
             parent: widget.animationController,
             curve: Interval(
               (1 / count) * 1, 1.0,
-              curve: Curves.fastOutSlowIn)
+              curve: Curves.fastOutSlowIn
             )
-          ),
+          )
+        ),
         mainScreenAnimationController: widget.animationController,
       ),
     );
+
+    
   }
 
   Future<bool> getData() async {
@@ -115,9 +125,7 @@ class _HomePageScreenState extends State<HomePageScreen> with TickerProviderStat
           return ListView.builder(
             controller: scrollController,
             padding: EdgeInsets.only(
-              top: AppBar().preferredSize.height +
-                  MediaQuery.of(context).padding.top +
-                  24,
+              top: AppBar().preferredSize.height + MediaQuery.of(context).padding.top + 24,
               bottom: 62 + MediaQuery.of(context).padding.bottom
             ),
             itemCount: listViews.length,
@@ -133,28 +141,6 @@ class _HomePageScreenState extends State<HomePageScreen> with TickerProviderStat
   }
 
   Widget getAppBar() {
-    var now = new DateTime.now();
-
-    String todayWeek() {
-      var weekday = now.weekday.toString();
-      var todayWeek = '';
-      if (weekday == '1') {
-        todayWeek = '星期一';
-      } else if (weekday == '2') {
-        todayWeek = '星期二';
-      } else if (weekday == '3') {
-        todayWeek = '星期三';
-      } else if (weekday == '4') {
-        todayWeek = '星期四';
-      } else if (weekday == '5') {
-        todayWeek = '星期五';
-      } else if (weekday == '6') {
-        todayWeek = '星期六';
-      } else {
-        todayWeek = '星期日';
-      }
-      return todayWeek;
-    }
     return Column(
       children:<Widget>[
         AnimatedBuilder(
@@ -183,7 +169,7 @@ class _HomePageScreenState extends State<HomePageScreen> with TickerProviderStat
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
                                   Text(
-                                    "${new DateTime.now().month.toString()}月${new DateTime.now().day.toString()}日 ${todayWeek()}",
+                                    "${new DateTime.now().month.toString()}月${new DateTime.now().day.toString()}日 ${todayDate.todayWeek()}",
                                     textAlign: TextAlign.left,
                                     style: TextStyle(
                                       fontWeight: FontWeight.w500,
@@ -193,12 +179,11 @@ class _HomePageScreenState extends State<HomePageScreen> with TickerProviderStat
                                     ),
                                   ),
                                   Text(
-                                    '下午好～',
+                                    '${todayDate.hours()}',
                                     textAlign: TextAlign.left,
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,
-                                      fontSize: 18,
-                                      letterSpacing: 0.3
+                                      fontSize: 17
                                     ),
                                   )
                                 ],

@@ -61,7 +61,7 @@ class _MealsListViewState extends State<MealsListView> with TickerProviderStateM
                 padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 16),
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (BuildContext context, int index) {
-                  final int count = mealsListData.length > 4 ? 4 : mealsListData.length;
+                  final int count = mealsListData.length > 5 ? 5 : mealsListData.length;
                   final Animation<double> animation = CurvedAnimation(
                     parent: animationController, 
                     curve: Interval(
@@ -125,7 +125,7 @@ class MealsView extends StatelessWidget {
                         decoration: BoxDecoration(
                           boxShadow: <BoxShadow>[
                             BoxShadow(
-                              color: Color(int.parse(mealsListData.endColor)).withOpacity(0.4),
+                              color: Color(mealsListData.endColor).withOpacity(0.4),
                               offset: const Offset(1.0, 4.0),
                               blurRadius: 8.0
                             )
@@ -142,8 +142,8 @@ class MealsView extends StatelessWidget {
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
                           colors: <Color>[
-                            Color(int.parse(mealsListData.startColor)),
-                            Color(int.parse(mealsListData.endColor)).withOpacity(.7)
+                            Color(mealsListData.startColor),
+                            Color(mealsListData.endColor).withOpacity(.6)
                           ],
                           begin: Alignment.topLeft,
                           end: Alignment.bottomRight
@@ -173,7 +173,7 @@ class MealsView extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text(
-                          '${mealsListData.titleTxt}推荐',
+                          '${mealsListData.titleTxt}',
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
@@ -183,7 +183,7 @@ class MealsView extends StatelessWidget {
                           )
                         ),
                         Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 8),
+                          padding: const EdgeInsets.only(top: 15),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.end,
@@ -192,8 +192,11 @@ class MealsView extends StatelessWidget {
                                 child: Text(
                                   "${netWorkData.title}",
                                   textAlign: TextAlign.left,
+                                  overflow: TextOverflow.fade,
+                                  maxLines: 2,
                                   style: TextStyle(
                                     color: Colors.white,
+                                    fontWeight: FontWeight.w500,
                                     fontSize: 14,
                                   ),
                                 ),

@@ -48,6 +48,46 @@ class TabIconData {
   ];
 }
 
+class NowDate {
+  var now = new DateTime.now();
+  String todayWeek() {
+    var weekday = now.weekday.toString();
+    
+    var todayWeek = '';
+    if (weekday == '1') {
+      todayWeek = '星期一';
+    } else if (weekday == '2') {
+      todayWeek = '星期二';
+    } else if (weekday == '3') {
+      todayWeek = '星期三';
+    } else if (weekday == '4') {
+      todayWeek = '星期四';
+    } else if (weekday == '5') {
+      todayWeek = '星期五';
+    } else if (weekday == '6') {
+      todayWeek = '星期六';
+    } else {
+      todayWeek = '星期日';
+    }
+    return todayWeek;
+  }
+
+  String hours() {
+    var hour = int.parse(now.hour.toString());
+    if (hour >= 5 && hour < 10) {
+      return '记得吃早餐喔 🥪';
+    } else if (hour >=10 && hour < 15) {
+      return '午餐准备好了吗 🍛';
+    } else if (hour >= 15 && hour < 20) {
+      return '精心做一份晚餐吧 🥘';
+    } else {
+      return '晚安,好梦💤';
+    }
+    
+  }
+
+}
+
 class Subject {
   var title;
   var avatar;
@@ -76,33 +116,39 @@ class MealsListData {
   MealsListData({
     this.imagePath = '',
     this.titleTxt = '',
-    this.startColor = '',
-    this.endColor = '',
+    this.startColor,
+    this.endColor,
   });
 
   String imagePath;
   String titleTxt;
-  String startColor;
-  String endColor;
+  int startColor;
+  int endColor;
 
   static List<MealsListData> tabIconsList = <MealsListData>[
     MealsListData(
       imagePath: 'assets/images/breakfast.png',
       titleTxt: '早餐',
-      startColor: '0XFFFA7D82',
-      endColor: '0XFFFFB295',
+      startColor: 0xFFFA7D82,
+      endColor: 0xFFFFB295,
     ),
     MealsListData(
       imagePath: 'assets/images/lunch.png',
       titleTxt: '午餐',
-      startColor: '0XFF738AE6',
-      endColor: '0XFF5C5EDD',
+      startColor: 0xFF738AE6,
+      endColor: 0xFF5C5EDD,
     ),
     MealsListData(
       imagePath: 'assets/images/dinner.png',
       titleTxt: '晚餐',
-      startColor: '0XFF6F72CA',
-      endColor: '0XFF1E1466',
+      startColor: 0xFF6F72CA,
+      endColor: 0xFF1E1466,
+    ),
+    MealsListData(
+      imagePath: 'assets/images/snack.png',
+      titleTxt: '小吃零食',
+      startColor: 0xFFFE95B6,
+      endColor: 0xFFFF5287,
     ),
   ];
 }
