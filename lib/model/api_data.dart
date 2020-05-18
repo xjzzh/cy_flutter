@@ -78,8 +78,10 @@ class NowDate {
       return '记得吃早餐喔 🥪';
     } else if (hour >=10 && hour < 15) {
       return '午餐准备好了吗 🍛';
-    } else if (hour >= 15 && hour < 20) {
-      return '精心做一份晚餐吧 🥘';
+    } else if (hour >=15 && hour < 17){
+      return '喝水是必不可少的 🥤';
+    } else if (hour >= 17 && hour < 20) {
+      return '和家人共进晚餐吧 🥘';
     } else {
       return '晚安,好梦💤';
     }

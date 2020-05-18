@@ -20,6 +20,8 @@ class ChuYiApp extends StatelessWidget {
         platform: TargetPlatform.iOS,
         primaryColor: Colors.white,
         canvasColor: Color(0xFFF4EDE0),
+        accentColor: Color(0xFFf9f4ec),
+        backgroundColor: Color(0xFFFB7101),
       ),
       darkTheme: ThemeData(
         brightness: Brightness.dark,

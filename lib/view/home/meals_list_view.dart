@@ -21,7 +21,7 @@ class _MealsListViewState extends State<MealsListView> with TickerProviderStateM
   @override
   void initState() {
     animationController = AnimationController(
-      duration: const Duration(milliseconds: 2000), vsync: this
+      duration: const Duration(milliseconds: 1000), vsync: this
     );
     
     _api.getTodayRepice((item) {
@@ -113,7 +113,7 @@ class MealsView extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(top: 32),
                     child: ClipRRect(
-                      borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                      borderRadius: BorderRadius.all(Radius.circular(12.0)),
                       child: Container(
                         width: 120,
                         height: 160,
@@ -127,7 +127,7 @@ class MealsView extends StatelessWidget {
                             BoxShadow(
                               color: Color(mealsListData.endColor).withOpacity(0.4),
                               offset: const Offset(1.0, 4.0),
-                              blurRadius: 8.0
+                              blurRadius: 12.0
                             )
                           ],
                         ),
@@ -148,7 +148,7 @@ class MealsView extends StatelessWidget {
                           begin: Alignment.topLeft,
                           end: Alignment.bottomRight
                         ),
-                        borderRadius: const BorderRadius.all(Radius.circular(8.0)),
+                        borderRadius: const BorderRadius.all(Radius.circular(12.0)),
                       ),
                     ),
                   ),
@@ -177,13 +177,13 @@ class MealsView extends StatelessWidget {
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
-                            fontSize: 16,
+                            fontSize: 18,
                             letterSpacing: 0.5,
                             color: Colors.white
                           )
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(top: 15),
+                          padding: const EdgeInsets.only(top: 10),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.end,
@@ -193,11 +193,12 @@ class MealsView extends StatelessWidget {
                                   "${netWorkData.title}",
                                   textAlign: TextAlign.left,
                                   overflow: TextOverflow.fade,
-                                  maxLines: 2,
+                                  maxLines: 3,
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontWeight: FontWeight.w500,
-                                    fontSize: 14,
+                                    fontSize: 15,
+                                    height: 1.2,
                                   ),
                                 ),
                               )

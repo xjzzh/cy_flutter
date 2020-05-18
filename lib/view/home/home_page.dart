@@ -1,6 +1,7 @@
 import 'package:cy_flutter/model/api_data.dart';
-import 'package:cy_flutter/view/home/meals_list_view.dart';
 import 'package:flutter/material.dart';
+import 'package:cy_flutter/view/home/meals_list_view.dart';
+import 'package:cy_flutter/view/home/main_list_view.dart';
 
 class HomePageScreen extends StatefulWidget {
   const HomePageScreen({Key key, this.animationController}) : super(key:key);
@@ -89,6 +90,37 @@ class _HomePageScreenState extends State<HomePageScreen> with TickerProviderStat
       ),
     );
 
+    listViews.add(
+      TitleView(
+        titleTxt: '新菜谱',
+        subTxt: '全部',
+        animation: Tween<double>(begin: 0.0, end: 1.0).animate(
+          CurvedAnimation(
+            parent: widget.animationController, 
+            curve: Interval(
+              (1 / count) * 2, 1.0, 
+              curve: Curves.fastOutSlowIn
+            )
+          )
+        ),
+        animationController: widget.animationController,
+      )
+    );
+
+    listViews.add(
+      NewRecipesView(
+        animation: Tween<double>(begin: 0.0, end: 1.0).animate(
+          CurvedAnimation(
+            parent: widget.animationController,
+            curve: Interval(
+              (1 / count) * 3, 1.0,
+              curve: Curves.fastOutSlowIn
+            )
+          )
+        ),
+        animationController: widget.animationController,
+      )
+    );
     
   }
 
