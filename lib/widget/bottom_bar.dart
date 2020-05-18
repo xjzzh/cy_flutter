@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cy_flutter/model/api_data.dart';
 
@@ -38,51 +39,56 @@ class _BottomBarViewState extends State<BottomBarView> with TickerProviderStateM
             return Transform(
               transform: Matrix4.translationValues(0.0, 0.0, 0.0),
               child: Container(
-                color: Theme.of(context).primaryColor.withAlpha(95),
+                color: CupertinoTheme.of(context).barBackgroundColor,
                 child: Column(
                   children: <Widget>[
                     SizedBox(
                       height: 50.0,
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 8, right: 8, top: 4),
-                        child: Row(
-                          children: <Widget>[
-                            Expanded(
-                              child: TabIcons(
-                                  tabIconData: widget.tabIconsList[0],
-                                  removeAllSelect: () {
-                                    setRemoveAllSelection(widget.tabIconsList[0]);
-                                    widget.changeIndex(0);
-                                  }),
+                      child: ClipRRect(
+                        child: BackdropFilter(
+                          filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 8, right: 8, top: 4),
+                            child: Row(
+                              children: <Widget>[
+                                Expanded(
+                                  child: TabIcons(
+                                      tabIconData: widget.tabIconsList[0],
+                                      removeAllSelect: () {
+                                        setRemoveAllSelection(widget.tabIconsList[0]);
+                                        widget.changeIndex(0);
+                                      }),
+                                ),
+                                Expanded(
+                                  child: TabIcons(
+                                      tabIconData: widget.tabIconsList[1],
+                                      removeAllSelect: () {
+                                        setRemoveAllSelection(
+                                            widget.tabIconsList[1]);
+                                        widget.changeIndex(1);
+                                      }),
+                                ),
+                                Expanded(
+                                  child: TabIcons(
+                                      tabIconData: widget.tabIconsList[2],
+                                      removeAllSelect: () {
+                                        setRemoveAllSelection(
+                                          widget.tabIconsList[2]);
+                                          widget.changeIndex(2);
+                                      }),
+                                ),
+                                Expanded(
+                                  child: TabIcons(
+                                      tabIconData: widget.tabIconsList[3],
+                                      removeAllSelect: () {
+                                        setRemoveAllSelection(
+                                          widget.tabIconsList[3]);
+                                          widget.changeIndex(3);
+                                      }),
+                                ),
+                              ],
                             ),
-                            Expanded(
-                              child: TabIcons(
-                                  tabIconData: widget.tabIconsList[1],
-                                  removeAllSelect: () {
-                                    setRemoveAllSelection(
-                                        widget.tabIconsList[1]);
-                                    widget.changeIndex(1);
-                                  }),
-                            ),
-                            Expanded(
-                              child: TabIcons(
-                                  tabIconData: widget.tabIconsList[2],
-                                  removeAllSelect: () {
-                                    setRemoveAllSelection(
-                                      widget.tabIconsList[2]);
-                                      widget.changeIndex(2);
-                                  }),
-                            ),
-                            Expanded(
-                              child: TabIcons(
-                                  tabIconData: widget.tabIconsList[3],
-                                  removeAllSelect: () {
-                                    setRemoveAllSelection(
-                                      widget.tabIconsList[3]);
-                                      widget.changeIndex(3);
-                                  }),
-                            ),
-                          ],
+                          ),
                         ),
                       ),
                     ),

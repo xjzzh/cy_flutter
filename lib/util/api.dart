@@ -8,6 +8,7 @@ class API {
 
   static const String TODAYREPICE = 'weekRecipes';
   static const String NEWRECIPES = 'newRecipesList';
+  static const String HOTRECIPES = 'hotRecipesList';
 
   var _request = HttpRequest(API.BASE_URL);
 
@@ -34,4 +35,11 @@ class API {
     requestCallBack(list);
   }
   
+  /// 获取热门菜谱
+  void getHotRecipes(RequestCallBack requestCallBack) async {
+    final Map result = await _request.get(HOTRECIPES);
+    var resultList = result['result'];
+    List<Subject> list = resultList.map<Subject>((item) => Subject.fromMap(item)).toList();
+    requestCallBack(list);
+  }
 }

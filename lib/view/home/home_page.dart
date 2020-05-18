@@ -1,7 +1,10 @@
+import 'dart:ui';
 import 'package:cy_flutter/model/api_data.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cy_flutter/view/home/meals_list_view.dart';
-import 'package:cy_flutter/view/home/main_list_view.dart';
+import 'package:cy_flutter/view/home/new_recipes_view.dart';
+import 'package:cy_flutter/view/home/hot_recipes_view.dart';
 
 class HomePageScreen extends StatefulWidget {
   const HomePageScreen({Key key, this.animationController}) : super(key:key);
@@ -121,7 +124,38 @@ class _HomePageScreenState extends State<HomePageScreen> with TickerProviderStat
         animationController: widget.animationController,
       )
     );
+
+    listViews.add(
+      TitleView(
+        titleTxt: '大家都在做',
+        subTxt: '',
+        animation: Tween<double>(begin: 0.0, end: 1.0).animate(
+          CurvedAnimation(
+            parent: widget.animationController, 
+            curve: Interval(
+              (1 / count) * 4, 1.0, 
+              curve: Curves.fastOutSlowIn
+            )
+          )
+        ),
+        animationController: widget.animationController,
+      )
+    );
     
+    listViews.add(
+      HotRecipesView(
+        animation: Tween<double>(begin: 0.0, end: 1.0).animate(
+          CurvedAnimation(
+            parent: widget.animationController,
+            curve: Interval(
+              (1 / count) * 5, 1.0,
+              curve: Curves.fastOutSlowIn
+            )
+          )
+        ),
+        animationController: widget.animationController,
+      )
+    );
   }
 
   Future<bool> getData() async {
@@ -185,51 +219,56 @@ class _HomePageScreenState extends State<HomePageScreen> with TickerProviderStat
                   0.0, 30 * (1.0 - topBarAnimation.value), 0.0
                 ),
                 child: Container(
-                  color: Theme.of(context).primaryColor.withAlpha(95),
+                  color: CupertinoTheme.of(context).barBackgroundColor,
                   child: Column(
                     children: <Widget>[
                       SizedBox(
                         height: MediaQuery.of(context).padding.top,
                       ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(vertical:8.0,horizontal: 16.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Text(
-                                    "${new DateTime.now().month.toString()}月${new DateTime.now().day.toString()}日 ${todayDate.todayWeek()}",
-                                    textAlign: TextAlign.left,
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 14,
-                                      letterSpacing: 0.2,
-                                      color: Colors.grey
-                                    ),
-                                  ),
-                                  Text(
-                                    '${todayDate.hours()}',
-                                    textAlign: TextAlign.left,
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 17
-                                    ),
+                      ClipRect(
+                        child: BackdropFilter(
+                          filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(vertical:8.0,horizontal: 16.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      Text(
+                                        "${new DateTime.now().month.toString()}月${new DateTime.now().day.toString()}日 ${todayDate.todayWeek()}",
+                                        textAlign: TextAlign.left,
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 14,
+                                          letterSpacing: 0.2,
+                                          color: Colors.grey
+                                        ),
+                                      ),
+                                      Text(
+                                        '${todayDate.hours()}',
+                                        textAlign: TextAlign.left,
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 17
+                                        ),
+                                      )
+                                    ],
                                   )
-                                ],
-                              )
+                                ),
+                                GestureDetector(
+                                  onTap:(){},
+                                  child: Container(
+                                    width: 55,
+                                    height: 55,
+                                    child: Image.asset('assets/images/userImage.png'),
+                                  ),
+                                )
+                              ],
                             ),
-                            GestureDetector(
-                              onTap:(){},
-                              child: Container(
-                                width: 55,
-                                height: 55,
-                                child: Image.asset('assets/images/userImage.png'),
-                              ),
-                            )
-                          ],
+                          ),
                         ),
                       )
                     ],
@@ -307,7 +346,7 @@ class TitleView extends StatelessWidget {
                               height: 38,
                               width: 26,
                               child: Icon(
-                                Icons.arrow_forward,
+                                subTxt != '' ? Icons.arrow_forward : null,
                                 size: 18,
                               ),
                             ),
