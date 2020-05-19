@@ -55,11 +55,11 @@ class HttpRequest {
       http.Response response = await http.post(baseUrl + uri, body: body, headers: headers);
       final responseBody = response.body;
       var result = Convert.jsonDecode(responseBody);
-      // print('[uri=$uri][statusCode=$statusCode][response=$responseBody]');
+      print('[body=$body]');
       return result;
     } on Exception catch (e) {
       print(e.toString());
-      return '';
+      return null;
     }
   }
 }

@@ -15,7 +15,7 @@ class TabIconData {
   int index;
 
   AnimationController animationController;
-
+  /// 底部tabbar icon
   static List<TabIconData> tabIconsList = <TabIconData>[
     TabIconData(
       imagePath: 'assets/images/home.png',
@@ -90,6 +90,7 @@ class NowDate {
 
 }
 
+/// 解析home api
 class Subject {
   var title;
   var avatar;
@@ -100,6 +101,9 @@ class Subject {
   String images; 
   String nickname;
   String score;
+  // 分类
+  String sortName;
+  String sortImg;
 
   Subject.fromMap(Map<String, dynamic> map) {
     title = map['title'];
@@ -111,6 +115,9 @@ class Subject {
     score = map['score'];
     like = map['like_num'];
     collect = map['collect_num'];
+
+    sortImg = map['sort_img'];
+    sortName = map['sort_name'];
   }
 }
 

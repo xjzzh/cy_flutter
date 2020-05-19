@@ -241,3 +241,11 @@ columns：设置一个新的矩阵
 compose：复合平移、旋转、缩放，形成新的状态
 copy：复制一个4*4的张量(矩阵)
 ```
+
+#### dart 筛选并删除空值
+```dart
+_objTable.keys
+  .where((k) => _objTable[k].indices.isEmpty) // filter keys
+  .toList() // create a copy to avoid concurrent modifications
+  .forEach(_objTable.remove); // remove selected keys
+```

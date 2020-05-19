@@ -1,10 +1,12 @@
 import 'dart:ui';
 import 'package:cy_flutter/model/api_data.dart';
+import 'package:cy_flutter/view/home/classify_list_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cy_flutter/view/home/meals_list_view.dart';
 import 'package:cy_flutter/view/home/new_recipes_view.dart';
 import 'package:cy_flutter/view/home/hot_recipes_view.dart';
+import 'package:cy_flutter/view/home/explore_list_view.dart';
 
 class HomePageScreen extends StatefulWidget {
   const HomePageScreen({Key key, this.animationController}) : super(key:key);
@@ -147,6 +149,68 @@ class _HomePageScreenState extends State<HomePageScreen> with TickerProviderStat
             parent: widget.animationController,
             curve: Interval(
               (1 / count) * 5, 1.0,
+              curve: Curves.fastOutSlowIn
+            )
+          )
+        ),
+        animationController: widget.animationController,
+      )
+    );
+
+    listViews.add(
+      TitleView(
+        titleTxt: '菜谱速览',
+        subTxt: '全部分类',
+        animation: Tween<double>(begin: 0.0, end: 1.0).animate(
+          CurvedAnimation(
+            parent: widget.animationController, 
+            curve: Interval(
+              (1 / count) * 6, 1.0, 
+              curve: Curves.fastOutSlowIn
+            )
+          )
+        ),
+        animationController: widget.animationController,
+      )
+    );
+    listViews.add(
+      ClassifyHomeView(
+        animation: Tween<double>(begin: 0.0, end: 1.0).animate(
+          CurvedAnimation(
+            parent: widget.animationController,
+            curve: Interval(
+              (1 / count) * 7, 1.0,
+              curve: Curves.fastOutSlowIn
+            )
+          )
+        ),
+        animationController: widget.animationController,
+      )
+    );
+
+    listViews.add(
+      TitleView(
+        titleTxt: '美食灵感',
+        subTxt: '',
+        animation: Tween<double>(begin: 0.0, end: 1.0).animate(
+          CurvedAnimation(
+            parent: widget.animationController, 
+            curve: Interval(
+              (1 / count) * 8, 1.0, 
+              curve: Curves.fastOutSlowIn
+            )
+          )
+        ),
+        animationController: widget.animationController,
+      )
+    );
+    listViews.add(
+      ExploreRecipesView(
+        animation: Tween<double>(begin: 0.0, end: 1.0).animate(
+          CurvedAnimation(
+            parent: widget.animationController,
+            curve: Interval(
+              (1 / count) * 9, 1.0,
               curve: Curves.fastOutSlowIn
             )
           )
@@ -338,7 +402,7 @@ class TitleView extends StatelessWidget {
                               style: TextStyle(
                                 fontWeight: FontWeight.normal,
                                 fontSize: 15,
-                                letterSpacing: 0.5,
+                                color: Color(0xFFFB7101)
                               ),
                             ),
                             SizedBox(
@@ -347,6 +411,7 @@ class TitleView extends StatelessWidget {
                               child: Icon(
                                 subTxt != '' ? Icons.arrow_forward : null,
                                 size: 18,
+                                color: Color(0xFFFB7101),
                               ),
                             ),
                           ],

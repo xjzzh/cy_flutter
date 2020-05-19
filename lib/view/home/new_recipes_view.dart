@@ -117,7 +117,7 @@ class _NewRecipesViewState extends State<NewRecipesView> with TickerProviderStat
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.only(top: 4),
-                                    child: RatingBar(4.5),
+                                    child: RatingBar(double.parse(getNewRecipes[index%getNewRecipes.length].score)),
                                   )
                                 ],
                               ),

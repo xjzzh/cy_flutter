@@ -65,7 +65,7 @@ class _HotRecipesViewState extends State<HotRecipesView> with TickerProviderStat
       onTap: () {},
       child: Container(
         width: 160,
-        height: 220,
+        height: 200,
         margin: EdgeInsets.only(right: 8,left: 6),
         child: ClipRRect(
           borderRadius: BorderRadius.all(Radius.circular(16.0)),
@@ -104,7 +104,7 @@ class _HotRecipesViewState extends State<HotRecipesView> with TickerProviderStat
                       height: 30,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        border: Border.all(width: 2,color: Theme.of(context).primaryColor),
+                        border: Border.all(width: 2,color: Colors.white.withOpacity(0.8)),
                         image: DecorationImage(
                           image: CachedNetworkImageProvider(
                             '${getHotRecipes[index%getHotRecipes.length].avatar}'
