@@ -26,6 +26,7 @@ class ChuYiApp extends StatelessWidget {
       darkTheme: ThemeData(
         brightness: Brightness.dark,
         primaryColorBrightness: Brightness.dark,
+        accentColor: Color(0xFF292623),
         platform: TargetPlatform.iOS,
       ),
       home: SafeArea(

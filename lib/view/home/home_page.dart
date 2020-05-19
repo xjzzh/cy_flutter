@@ -109,7 +109,6 @@ class _HomePageScreenState extends State<HomePageScreen> with TickerProviderStat
         animationController: widget.animationController,
       )
     );
-
     listViews.add(
       NewRecipesView(
         animation: Tween<double>(begin: 0.0, end: 1.0).animate(
@@ -141,7 +140,6 @@ class _HomePageScreenState extends State<HomePageScreen> with TickerProviderStat
         animationController: widget.animationController,
       )
     );
-    
     listViews.add(
       HotRecipesView(
         animation: Tween<double>(begin: 0.0, end: 1.0).animate(
@@ -186,7 +184,11 @@ class _HomePageScreenState extends State<HomePageScreen> with TickerProviderStat
       future: getData(),
       builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
         if (!snapshot.hasData) {
-          return const Text('!snapshot.hasData');
+          return Scaffold(
+            body: Center(
+              child: CupertinoActivityIndicator(),
+            ),
+          );
         } else {
           return ListView.builder(
             controller: scrollController,
@@ -219,17 +221,14 @@ class _HomePageScreenState extends State<HomePageScreen> with TickerProviderStat
                   0.0, 30 * (1.0 - topBarAnimation.value), 0.0
                 ),
                 child: Container(
-                  color: CupertinoTheme.of(context).barBackgroundColor,
+                  color: Theme.of(context).primaryColor.withOpacity(.8),
                   child: Column(
                     children: <Widget>[
-                      SizedBox(
-                        height: MediaQuery.of(context).padding.top,
-                      ),
                       ClipRect(
                         child: BackdropFilter(
-                          filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
+                          filter: ImageFilter.blur(sigmaX: 25.0, sigmaY: 25.0),
                           child: Padding(
-                            padding: EdgeInsets.symmetric(vertical:8.0,horizontal: 16.0),
+                            padding: EdgeInsets.only(top:MediaQuery.of(context).padding.top+8.0,left: 16.0,right: 16.0,bottom: 8.0),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: <Widget>[
@@ -248,7 +247,7 @@ class _HomePageScreenState extends State<HomePageScreen> with TickerProviderStat
                                         ),
                                       ),
                                       Text(
-                                        '${todayDate.hours()}',
+                                        "${todayDate.hours()}",
                                         textAlign: TextAlign.left,
                                         style: TextStyle(
                                           fontWeight: FontWeight.bold,

@@ -39,16 +39,16 @@ class _BottomBarViewState extends State<BottomBarView> with TickerProviderStateM
             return Transform(
               transform: Matrix4.translationValues(0.0, 0.0, 0.0),
               child: Container(
-                color: CupertinoTheme.of(context).barBackgroundColor,
+                color: Theme.of(context).primaryColor.withOpacity(.9),
                 child: Column(
                   children: <Widget>[
                     SizedBox(
-                      height: 50.0,
+                      height: 50.0 + MediaQuery.of(context).padding.bottom,
                       child: ClipRRect(
                         child: BackdropFilter(
                           filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
                           child: Padding(
-                            padding: const EdgeInsets.only(left: 8, right: 8, top: 4),
+                            padding: EdgeInsets.only(left: 8, right: 8, top: 4, bottom: MediaQuery.of(context).padding.bottom),
                             child: Row(
                               children: <Widget>[
                                 Expanded(
@@ -91,9 +91,6 @@ class _BottomBarViewState extends State<BottomBarView> with TickerProviderStateM
                           ),
                         ),
                       ),
-                    ),
-                    SizedBox(
-                      height: MediaQuery.of(context).padding.bottom,
                     )
                   ],
                 ),

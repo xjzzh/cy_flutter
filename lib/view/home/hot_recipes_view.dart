@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cy_flutter/model/api_data.dart';
 import 'package:cy_flutter/util/api.dart';
 import 'package:cy_flutter/widget/network_image.dart';
@@ -72,7 +73,7 @@ class _HotRecipesViewState extends State<HotRecipesView> with TickerProviderStat
             children: <Widget>[
               Container(
                 child: PNetworkImage(
-                  '${getHotRecipes[index%getHotRecipes.length].images}?x-oss-process=image/resize,m_fill,w_180,h_230/format,webp',
+                  '${getHotRecipes[index%getHotRecipes.length].images}?x-oss-process=image/resize,m_fill,w_220,h_275/format,webp',
                   fit: BoxFit.fill,
                 ),
               ),
@@ -92,6 +93,70 @@ class _HotRecipesViewState extends State<HotRecipesView> with TickerProviderStat
                     )
                   ),
                 ),
+              ),
+              Positioned(
+                top: 8,
+                left: 8,
+                child: Row(
+                  children: <Widget>[
+                    Container(
+                      width: 30,
+                      height: 30,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(width: 2,color: Theme.of(context).primaryColor),
+                        image: DecorationImage(
+                          image: CachedNetworkImageProvider(
+                            '${getHotRecipes[index%getHotRecipes.length].avatar}'
+                          ),
+                          fit: BoxFit.cover
+                        )
+                      ),
+                    ),
+                    const SizedBox(width: 6),
+                    Text(
+                      '${getHotRecipes[index%getHotRecipes.length].nickname}',
+                      style: TextStyle(fontSize: 14.0,color: Colors.white),
+                    )
+                  ],
+                )
+              ),
+              Positioned(
+                left: 8,
+                bottom: 16,
+                child: Row(
+                  mainAxisSize: MainAxisSize.max,
+                  children: <Widget>[
+                    Text(
+                      '${getHotRecipes[index%getHotRecipes.length].title}',
+                      textAlign: TextAlign.left,
+                      maxLines: 2,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 15,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    )
+                  ],
+                )
+              ),
+              Positioned(
+                left: 8,
+                bottom: 38,
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: <Widget>[
+                    Icon(Icons.star, color: Colors.white,size: 20),
+                    SizedBox(width: 2),
+                    Text(
+                      '${getHotRecipes[index].score}',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 15
+                      ),
+                    )
+                  ],
+                )
               )
             ],
           ),
