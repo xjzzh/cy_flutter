@@ -47,20 +47,19 @@ class _ExploreRecipesViewState extends State<ExploreRecipesView> with TickerProv
             ),
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 8),
-              child: GridView.builder(
+              child: GridView.count(
                 shrinkWrap: true,
+                crossAxisCount: 2,
+                mainAxisSpacing: 16,
+                crossAxisSpacing: 10,
+                childAspectRatio: (MediaQuery.of(context).size.width/2)/300,
                 physics: NeverScrollableScrollPhysics(),
                 padding: const EdgeInsets.symmetric(horizontal: 16),
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  mainAxisSpacing: 10.0,
-                  crossAxisSpacing: 10.0,
-                  childAspectRatio: (1 / 1.62),
-                  crossAxisCount: 2
-                ),
-                itemCount: math.min(getExplore.length, 10),
-                itemBuilder:(BuildContext context, int index) {
-                  return _exploreRecipesList(context, index);
-                },
+                children: List.generate(
+                  math.min(getExplore.length, 10),(index) {
+                    return _exploreRecipesList(context, index);
+                  },
+                )
               ),
             ),
           ),
@@ -72,87 +71,73 @@ class _ExploreRecipesViewState extends State<ExploreRecipesView> with TickerProv
   Widget _exploreRecipesList(BuildContext context, index) {
     return GestureDetector(
       onTap: (){},
-      child: Container(
-        width: 160,
-        child: ClipRRect(
-          borderRadius: const BorderRadius.all(Radius.circular(12)),
-          child: Stack(
-            children: <Widget>[
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+      child: ClipRRect(
+        borderRadius: const BorderRadius.all(Radius.circular(12)),
+        child: Stack(
+          children: <Widget>[
+            Container(
+              color: Theme.of(context).accentColor,
+              child: Column(
                 children: <Widget>[
-                  AspectRatio(
-                    aspectRatio: 1,
-                    child: PNetworkImage(
-                      '${getExplore[index%getExplore.length].images}?x-oss-process=image/resize,m_fill,w_160,h_200/format,webp',
-                      fit: BoxFit.cover,
+                  SizedBox(
+                    height: 188.0,
+                    child: Stack(
+                      children: <Widget>[
+                        Positioned.fill(
+                          child: PNetworkImage(                  
+                            '${getExplore[index%getExplore.length].images}?x-oss-process=image/resize,m_fill,w_360,h_400', 
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ]
                     ),
                   ),
-                  Container(
-                    color: Theme.of(context).accentColor,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                  Padding(
+                    padding: const EdgeInsets.only(left: 8, top: 20),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        Expanded(
-                          flex: 1,
-                          child: Container(
-                            child: Padding(
-                              padding: const EdgeInsets.only(left: 8, top: 18, bottom: 12),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  SizedBox(
-                                    height: 50,
-                                    child: Text(
-                                      '${getExplore[index%getExplore.length].title}',
-                                      softWrap: true,
-                                      textAlign: TextAlign.left,
-                                      overflow: TextOverflow.ellipsis,
-                                      maxLines: 2,
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 15,
-                                      ),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(top: 4),
-                                    child: RatingBar(double.parse(getExplore[index%getExplore.length].score)),
-                                  )
-                                ],
-                              ),
-                            ),
-                          )
-                        )
+                        Text(
+                          '${getExplore[index%getExplore.length].title}',
+                          softWrap: true,
+                          textAlign: TextAlign.left,
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
+                          style: TextStyle(
+                            fontWeight: FontWeight.w500,
+                            fontSize: 15,
+                          ),
+                        ),
+                        SizedBox(height: 5),
+                        RatingBar(double.parse(getExplore[index%getExplore.length].score))
                       ],
                     ),
-                  )
+                  ),
                 ],
               ),
-              Positioned(
-                bottom: 88,
-                left: 8,
-                child: Container(
-                  width: 30,
-                  height: 30,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    border: Border.all(width: 2,color: Theme.of(context).accentColor),
-                    image: DecorationImage(
-                      image: CachedNetworkImageProvider(
-                        '${getExplore[index%getExplore.length].avatar}'
-                      ),
-                      fit: BoxFit.cover
-                    )
-                  ),
+            ),
+            Positioned(
+              top: 173,
+              left: 10,
+              child: Container(
+                width: 30,
+                height: 30,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(width: 2,color: Colors.white.withOpacity(0.8)),
+                  image: DecorationImage(
+                    image: CachedNetworkImageProvider(
+                      '${getExplore[index%getExplore.length].avatar}'
+                    ),
+                    fit: BoxFit.cover
+                  )
                 ),
-              )
-            ],
-          )
-        ),
+              ),
+            ),
+          ],
+        )
       ),
-    );    
+    );
   }
 }
