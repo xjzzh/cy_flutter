@@ -2,18 +2,19 @@ import 'dart:convert';
 import 'package:crypto/crypto.dart';
 import 'package:cy_flutter/util/request.dart';
 import 'package:cy_flutter/model/api_data.dart';
-import 'package:http/http.dart';
 
 typedef RequestCallBack<T> = void Function(T value);
 
 class API {
   static const BASE_URL = 'https://api.goxianguo.com/';
-
   static const String TODAYREPICE = 'v2/weekRecipes';
   static const String NEWRECIPES = 'v2/newRecipesList';
   static const String HOTRECIPES = 'v2/hotRecipesList';
   static const String CLASSIFY = 'getCookSort';
   static const String EXPLOREREPICE = 'getIndexList';
+  static const String DETAIL = 'getCookDetail';
+  static const String MARKSTART = 'getMarkStart';
+
   var nonceStr = new DateTime.now().millisecondsSinceEpoch.toString();
 
   String signParams(Map params) {
@@ -91,6 +92,33 @@ class API {
     var resultList = result['result']['indexList'];
     List<Subject> indexList = resultList.map<Subject>((item) => Subject.fromMap(item)).toList();
     requestCallBack(indexList);
+  }
+
+  /// 获取详情
+  void getDetail(int id, RequestCallBack requestCallBack) async {
+    Map data = {
+      'nonce_str': nonceStr,
+      'cokId': id.toString(),
+    };
+    data['sign'] = signParams(data);
+    final result = await _request.post(DETAIL, json.encode(data));
+    DetailData detail = DetailData.fromJson(result['result']);
+    
+    requestCallBack(detail);
+  }
+
+  /// 获取评分详情
+  void getMarkStart(int id, RequestCallBack requestCallBack) async{
+    Map data = {
+      'nonce_str': nonceStr,
+      'cokId': id.toString()
+    };
+    data['sign'] = signParams(data);
+    final result = await _request.post(MARKSTART, json.encode(data));
+    var markStart = result['result']['start'];
+    var startWeight = result['result']['startWeight'];
+    Start start = Start.fromJson(markStart);
+    requestCallBack({'start':start,'total':startWeight});
   }
 
 }

@@ -1,7 +1,7 @@
-import 'package:cy_flutter/widget/network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:cy_flutter/model/api_data.dart';
 import 'package:cy_flutter/util/api.dart';
+import 'package:cy_flutter/widget/network_image.dart';
 import 'dart:math' as math;
 
 class ClassifyHomeView extends StatefulWidget {
@@ -61,7 +61,9 @@ class _ClassifyHomeViewState extends State<ClassifyHomeView> with TickerProvider
 
   Widget _classifyList(BuildContext context,int index) {
     return GestureDetector(
-      onTap: (){},
+      onTap: (){
+        //homeRouter(context,getClassify[index%getClassify.length].id);
+      },
       child: Container(
         width: 160,
         height: 200,
@@ -115,5 +117,4 @@ class _ClassifyHomeViewState extends State<ClassifyHomeView> with TickerProvider
       ),
     );
   }
-
 }

@@ -345,7 +345,6 @@ class _HomePageScreenState extends State<HomePageScreen> with TickerProviderStat
       ]
     );
   }
-
 }
 
 class TitleView extends StatelessWidget {
