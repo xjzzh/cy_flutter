@@ -28,7 +28,7 @@ class _DetailPageState extends State<DetailPage> {
   ScrollController scrollController = ScrollController();
   double navAlpha = 0;
   MediaQueryData mediaQuery = MediaQueryData.fromWindow(ui.window);
-
+  
   @override
   void initState(){
     _api.getDetail(cookId, (value) async{
@@ -80,6 +80,8 @@ class _DetailPageState extends State<DetailPage> {
   
   @override
   Widget build(BuildContext context) {
+    Color textColor = Theme.of(context).textTheme.bodyText1.color;
+
     if ( _getDetailData == null) {
       return Scaffold(
         body: Center(
@@ -103,9 +105,10 @@ class _DetailPageState extends State<DetailPage> {
                     padding: EdgeInsets.only(top: 0),
                     children: <Widget>[
                       buildBackground(_getDetailData.image),
-                      storyTextScene(_getDetailData),
+                      storyTextScene(_getDetailData,textColor),
                       ingrView(),
                       recipeStepScene(),
+                      tipsScene(),
                       ratingScene(),
                       //markScene(),
                       SizedBox(height: mediaQuery.padding.bottom)
@@ -189,7 +192,7 @@ class _DetailPageState extends State<DetailPage> {
     );
   }
 
-  Container storyTextScene(DetailData recipes) {
+  Container storyTextScene(DetailData recipes, Color textColor) {
     return Container(
       color: Theme.of(context).accentColor,
       child: Padding(
@@ -209,7 +212,7 @@ class _DetailPageState extends State<DetailPage> {
                     style: TextStyle(
                       fontSize:25.0,
                       fontWeight: FontWeight.w600,
-                      color: Theme.of(context).textTheme.bodyText1.color
+                      color: textColor,
                     ),
                   ),
                 )
@@ -276,7 +279,7 @@ class _DetailPageState extends State<DetailPage> {
                 '${recipes.story}',
                 style: TextStyle(
                   fontSize: 15.0,
-                  color: Theme.of(context).textTheme.bodyText1.color
+                  color: textColor
                 ),
               ),
             )
@@ -421,6 +424,26 @@ class _DetailPageState extends State<DetailPage> {
     );
   }
 
+  Widget tipsScene(){
+    return Container(
+      margin: EdgeInsets.only(top: 10.0),
+      padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 20.0),
+      color: Theme.of(context).accentColor,
+      child: Column(
+        children: <Widget>[
+          Row(
+            children: <Widget>[
+              Icon(Icons.lightbulb_outline),
+              Text('小贴士',style:TextStyle(fontSize: 20.0, fontWeight: FontWeight.w500))
+            ],
+          ),
+          SizedBox(height: 5.0),
+          Text('${_getDetailData.tips}')
+        ],
+      ),
+    );
+  }
+
   Widget ratingScene() {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 10.0),
@@ -450,7 +473,7 @@ class _DetailPageState extends State<DetailPage> {
                 child: Column(
                   children: <Widget>[
                     Text(
-                      '${startWeight}',
+                      '${startWeight.toString()}',
                       style: TextStyle(fontSize: 45.0)
                     ),
                     RatingBar(4.5,size: 17.0,fontSize: 0.0),
@@ -467,15 +490,15 @@ class _DetailPageState extends State<DetailPage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     _buildRatingRow('5', (_getMarkStart.fiveStart/_getMarkStart.totalNum).toDouble(),
-                      '${(_getMarkStart.fiveStart/_getMarkStart.totalNum*100).toStringAsFixed(1)}%'),
+                      '${_getMarkStart.fiveStart/_getMarkStart.totalNum*100 == 100 ? 100 : (_getMarkStart.fiveStart/_getMarkStart.totalNum*100).toStringAsFixed(1)}%'),
                     _buildRatingRow('4', (_getMarkStart.fourStart/_getMarkStart.totalNum).toDouble(),
-                      '${(_getMarkStart.fourStart/_getMarkStart.totalNum*100).toStringAsFixed(1)}%'),
+                      '${_getMarkStart.fourStart/_getMarkStart.totalNum*100 == 100 ? 100 : (_getMarkStart.fourStart/_getMarkStart.totalNum*100).toStringAsFixed(1)}%'),
                     _buildRatingRow('3', (_getMarkStart.threeStart/_getMarkStart.totalNum).toDouble(),
-                      '${(_getMarkStart.threeStart/_getMarkStart.totalNum*100).toStringAsFixed(1)}%'),
+                      '${_getMarkStart.threeStart/_getMarkStart.totalNum*100 == 100 ? 100 : (_getMarkStart.threeStart/_getMarkStart.totalNum*100).toStringAsFixed(1)}%'),
                     _buildRatingRow('2', (_getMarkStart.twoStart/_getMarkStart.totalNum).toDouble(), 
-                      '${(_getMarkStart.twoStart/_getMarkStart.totalNum*100).toStringAsFixed(1)}%'),
+                      '${_getMarkStart.twoStart/_getMarkStart.totalNum*100 == 100 ? 100 : (_getMarkStart.twoStart/_getMarkStart.totalNum*100).toStringAsFixed(1)}%'),
                     _buildRatingRow('1', (_getMarkStart.oneStart/_getMarkStart.totalNum).toDouble(),
-                      '${(_getMarkStart.oneStart/_getMarkStart.totalNum*100).toStringAsFixed(1)}%'),
+                      '${_getMarkStart.oneStart/_getMarkStart.totalNum*100 == 100 ? 100 : (_getMarkStart.oneStart/_getMarkStart.totalNum*100).toStringAsFixed(1)}%'),
                   ],
                 )
               )

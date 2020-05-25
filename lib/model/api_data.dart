@@ -201,6 +201,7 @@ class DetailData {
   String avatar;
   String difficult;
   String cookTime;
+  String tips;
   List<RecipeIngredient> ingredients;
   List<RecipeIngredient> step;
 
@@ -215,6 +216,7 @@ class DetailData {
     this.avatar,
     this.difficult,
     this.cookTime,
+    this.tips,
     this.ingredients,
     this.step,
   });
@@ -229,6 +231,7 @@ class DetailData {
     difficult = degreeDifficulty(jsonRes["difficult"] as double);
     score = double.parse(jsonRes['score']);
     cookTime = jsonRes["time_consum"];
+    tips = jsonRes["tips"];
     ingredients = jsonRes["ingr"].map<RecipeIngredient>((i) => RecipeIngredient.fromMap(i)).toList();
     step = jsonRes['step'].map<RecipeIngredient>((item) => RecipeIngredient.fromMap(item)).toList();
   }
