@@ -118,6 +118,7 @@ class _DetailPageState extends State<DetailPage> {
               ],
             ),
             buildNavigationBar(),
+            bottomBar(),
           ],
         ),
       ),
@@ -152,8 +153,9 @@ class _DetailPageState extends State<DetailPage> {
               textAlign: TextAlign.left,
               overflow: TextOverflow.ellipsis,
               maxLines: 1,
+              style: TextStyle(color: Theme.of(context).primaryColor),
             ),
-            backgroundColor: CupertinoTheme.of(context).copyWith().barBackgroundColor,
+            backgroundColor: CupertinoTheme.of(context).barBackgroundColor,
             trailing: GestureDetector(
               onTap: () {
                 Share.share('我在「厨易」App发现${_getDetailData.title}的做法');
@@ -446,7 +448,7 @@ class _DetailPageState extends State<DetailPage> {
 
   Widget ratingScene() {
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 10.0),
+      margin: EdgeInsets.only(top: 10.0, bottom: MediaQuery.of(context).padding.bottom+10),
       padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 20.0),
       color: Theme.of(context).accentColor,
       child: Column(
@@ -504,6 +506,60 @@ class _DetailPageState extends State<DetailPage> {
               )
             ],
           ),
+          SizedBox(height: 20),
+          Divider(height: 0),
+          Column(
+            children: <Widget>[
+              Padding(
+                padding: EdgeInsets.only(top:10)
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Text("评分",
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                  ),
+                  InkWell(
+                    child: Row(
+                          children: <Widget>[
+                            SizedBox(
+                              height: 38,
+                              width: 26,
+                              child: Icon(
+                                Icons.edit,
+                                size: 18,
+                                color: Color(0xFFFB7101),
+                              ),
+                            ),
+                            Text(
+                              '评价这道菜',
+                              textAlign: TextAlign.left,
+                              style: TextStyle(
+                                fontWeight: FontWeight.normal,
+                                fontSize: 15,
+                                color: Color(0xFFFB7101)
+                              ),
+                            ),
+                          ],
+                        ),
+                    onTap: (){
+                      print("object");
+                    },
+                  )
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Icon(Icons.star_border, size: 48, color: Colors.grey,),
+                  Icon(Icons.star_border, size: 48, color: Colors.grey),
+                  Icon(Icons.star_border, size: 48, color: Colors.grey),
+                  Icon(Icons.star_border, size: 48, color: Colors.grey),
+                  Icon(Icons.star_border, size: 48, color: Colors.grey),
+                ],
+              ),
+            ],
+          )
         ],
       ),
     );
@@ -540,6 +596,32 @@ class _DetailPageState extends State<DetailPage> {
         )
       ],
     ),
+    );
+  }
+
+  // bottom bar
+  Widget bottomBar() {
+    return Stack(
+      children: <Widget>[
+        Positioned(
+          bottom: 0,
+          left: 0,
+          right: 0,
+          child: Container(
+            color: Colors.white,
+            padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
+            child: Padding(
+              padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text("data")
+                ],
+              ),
+            ),
+          )
+        )
+      ],
     );
   }
 

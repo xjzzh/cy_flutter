@@ -285,7 +285,7 @@ class _HomePageScreenState extends State<HomePageScreen> with TickerProviderStat
                   0.0, 30 * (1.0 - topBarAnimation.value), 0.0
                 ),
                 child: Container(
-                  color: CupertinoTheme.of(context).copyWith().barBackgroundColor,
+                  color: Theme.of(context).primaryColor,
                   child: Column(
                     children: <Widget>[
                       ClipRect(
