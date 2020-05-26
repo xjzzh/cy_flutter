@@ -1,11 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:cy_flutter/model/api_data.dart';
-import 'package:cy_flutter/util/api.dart';
-import 'package:cy_flutter/widget/reting_bar.dart';
+import 'package:chuyi/model/api_data.dart';
+import 'package:chuyi/util/api.dart';
+import 'package:chuyi/widget/reting_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:ui' as ui show window;
-
+import 'package:share/share.dart';
 import 'package:flutter/services.dart';
 
 class DetailPage extends StatefulWidget {
@@ -156,7 +156,7 @@ class _DetailPageState extends State<DetailPage> {
             backgroundColor: CupertinoTheme.of(context).copyWith().barBackgroundColor,
             trailing: GestureDetector(
               onTap: () {
-                debugPrint('add icon tapped');
+                Share.share('我在「厨易」App发现${_getDetailData.title}的做法');
               },
               child: Icon(
                 CupertinoIcons.ellipsis
@@ -478,7 +478,7 @@ class _DetailPageState extends State<DetailPage> {
                     ),
                     RatingBar(4.5,size: 17.0,fontSize: 0.0),
                     Text(
-                      '${_getMarkStart.totalNum}人评分',
+                      '${_getMarkStart.totalNum ?? _getDetailData.score}人评分',
                       style: TextStyle(fontSize: 12.0, color: Colors.grey),
                     )
                   ],

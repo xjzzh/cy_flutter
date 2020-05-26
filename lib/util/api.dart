@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:crypto/crypto.dart';
-import 'package:cy_flutter/util/request.dart';
-import 'package:cy_flutter/model/api_data.dart';
+import 'package:chuyi/util/request.dart';
+import 'package:chuyi/model/api_data.dart';
 
 typedef RequestCallBack<T> = void Function(T value);
 

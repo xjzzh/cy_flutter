@@ -1,4 +1,4 @@
-package com.example.cy_flutter
+package com.example.chuyi
 
 import androidx.annotation.NonNull;
 import io.flutter.embedding.android.FlutterActivity

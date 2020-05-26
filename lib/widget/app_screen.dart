@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:cy_flutter/model/api_data.dart';
-import 'package:cy_flutter/widget/bottom_bar.dart';
-import 'package:cy_flutter/view/home/home_page.dart';
+import 'package:chuyi/model/api_data.dart';
+import 'package:chuyi/widget/bottom_bar.dart';
+import 'package:chuyi/view/home/home_page.dart';
 
 class AppScreen extends StatefulWidget {
   @override

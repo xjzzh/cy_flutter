@@ -1,12 +1,12 @@
 import 'dart:ui';
-import 'package:cy_flutter/model/api_data.dart';
-import 'package:cy_flutter/view/home/classify_list_view.dart';
+import 'package:chuyi/model/api_data.dart';
+import 'package:chuyi/view/home/classify_list_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:cy_flutter/view/home/meals_list_view.dart';
-import 'package:cy_flutter/view/home/new_recipes_view.dart';
-import 'package:cy_flutter/view/home/hot_recipes_view.dart';
-import 'package:cy_flutter/view/home/explore_list_view.dart';
+import 'package:chuyi/view/home/meals_list_view.dart';
+import 'package:chuyi/view/home/new_recipes_view.dart';
+import 'package:chuyi/view/home/hot_recipes_view.dart';
+import 'package:chuyi/view/home/explore_list_view.dart';
 
 class HomePageScreen extends StatefulWidget {
   const HomePageScreen({Key key, this.animationController}) : super(key:key);

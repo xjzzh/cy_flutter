@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:cy_flutter/model/api_data.dart';
-import 'package:cy_flutter/util/api.dart';
-import 'package:cy_flutter/widget/network_image.dart';
+import 'package:chuyi/model/api_data.dart';
+import 'package:chuyi/util/api.dart';
+import 'package:chuyi/widget/network_image.dart';
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
 

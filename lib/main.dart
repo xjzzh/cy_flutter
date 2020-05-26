@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:cy_flutter/widget/app_screen.dart';
+import 'package:chuyi/widget/app_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
