@@ -126,6 +126,9 @@ class _DetailPageState extends State<DetailPage> {
   }
 
   Widget buildNavigationBar() {
+    var brightness = MediaQuery.of(context).platformBrightness;
+    bool darkModeOn = brightness == Brightness.dark;
+
     return Stack(
       children: <Widget>[
         Container(
@@ -153,7 +156,7 @@ class _DetailPageState extends State<DetailPage> {
               textAlign: TextAlign.left,
               overflow: TextOverflow.ellipsis,
               maxLines: 1,
-              style: TextStyle(color: Theme.of(context).primaryColor),
+              style: TextStyle(color: darkModeOn ? Colors.white : Colors.black),
             ),
             backgroundColor: CupertinoTheme.of(context).barBackgroundColor,
             trailing: GestureDetector(
