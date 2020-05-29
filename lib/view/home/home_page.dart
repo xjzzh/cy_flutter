@@ -292,9 +292,10 @@ class _HomePageScreenState extends State<HomePageScreen> with TickerProviderStat
                         child: BackdropFilter(
                           filter: ImageFilter.blur(sigmaX: 25.0, sigmaY: 25.0),
                           child: Padding(
-                            padding: EdgeInsets.only(top:MediaQuery.of(context).padding.top+8.0,left: 16.0,right: 16.0,bottom: 8.0),
+                            padding: EdgeInsets.only(top:MediaQuery.of(context).padding.top,left: 16.0,right: 16.0,bottom: 8.0),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.end,
                               children: <Widget>[
                                 Expanded(
                                   child: Column(

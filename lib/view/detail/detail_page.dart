@@ -622,7 +622,7 @@ class _DetailPageState extends State<DetailPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Icon(Icons.thumb_up, color: Colors.grey),
-                        Text('${_getDetailData.like}', style: TextStyle(fontSize: 12, color: Colors.grey))
+                        Text('${_getDetailData.like ?? 0}', style: TextStyle(fontSize: 14, color: Colors.grey))
                       ],
                     ),
                   ),
@@ -634,7 +634,7 @@ class _DetailPageState extends State<DetailPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Icon(Icons.favorite_border, color: Colors.grey),
-                        Text('${_getDetailData.collect ?? ''}', style: TextStyle(fontSize: 12, color: Colors.grey))
+                        Text('${_getDetailData.collect ?? ''}', style: TextStyle(fontSize: 14, color: Colors.grey))
                       ],
                     ),
                   ),
@@ -644,7 +644,7 @@ class _DetailPageState extends State<DetailPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Icon(Icons.chat_bubble_outline,color: Colors.grey),
-                        Text('20', style: TextStyle(fontSize: 12, color: Colors.grey))
+                        Text('0', style: TextStyle(fontSize: 14, color: Colors.grey))
                       ],
                     ),
                   )
