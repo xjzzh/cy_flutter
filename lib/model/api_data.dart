@@ -196,6 +196,7 @@ class DetailData {
   String nickname;
   String title;
   int like;
+  int collect;
   double score;
   String creaDate;
   String avatar;
@@ -209,6 +210,7 @@ class DetailData {
     this.image,
     this.story,
     this.like,
+    this.collect,
     this.score,
     this.nickname,
     this.creaDate,
@@ -224,6 +226,7 @@ class DetailData {
     image = jsonRes['cov_img'];
     story = jsonRes["story"];
     like = jsonRes["like_num"] as int;
+    collect = jsonRes['collect_num'] as int;
     title = jsonRes["title"];
     nickname = jsonRes["nickname"];
     avatar = jsonRes["avatar"];

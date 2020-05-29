@@ -110,7 +110,7 @@ class _DetailPageState extends State<DetailPage> {
                       tipsScene(),
                       ratingScene(),
                       //markScene(),
-                      SizedBox(height: mediaQuery.padding.bottom)
+                      SizedBox(height: mediaQuery.padding.bottom+20)
                     ],
                   )
                 )
@@ -382,18 +382,17 @@ class _DetailPageState extends State<DetailPage> {
               //   margin: EdgeInsets.only(top: 5),
               //   width: MediaQuery.of(context).size.width / 1.5,
               // )
-              Text("共${_getDetailData.step.length}步")
             ]
           ),
           ..._getDetailData.step.map<Padding>((RecipeIngredient step){
-            return stepBuild(step);
+            return stepBuild(step, _getDetailData.step.length);
           })
         ],
       ),
     );
   }
 
-  Padding stepBuild(RecipeIngredient step) {
+  Padding stepBuild(RecipeIngredient step, int allStep) {
     return Padding(
       padding: EdgeInsets.only(top: 15.0),
       child: Column(
@@ -401,8 +400,8 @@ class _DetailPageState extends State<DetailPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(
-            '${step.amount}',
-            style: TextStyle(fontSize: 17.0, fontWeight: FontWeight.w500),
+            '${step.amount}/$allStep',
+            style: TextStyle(fontSize: 17.0, fontWeight: FontWeight.w500,color: Theme.of(context).textTheme.bodyText1.color),
           ),
           SizedBox(height: 10),
           GestureDetector(
@@ -421,7 +420,7 @@ class _DetailPageState extends State<DetailPage> {
             ),
           ),
           SizedBox(height: 10),
-          Text('${step.txt}', style: TextStyle(fontSize: 15.0)),
+          Text('${step.txt}', style: TextStyle(fontSize: 15.0,color: Theme.of(context).textTheme.bodyText1.color)),
           SizedBox(height:15)
         ],
       ),
@@ -615,9 +614,40 @@ class _DetailPageState extends State<DetailPage> {
             child: Padding(
               padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: <Widget>[
-                  Text("data")
+                  GestureDetector(
+                    onTap: (){},
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Icon(Icons.thumb_up, color: Colors.grey),
+                        Text('${_getDetailData.like}', style: TextStyle(fontSize: 12, color: Colors.grey))
+                      ],
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: (){
+
+                    },
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Icon(Icons.favorite_border, color: Colors.grey),
+                        Text('${_getDetailData.collect ?? ''}', style: TextStyle(fontSize: 12, color: Colors.grey))
+                      ],
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: (){},
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Icon(Icons.chat_bubble_outline,color: Colors.grey),
+                        Text('20', style: TextStyle(fontSize: 12, color: Colors.grey))
+                      ],
+                    ),
+                  )
                 ],
               ),
             ),
