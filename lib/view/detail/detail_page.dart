@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:chuyi/model/api_data.dart';
 import 'package:chuyi/util/api.dart';
 import 'package:chuyi/widget/reting_bar.dart';
@@ -179,7 +178,7 @@ class _DetailPageState extends State<DetailPage> {
       width: MediaQuery.of(context).size.width,
       decoration: new BoxDecoration(
         image: DecorationImage(
-          image: CachedNetworkImageProvider(
+          image: NetworkImage(
             '$image?x-oss-process=image/resize,m_fill,h_260' ?? 'assets/images/placeholder.jpg'
           ),
           fit: BoxFit.cover
@@ -237,7 +236,7 @@ class _DetailPageState extends State<DetailPage> {
                           shape: BoxShape.circle,
                           color: Theme.of(context).accentColor,
                           image: DecorationImage(
-                            image: CachedNetworkImageProvider(
+                            image: NetworkImage(
                               '${recipes.avatar}'
                             ),
                             fit: BoxFit.cover
@@ -412,7 +411,7 @@ class _DetailPageState extends State<DetailPage> {
               height: 300.0,
               decoration: BoxDecoration(
                 image: DecorationImage(
-                  image: CachedNetworkImageProvider(
+                  image: NetworkImage(
                     '${step.img}?x-oss-process=image/resize,m_fill,h_320' ?? '',
                   ),
                   fit: BoxFit.cover

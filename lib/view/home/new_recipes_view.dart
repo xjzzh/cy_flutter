@@ -1,6 +1,5 @@
 import 'package:chuyi/model/api_data.dart';
 import 'package:chuyi/util/api.dart';
-import 'package:chuyi/widget/network_image.dart';
 import 'package:chuyi/widget/reting_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -78,8 +77,9 @@ class _NewRecipesViewState extends State<NewRecipesView> with TickerProviderStat
                 children: <Widget>[
                   AspectRatio(
                     aspectRatio: 1,
-                    child: PNetworkImage(
-                      '${getNewRecipes[index%getNewRecipes.length].images}?x-oss-process=image/resize,m_fill,w_160,h_200/format,webp',
+                    child: FadeInImage.assetNetwork(
+                      placeholder:'assets/images/placeholder.jpg',
+                      image:'${getNewRecipes[index%getNewRecipes.length].images}?x-oss-process=image/resize,m_fill,w_160,h_200/format,webp',
                       fit: BoxFit.cover,
                     ),
                   ),

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:chuyi/model/api_data.dart';
 import 'package:chuyi/util/api.dart';
-import 'package:chuyi/widget/network_image.dart';
 import 'dart:math' as math;
 
 class ClassifyHomeView extends StatefulWidget {
@@ -73,8 +72,9 @@ class _ClassifyHomeViewState extends State<ClassifyHomeView> with TickerProvider
           child: Stack(
             children: <Widget>[
               Container(
-                child: PNetworkImage(
-                  '${getClassify[index%getClassify.length].sortImg}?x-oss-process=image/resize,m_fill,w_220,h_275/format,webp',
+                child: FadeInImage.assetNetwork(
+                  placeholder:'assets/images/placeholder.jpg',
+                  image: '${getClassify[index%getClassify.length].sortImg}?x-oss-process=image/resize,m_fill,w_220,h_275/format,webp',
                   fit: BoxFit.fill,
                 ),
               ),

@@ -1,7 +1,5 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:chuyi/model/api_data.dart';
 import 'package:chuyi/util/api.dart';
-import 'package:chuyi/widget/network_image.dart';
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
 
@@ -72,8 +70,9 @@ class _HotRecipesViewState extends State<HotRecipesView> with TickerProviderStat
           child: Stack(
             children: <Widget>[
               Container(
-                child: PNetworkImage(
-                  '${getHotRecipes[index%getHotRecipes.length].images}?x-oss-process=image/resize,m_fill,w_220,h_275/format,webp',
+                child: FadeInImage.assetNetwork(
+                  placeholder: 'assets/images/placeholder.jpg',
+                  image: '${getHotRecipes[index%getHotRecipes.length].images}?x-oss-process=image/resize,m_fill,w_220,h_275/format,webp',
                   fit: BoxFit.fill,
                 ),
               ),
@@ -106,7 +105,7 @@ class _HotRecipesViewState extends State<HotRecipesView> with TickerProviderStat
                         shape: BoxShape.circle,
                         border: Border.all(width: 2,color: Colors.white.withOpacity(0.8)),
                         image: DecorationImage(
-                          image: CachedNetworkImageProvider(
+                          image: NetworkImage(
                             '${getHotRecipes[index%getHotRecipes.length].avatar}'
                           ),
                           fit: BoxFit.cover

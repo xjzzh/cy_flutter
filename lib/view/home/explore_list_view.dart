@@ -1,9 +1,7 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
 import 'package:chuyi/model/api_data.dart';
 import 'package:chuyi/util/api.dart';
-import 'package:chuyi/widget/network_image.dart';
 import 'package:chuyi/widget/reting_bar.dart';
 import 'package:chuyi/model/router.dart';
 
@@ -87,8 +85,9 @@ class _ExploreRecipesViewState extends State<ExploreRecipesView> with TickerProv
                     child: Stack(
                       children: <Widget>[
                         Positioned.fill(
-                          child: PNetworkImage(                  
-                            '${getExplore[index%getExplore.length].images}?x-oss-process=image/resize,m_fill,w_360,h_400', 
+                          child: FadeInImage.assetNetwork(
+                            placeholder:'assets/images/placeholder.jpg',
+                            image:'${getExplore[index%getExplore.length].images}?x-oss-process=image/resize,m_fill,w_360,h_400', 
                             fit: BoxFit.cover,
                           ),
                         ),
@@ -130,7 +129,7 @@ class _ExploreRecipesViewState extends State<ExploreRecipesView> with TickerProv
                   shape: BoxShape.circle,
                   border: Border.all(width: 2,color: Colors.white.withOpacity(0.8)),
                   image: DecorationImage(
-                    image: CachedNetworkImageProvider(
+                    image: NetworkImage(
                       '${getExplore[index%getExplore.length].avatar}'
                     ),
                     fit: BoxFit.cover
