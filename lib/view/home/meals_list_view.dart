@@ -1,4 +1,5 @@
 import 'package:chuyi/model/api_data.dart';
+import 'package:chuyi/model/router.dart';
 import 'package:chuyi/util/api.dart';
 import 'package:flutter/material.dart';
 
@@ -168,44 +169,49 @@ class MealsView extends StatelessWidget {
                     top: 85,
                     left: 10,
                     width: 100,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          '${mealsListData.titleTxt}',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18,
-                            letterSpacing: 0.5,
-                            color: Colors.white
-                          )
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 10),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: <Widget>[
-                              Flexible(
-                                child: Text(
-                                  "${netWorkData.title}",
-                                  textAlign: TextAlign.left,
-                                  overflow: TextOverflow.fade,
-                                  maxLines: 3,
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 15,
-                                    height: 1.2,
-                                  ),
-                                ),
-                              )
-                            ],
+                    child: GestureDetector(
+                      onTap: (){
+                        homeRouter(context, netWorkData.id);
+                      },
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text(
+                            '${mealsListData.titleTxt}',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18,
+                              letterSpacing: 0.5,
+                              color: Colors.white
+                            )
                           ),
-                        )
-                      ],
+                          Padding(
+                            padding: const EdgeInsets.only(top: 10),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: <Widget>[
+                                Flexible(
+                                  child: Text(
+                                    "${netWorkData.title}",
+                                    textAlign: TextAlign.left,
+                                    overflow: TextOverflow.fade,
+                                    maxLines: 3,
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 15,
+                                      height: 1.2,
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
                     )
                   ),
                   Positioned(

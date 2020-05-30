@@ -1,4 +1,5 @@
 import 'package:chuyi/model/api_data.dart';
+import 'package:chuyi/model/router.dart';
 import 'package:chuyi/util/api.dart';
 import 'package:chuyi/widget/reting_bar.dart';
 import 'package:flutter/cupertino.dart';
@@ -64,7 +65,7 @@ class _NewRecipesViewState extends State<NewRecipesView> with TickerProviderStat
   Widget _newReciptsList(BuildContext context, index){
     return GestureDetector(
       onTap: (){
-
+        homeRouter(context, getNewRecipes[index%getNewRecipes.length].id);
       },
       child: Container(
         width: 160,

@@ -1,5 +1,6 @@
 import 'package:chuyi/model/api_data.dart';
 import 'package:chuyi/util/api.dart';
+import 'package:chuyi/model/router.dart';
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
 
@@ -60,7 +61,9 @@ class _HotRecipesViewState extends State<HotRecipesView> with TickerProviderStat
 
   Widget _hotReciptsList(BuildContext context,int index){
     return GestureDetector(
-      onTap: () {},
+      onTap: (){
+        homeRouter(context, getHotRecipes[index%getHotRecipes.length].id);
+      },
       child: Container(
         width: 160,
         height: 200,
