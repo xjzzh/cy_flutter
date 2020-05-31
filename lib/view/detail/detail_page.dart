@@ -1,4 +1,5 @@
 import 'package:chuyi/model/api_data.dart';
+import 'package:chuyi/model/router.dart';
 import 'package:chuyi/util/api.dart';
 import 'package:chuyi/widget/reting_bar.dart';
 import 'package:flutter/cupertino.dart';
@@ -617,7 +618,9 @@ class _DetailPageState extends State<DetailPage> {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: <Widget>[
                   GestureDetector(
-                    onTap: (){},
+                    onTap: (){
+                      Navigator.of(context).push(loginRoute());
+                    },
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
