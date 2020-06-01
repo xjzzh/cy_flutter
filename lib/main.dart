@@ -23,6 +23,9 @@ class ChuYiApp extends StatelessWidget {
         accentColor: Color(0xFFf9f4ec),
         backgroundColor: Color(0xFFFB7101),
         textTheme: TextTheme(bodyText1: TextStyle(color: Color(0xFF543F3d))),
+        inputDecorationTheme: InputDecorationTheme(
+          
+        )
       ),
       darkTheme: ThemeData(
         brightness: Brightness.dark,
