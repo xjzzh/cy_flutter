@@ -2,9 +2,21 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class LoginPage extends StatelessWidget{
-  final _text = TextEditingController();
-  
+class LoginPage extends StatefulWidget{
+  @override
+  _LoginPageState createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage>{
+  final _phoneNumber = TextEditingController();
+  bool _validate = false;
+
+  @override
+  void dispose() {
+    _phoneNumber.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     GlobalKey _formKey = GlobalKey<FormState>();
@@ -57,7 +69,8 @@ class LoginPage extends StatelessWidget{
                     child: TextFormField(
                       //cursorColor: Colors.yellow,
                       decoration: InputDecoration(
-                        labelText: "手机号码", 
+                        labelText: "手机号码",
+                        errorText: _validate ? '手机号不能为空' : null,
                         // floatingLabelBehavior: FloatingLabelBehavior.auto,
                         labelStyle: Theme.of(context).textTheme.bodyText1,
                         //prefixIcon: Icon(Icons.phone_iphone, color: Colors.grey,)
@@ -65,17 +78,25 @@ class LoginPage extends StatelessWidget{
                           borderSide: BorderSide(color: Color(0xFFc8a588))
                         ),
                         prefixText: "+86 ",
+                        suffixIcon: _phoneNumber.text.isNotEmpty ? IconButton(
+                          icon: Icon(Icons.clear,color: Colors.grey),
+                          padding: new EdgeInsets.all(0.0),
+                          splashColor: Colors.transparent,
+                          onPressed: (){
+                            setState(() {
+                              _phoneNumber.clear();
+                            });
+                          },
+                        )
+                        : null,
                       ),
                       keyboardType: TextInputType.phone,
-                      //textInputAction: TextInputAction.next,
+                      //textInputAction: TextInputAction.next, // 键盘
                       inputFormatters: [
                         BlacklistingTextInputFormatter(RegExp('^[0-9]{15}')),
                         LengthLimitingTextInputFormatter(11)
                       ],
-                      controller: _text,
-                      validator: (value) {
-                        return value.trim().length > 0 ? null : '手机号不能为空';
-                      },
+                      controller: _phoneNumber,
                     ),
                   ),
                   Padding(
@@ -85,7 +106,7 @@ class LoginPage extends StatelessWidget{
                         Expanded(
                           flex: 2,
                           child: TextField(
-                            obscureText: true,
+                            //obscureText: true, // 密码
                             decoration: InputDecoration(
                               labelText: "验证码", 
                               labelStyle: Theme.of(context).textTheme.bodyText1,
@@ -94,6 +115,9 @@ class LoginPage extends StatelessWidget{
                               ),
                             ),
                             keyboardType: TextInputType.number,
+                            inputFormatters: [
+                              LengthLimitingTextInputFormatter(6)
+                            ],
                           ),
                         ),
                         Expanded(
@@ -103,7 +127,9 @@ class LoginPage extends StatelessWidget{
                             textColor: Colors.white,
                             elevation: 0,
                             onPressed: (){
-
+                              setState(() {
+                                _phoneNumber.text.isEmpty ? _validate = true : _validate = false;
+                              });
                             },
                             child: Text('获取验证码'),
                           )
@@ -114,11 +140,6 @@ class LoginPage extends StatelessWidget{
                 ],
               )
             ),
-            RaisedButton(
-              onPressed: () {
-              },
-              child: Text('Submit'),
-            )
           ],
         ),
       )
