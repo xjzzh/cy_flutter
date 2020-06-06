@@ -30,6 +30,7 @@ dependencies:
   http: ^0.12.1
   share: '>=0.6.4+3 <2.0.0'
   intl: ^0.16.1
+  provider: ^4.1.3
 
 dev_dependencies:
   flutter_test:

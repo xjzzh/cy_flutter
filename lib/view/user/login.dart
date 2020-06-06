@@ -1,3 +1,5 @@
+import 'package:chuyi/model/count_down_time.dart';
+import 'package:chuyi/widget/partial_component.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -15,6 +17,18 @@ class _LoginPageState extends State<LoginPage>{
   void dispose() {
     _phoneNumber.dispose();
     super.dispose();
+  }
+
+  @override
+  void initState(){
+    super.initState();
+    _phoneNumber.text = '';
+    _phoneNumber.addListener(() {
+      setState(() {
+        _validate = (_phoneNumber.text.isEmpty || double.tryParse(_phoneNumber.text) == null)
+        ? false : true;
+      });
+    });
   }
 
   @override
@@ -38,7 +52,7 @@ class _LoginPageState extends State<LoginPage>{
             Stack(
               children: <Widget>[
                 Positioned(
-                  right: 120.0,
+                  left: 120.0,
                   top: 12.0,
                   child: Container(
                     decoration: BoxDecoration(
@@ -122,17 +136,21 @@ class _LoginPageState extends State<LoginPage>{
                         ),
                         Expanded(
                           flex: 1,
-                          child: RaisedButton(
-                            color: Theme.of(context).backgroundColor,
-                            textColor: Colors.white,
-                            elevation: 0,
-                            onPressed: (){
-                              setState(() {
-                                _phoneNumber.text.isEmpty ? _validate = true : _validate = false;
-                              });
-                            },
-                            child: Text('获取验证码'),
-                          )
+                          child: PartialConsumeComponent<CountDownTimeModel>(
+                            model: CountDownTimeModel(60, 1),
+                            builder: (context, model,_) => FlatButton(
+                              disabledColor: Colors.grey.withOpacity(.4),
+                              color: Theme.of(context).backgroundColor,
+                              onPressed: !_validate || !model.isFinish ? null : () async {
+                                model.startCountDown();
+                                print(_phoneNumber.text);
+                              },
+                              child: Text(
+                                model.isFinish ? '获取验证码' : '${model.currentTime.toString()}',
+                                style: TextStyle(color: model.isFinish ? Colors.white : Colors.grey[100]),
+                              ),
+                            ),
+                          ),
                         )
                       ],
                     )
