@@ -47,7 +47,7 @@ class _NewRecipesViewState extends State<NewRecipesView> with TickerProviderStat
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 8),
               child: Container(
-                height: 236,
+                height: 238,
                 child: ListView.builder(
                   itemBuilder: (context, index) => _newReciptsList(context, index),
                   scrollDirection: Axis.horizontal,

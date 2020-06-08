@@ -1,5 +1,4 @@
-import 'package:chuyi/model/count_down_time.dart';
-import 'package:chuyi/widget/partial_component.dart';
+import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -11,29 +10,42 @@ class LoginPage extends StatefulWidget{
 
 class _LoginPageState extends State<LoginPage>{
   final _phoneNumber = TextEditingController();
-  bool _validate = false;
+  int _seconds = 0;
+  String _verifyStr = '获取验证码';
+  Timer _timer;
 
   @override
   void dispose() {
     _phoneNumber.dispose();
+    _cancelTimer();
     super.dispose();
   }
 
-  @override
-  void initState(){
-    super.initState();
-    _phoneNumber.text = '';
-    _phoneNumber.addListener(() {
-      setState(() {
-        _validate = (_phoneNumber.text.isEmpty || double.tryParse(_phoneNumber.text) == null)
-        ? false : true;
-      });
+  _startTimer() {
+    _seconds = 30;
+
+    _timer = new Timer.periodic(new Duration(seconds: 1), (timer) {
+      if (_seconds == 0) {
+        _cancelTimer();
+        return;
+      }
+      _seconds--;
+      _verifyStr = '$_seconds(s)';
+      setState(() {});
+      if (_seconds == 0) {
+        _verifyStr = '重新发送';
+      }
     });
+  }
+
+  _cancelTimer() {
+    _timer?.cancel();
   }
 
   @override
   Widget build(BuildContext context) {
     GlobalKey _formKey = GlobalKey<FormState>();
+
     return Scaffold(
       appBar: new AppBar(
         backgroundColor: Colors.transparent,
@@ -84,7 +96,7 @@ class _LoginPageState extends State<LoginPage>{
                       //cursorColor: Colors.yellow,
                       decoration: InputDecoration(
                         labelText: "手机号码",
-                        errorText: _validate ? '手机号不能为空' : null,
+                        // errorText: _validate ? '手机号不能为空' : null,
                         // floatingLabelBehavior: FloatingLabelBehavior.auto,
                         labelStyle: Theme.of(context).textTheme.bodyText1,
                         //prefixIcon: Icon(Icons.phone_iphone, color: Colors.grey,)
@@ -104,13 +116,15 @@ class _LoginPageState extends State<LoginPage>{
                         )
                         : null,
                       ),
-                      keyboardType: TextInputType.phone,
+                      maxLines: 1,
+                      maxLength: 11,
+                      keyboardType: TextInputType.phone,  // 键盘只能是数字
                       //textInputAction: TextInputAction.next, // 键盘
-                      inputFormatters: [
-                        BlacklistingTextInputFormatter(RegExp('^[0-9]{15}')),
-                        LengthLimitingTextInputFormatter(11)
+                      inputFormatters: <TextInputFormatter>[
+                        WhitelistingTextInputFormatter.digitsOnly,
                       ],
                       controller: _phoneNumber,
+                      validator: (val) => (val.isEmpty || val.length != 11) ? '请输入11位手机号码' : null,
                     ),
                   ),
                   Padding(
@@ -128,33 +142,40 @@ class _LoginPageState extends State<LoginPage>{
                                 borderSide: BorderSide(color: Color(0xFFc8a588))
                               ),
                             ),
+                            maxLines: 1,
+                            maxLength: 6,
                             keyboardType: TextInputType.number,
-                            inputFormatters: [
-                              LengthLimitingTextInputFormatter(6)
-                            ],
+                            // 只能输入数字
+                            inputFormatters: <TextInputFormatter>[
+                              WhitelistingTextInputFormatter.digitsOnly,
+                            ]
                           ),
                         ),
+                        SizedBox(width: 40),
                         Expanded(
                           flex: 1,
-                          child: PartialConsumeComponent<CountDownTimeModel>(
-                            model: CountDownTimeModel(60, 1),
-                            builder: (context, model,_) => FlatButton(
-                              disabledColor: Colors.grey.withOpacity(.4),
-                              color: Theme.of(context).backgroundColor,
-                              onPressed: !_validate || !model.isFinish ? null : () async {
-                                model.startCountDown();
+                          child: FlatButton(
+                            disabledColor: Colors.grey.withOpacity(.4),
+                            color: Theme.of(context).backgroundColor,
+                            onPressed: _seconds != 0 ? null : () {
+                              if ((_formKey.currentState as FormState).validate()) {
+                                setState(() {
+                                  _startTimer();
+                                });
                                 print(_phoneNumber.text);
-                              },
-                              child: Text(
-                                model.isFinish ? '获取验证码' : '${model.currentTime.toString()}',
-                                style: TextStyle(color: model.isFinish ? Colors.white : Colors.grey[100]),
-                              ),
+                              }
+                            },
+                            child: Text(
+                              '$_verifyStr',
+                              style: TextStyle(color:  Colors.white ),
                             ),
                           ),
+                          
                         )
                       ],
                     )
-                  )
+                  ),
+
                 ],
               )
             ),
