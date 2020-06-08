@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'package:chuyi/model/count_down_time.dart';
+import 'package:chuyi/widget/partial_component.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -10,36 +12,11 @@ class LoginPage extends StatefulWidget{
 
 class _LoginPageState extends State<LoginPage>{
   final _phoneNumber = TextEditingController();
-  int _seconds = 0;
-  String _verifyStr = '获取验证码';
-  Timer _timer;
-
+  
   @override
   void dispose() {
     _phoneNumber.dispose();
-    _cancelTimer();
     super.dispose();
-  }
-
-  _startTimer() {
-    _seconds = 30;
-
-    _timer = new Timer.periodic(new Duration(seconds: 1), (timer) {
-      if (_seconds == 0) {
-        _cancelTimer();
-        return;
-      }
-      _seconds--;
-      _verifyStr = '$_seconds(s)';
-      setState(() {});
-      if (_seconds == 0) {
-        _verifyStr = '重新发送';
-      }
-    });
-  }
-
-  _cancelTimer() {
-    _timer?.cancel();
   }
 
   @override
@@ -132,7 +109,7 @@ class _LoginPageState extends State<LoginPage>{
                     child: Row(
                       children: <Widget>[
                         Expanded(
-                          flex: 2,
+                          flex: 4,
                           child: TextField(
                             //obscureText: true, // 密码
                             decoration: InputDecoration(
@@ -153,23 +130,23 @@ class _LoginPageState extends State<LoginPage>{
                         ),
                         SizedBox(width: 40),
                         Expanded(
-                          flex: 1,
-                          child: FlatButton(
-                            disabledColor: Colors.grey.withOpacity(.4),
-                            color: Theme.of(context).backgroundColor,
-                            onPressed: _seconds != 0 ? null : () {
-                              if ((_formKey.currentState as FormState).validate()) {
-                                setState(() {
-                                  _startTimer();
-                                });
-                                print(_phoneNumber.text);
-                              }
-                            },
-                            child: Text(
-                              '$_verifyStr',
-                              style: TextStyle(color:  Colors.white ),
+                          flex: 3,
+                          child: PartialConsumeComponent<CountDownTimeModel>(
+                            model: CountDownTimeModel(30, 1),
+                            builder: (context, model, _) => FlatButton(
+                              disabledColor: Colors.grey.withOpacity(.4),
+                              color: Theme.of(context).backgroundColor,
+                              onPressed: !model.isFinish ? null : () async{
+                                if ((_formKey.currentState as FormState).validate()) {
+                                  model.startCountDown();
+                                }
+                              },
+                              child: Text(
+                                model.isFinish ? '获取验证码' : '${model.currentTime.toString()}',
+                                style: TextStyle(color: model.isFinish ? Colors.white : Colors.grey[100]),
+                              ),
                             ),
-                          ),
+                          )
                           
                         )
                       ],
