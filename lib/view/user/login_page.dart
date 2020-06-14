@@ -53,69 +53,60 @@ class _LoginPageState extends State<LoginPage>{
               ],
             ),
             const SizedBox(height: 10.0),
-            Form(
-              key: _formKey,
-              child: Column(
-                children: <Widget>[
-                  MyTextFormField(
-                    hintText: '手机号码',
-                    validator: (String val) => (val.isEmpty || val.length != 11) ? '请输入11位手机号码' : null,
-                    onSaved: (String value) {
-                      model.phoneNumber = value;
-                    },
-                    prefixText: '+86',
-                    maxLength: 11,
-                  ),
-                  Container(
-                    alignment: Alignment.topCenter,
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Container(
-                          alignment: Alignment.topCenter,
-                          width: MediaQuery.of(context).size.width / 2.0,
-                          child: MyTextFormField(
-                            hintText: '验证码',
-                            validator: (String value) {
-                              if (value.isEmpty || value.length < 6) {
-                                return '请输入验证码';
-                              }
-                              _formKey.currentState.save();
-                              return null;
-                            },
-                            onSaved: (String value) {
-                              model.verifyCode = value;
-                            },
-                            maxLength: 6,
-                          ),
-                        ),
-                        
-                      ]
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  children: <Widget>[
+                    MyTextFormField(
+                      hintText: '手机号码',
+                      validator: (String val) => (val.isEmpty || val.length != 11) ? '请输入11位手机号码' : null,
+                      onSaved: (String value) {
+                        model.phoneNumber = value;
+                      },
+                      prefixText: '+86 ',
+                      maxLength: 11,
                     ),
-                  ),
-                  RaisedButton(
-                    color: Colors.blueAccent,
-                    onPressed: () {
-                      if (_formKey.currentState.validate()) {
+                    MyTextFormField(
+                      hintText: '验证码',
+                      validator: (String value) {
+                        if (value.isEmpty || value.length < 6) {
+                          return '请输入验证码';
+                        }
                         _formKey.currentState.save();
-                        // Navigator.push(
-                        //   context,
-                        //   MaterialPageRoute(
-                        //     builder: (context) => Result(model: this.model)
-                        //   )
-                        // );
-                      }
-                    },
-                    child: Text(
-                      '登 录',
-                      style: TextStyle(
-                        color: Colors.white,
-                      ),
+                        return null;
+                      },
+                      onSaved: (String value) {
+                        model.verifyCode = value;
+                      },
+                      maxLength: 6,
                     ),
-                  )
-                ],
-              )
+                    RaisedButton(
+                      color: Colors.blueAccent,
+                      onPressed: () {
+                        if (_formKey.currentState.validate()) {
+                          _formKey.currentState.save();
+                          // Navigator.push(
+                          //   context,
+                          //   MaterialPageRoute(
+                          //     builder: (context) => Result(model: this.model)
+                          //   )
+                          // );
+                        }
+                      },
+                      child: Text(
+                        '登 录',
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
+                    )
+                  ],
+                )
+              ),
             )
+            
           ],
         ),
       )
