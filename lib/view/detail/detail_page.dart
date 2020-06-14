@@ -610,7 +610,7 @@ class _DetailPageState extends State<DetailPage> {
           left: 0,
           right: 0,
           child: Container(
-            color: Colors.white,
+            color: Theme.of(context).primaryColor,
             padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
             child: Padding(
               padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),

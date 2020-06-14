@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'package:chuyi/model/count_down_time.dart';
 import 'package:chuyi/widget/partial_component.dart';
 import 'package:flutter/cupertino.dart';
@@ -12,10 +11,12 @@ class LoginPage extends StatefulWidget{
 
 class _LoginPageState extends State<LoginPage>{
   final _phoneNumber = TextEditingController();
+  final _verifyCode = TextEditingController();
   
   @override
   void dispose() {
     _phoneNumber.dispose();
+    _verifyCode.dispose();
     super.dispose();
   }
 
@@ -45,7 +46,7 @@ class _LoginPageState extends State<LoginPage>{
                   top: 12.0,
                   child: Container(
                     decoration: BoxDecoration(
-                      color: Colors.yellow,
+                      color: Colors.yellow[200],
                       borderRadius: BorderRadius.circular(20.0)
                     ),
                     width: 70.0,
@@ -62,7 +63,7 @@ class _LoginPageState extends State<LoginPage>{
                 ),
               ],
             ),
-            const SizedBox(height: 30.0),
+            const SizedBox(height: 10.0),
             Form(
               key: _formKey,
               child: Column(
@@ -110,7 +111,7 @@ class _LoginPageState extends State<LoginPage>{
                       children: <Widget>[
                         Expanded(
                           flex: 4,
-                          child: TextField(
+                          child: TextFormField(
                             //obscureText: true, // 密码
                             decoration: InputDecoration(
                               labelText: "验证码", 
@@ -125,7 +126,9 @@ class _LoginPageState extends State<LoginPage>{
                             // 只能输入数字
                             inputFormatters: <TextInputFormatter>[
                               WhitelistingTextInputFormatter.digitsOnly,
-                            ]
+                            ],
+                            controller: _verifyCode,
+                            validator: (val) => (val.isEmpty || val.length != 4) ? '请输入11位手机号码' : null,
                           ),
                         ),
                         SizedBox(width: 40),
@@ -147,12 +150,19 @@ class _LoginPageState extends State<LoginPage>{
                               ),
                             ),
                           )
-                          
-                        )
+                        ), 
                       ],
-                    )
+                    ),
                   ),
+                  RaisedButton(
+                    onPressed: (){
 
+                    },
+                    child: new Text(
+                      "登  录",
+                      style: new TextStyle(fontSize: 16.0),
+                    ),
+                  )
                 ],
               )
             ),
