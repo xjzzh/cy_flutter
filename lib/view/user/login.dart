@@ -102,7 +102,7 @@ class _LoginPageState extends State<LoginPage>{
                         WhitelistingTextInputFormatter.digitsOnly,
                       ],
                       controller: _phoneNumber,
-                      validator: (val) => (val.isEmpty || val.length != 11) ? '请输入11位手机号码' : null,
+                      validator: (val) => (val.isEmpty || val.length != 11) ? '请输入手机号码' : null,
                     ),
                   ),
                   Padding(
@@ -128,7 +128,7 @@ class _LoginPageState extends State<LoginPage>{
                               WhitelistingTextInputFormatter.digitsOnly,
                             ],
                             controller: _verifyCode,
-                            validator: (val) => (val.isEmpty || val.length != 4) ? '请输入11位手机号码' : null,
+                            validator: (val) => (val.isEmpty || val.length != 4) ? '请输入验证码' : null,
                           ),
                         ),
                         SizedBox(width: 40),
