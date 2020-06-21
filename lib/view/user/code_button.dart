@@ -10,15 +10,16 @@ class CodeButton extends StatelessWidget {
   Widget build(BuildContext context) {
     if (coldDownSeconds > 0) {
       return Container(
+        alignment: Alignment.center,
         width: 95,
+        height: 36,
+        margin: EdgeInsets.only(top:10),
         color: Colors.grey.withOpacity(.4),
-        child: Center(
-          child: Text(
-            '${coldDownSeconds}s',
-            style: TextStyle(
-              fontSize: 14,
-              color: Colors.grey[100]
-            ),
+        child: Text(
+          '${coldDownSeconds}s',
+          style: TextStyle(
+            fontSize: 14,
+            color: Colors.grey[100]
           ),
         ),
       );
@@ -46,12 +47,10 @@ class CodeButton extends StatelessWidget {
         width: 95,
         height: 36,
         margin: EdgeInsets.only(top:10),
-        decoration: BoxDecoration(
-          border: Border.all(width:1,color: Colors.yellowAccent)
-        ),
+        color: Color(0xFFe6d1bf),
         child: Text(
           '获取验证码',
-          style: TextStyle(fontSize: 14,color: Colors.white)
+          style: TextStyle(fontSize: 14,color: Color(0xFF583e3c))
         ),
       ),
     );

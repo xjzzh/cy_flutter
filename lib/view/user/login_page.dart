@@ -30,6 +30,7 @@ class _LoginPageState extends State<LoginPage>{
   }
 
   fetchSmsCode() async {
+    _formKey.currentState.save();
     FocusScope.of(context).requestFocus(FocusNode());
     if (_phoneNumber.isEmpty || _phoneNumber.length != 13) {
       //_autoValidate = true;
@@ -38,11 +39,21 @@ class _LoginPageState extends State<LoginPage>{
     try {
       print('await 请求数据接口');
       setState(() {
-        coldDownSeconds = 60;
+        coldDownSeconds = 30;
       });
       coldDown();
     } catch(e) {
       showInSnackBar(e.toString());
+    }
+  }
+
+  void _handleSubmitted() {
+    final form = _formKey.currentState;
+    if (!form.validate()) {
+      _autoValidate = true;
+    } else {
+      form.save();
+      print({_phoneNumber,_verifyCode});
     }
   }
 
@@ -80,10 +91,11 @@ class _LoginPageState extends State<LoginPage>{
         dragStartBehavior: DragStartBehavior.down,
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Stack(
               children: <Widget>[
-                Positioned(
+                /* Positioned(
                   left: 120.0,
                   top: 12.0,
                   child: Container(
@@ -94,7 +106,7 @@ class _LoginPageState extends State<LoginPage>{
                     width: 70.0,
                     height: 25.0,
                   ),
-                ),
+                ), */
                 Align(
                   alignment: Alignment.center,
                   child: Text(
@@ -131,7 +143,7 @@ class _LoginPageState extends State<LoginPage>{
                     maxLines: 1,
                     maxLength: 13,
                     //maxLengthEnforced: false, // 是否允许超过输入最大长度
-                    validator: (String val) => (val.isEmpty || val.length != 11) ? '请输入11位手机号码' : null,
+                    validator: (String val) => (val.isEmpty || val.length != 13) ? '请输入11位手机号码' : null,
                     inputFormatters: <TextInputFormatter>[
                       WhitelistingTextInputFormatter.digitsOnly,
                       _phoneNumberFormatter,
@@ -174,10 +186,169 @@ class _LoginPageState extends State<LoginPage>{
                         )
                       ],
                     ),
+                  ),
+                  Container(
+                    height: 45.0,
+                    margin: EdgeInsets.only(top:20),
+                    /* decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [
+                          Color(0xff374ABE),
+                          Color(0xff64B6FF)
+                        ],
+                        begin: Alignment.centerLeft,
+                        end: Alignment.centerRight,
+                      ),
+                      borderRadius: BorderRadius.circular(12.0),
+                    ), */
+                    child: RaisedButton(
+                      onPressed: _handleSubmitted,
+                      color: Color(0xFFFB7101),
+                      elevation: 0,
+                      textColor: Colors.white,
+                      child: Text('登 录',style: TextStyle(fontSize: 16)),
+                    ),
                   )
                 ],
               )
             ),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 16),
+              child: Text(
+                '未注册手机验证后自动注册',
+                style: TextStyle(color: Colors.grey),
+              )
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Expanded(
+                  flex: 3,
+                  child: Container(
+                    color: Theme.of(context).dividerColor.withAlpha(20),
+                    height: 1,
+                  ),
+                ),
+                Expanded(
+                  flex: 2,
+                  child: Center(
+                    child: Text('其他登录方式', style: TextStyle(fontSize: 12, color: Colors.grey)),
+                  )
+                ),
+                Expanded(
+                  flex: 3,
+                  child: Container(
+                    color: Theme.of(context).dividerColor.withAlpha(20),
+                    height: 1,
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: 15),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: <Widget>[
+                GestureDetector(
+                  onTap: (){
+                  },
+                  child: Container(
+                    width: 70,
+                    height: 35,
+                    padding: EdgeInsets.all(5),
+                    decoration: BoxDecoration(
+                      color: Colors.green,
+                      borderRadius: BorderRadius.circular(8)
+                    ),
+                    child: Image.asset(
+                      'assets/images/login/wechat.png',
+                      fit: BoxFit.contain,
+                    ),                    
+                  ),
+                ),
+                GestureDetector(
+                  onTap: (){
+                  },
+                  child: Container(
+                    width: 70,
+                    height: 35,
+                    padding: EdgeInsets.all(5),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(8)
+                    ),
+                    child: Image.asset(
+                      'assets/images/login/apple.png',
+                      fit: BoxFit.contain,
+                    ),                    
+                  ),
+                ),
+                GestureDetector(
+                  onTap: (){
+                  },
+                  child: Container(
+                    width: 70,
+                    height: 35,
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.blue, width: 1),
+                      borderRadius: BorderRadius.circular(8)
+                    ),
+                    padding: EdgeInsets.all(8),
+                    child: Image.asset(
+                      'assets/images/login/google.png',
+                      fit: BoxFit.contain,
+                    ),                    
+                  ),
+                )
+              ],
+            ),
+            
+            SizedBox(height: 40),
+            Container(
+              child: new Text.rich(
+                new TextSpan(
+                  text: '注册或登录厨易表示您已阅读并同意 ',
+                  style: new TextStyle(
+                    fontSize: 13.0,
+                    color: Colors.grey[500],
+                    fontWeight: FontWeight.w400
+                  ),
+                  children: [
+                    new TextSpan(
+                      recognizer: new TapGestureRecognizer()
+                        ..onTap = () {
+                          
+                        },
+                      text: '会员条款',
+                      style: new TextStyle(
+                        fontSize: 13.0,
+                        color: Color(0xFFFB7101),
+                        fontWeight: FontWeight.w400,
+                      )
+                    ),
+                    new TextSpan(
+                      text: ' 和 ',
+                      style: new TextStyle(
+                        fontSize: 13.0,
+                        color: Colors.grey[500],
+                        fontWeight: FontWeight.w400,
+                      )
+                    ),
+                    new TextSpan(
+                      recognizer: new TapGestureRecognizer()
+                        ..onTap = () {
+                        },
+                      text: '隐私政策',
+                      style: new TextStyle(
+                        fontSize: 13.0,
+                        color: Color(0xFFFB7101),
+                        fontWeight: FontWeight.w400,
+                      )
+                    ),
+                  ]
+                )
+              ),
+            )
           ],
         ),
       )
