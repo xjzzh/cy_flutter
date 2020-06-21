@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:chuyi/model/api_data.dart';
 import 'package:chuyi/view/user/code_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
@@ -302,9 +303,9 @@ class _LoginPageState extends State<LoginPage>{
                 )
               ],
             ),
-            
             SizedBox(height: 40),
             Container(
+              padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
               child: new Text.rich(
                 new TextSpan(
                   text: '注册或登录厨易表示您已阅读并同意 ',
