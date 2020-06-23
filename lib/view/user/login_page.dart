@@ -1,11 +1,10 @@
 import 'dart:async';
-
-import 'package:chuyi/model/api_data.dart';
-import 'package:chuyi/view/user/code_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:chuyi/view/user/code_button.dart';
+import 'package:chuyi/model/api_data.dart';
 
 class LoginPage extends StatefulWidget{
   @override
@@ -141,13 +140,12 @@ class _LoginPageState extends State<LoginPage>{
                     onSaved: (val) {
                       _phoneNumber = val;
                     },
-                    maxLines: 1,
-                    maxLength: 13,
                     //maxLengthEnforced: false, // 是否允许超过输入最大长度
                     validator: (String val) => (val.isEmpty || val.length != 13) ? '请输入11位手机号码' : null,
                     inputFormatters: <TextInputFormatter>[
                       WhitelistingTextInputFormatter.digitsOnly,
                       _phoneNumberFormatter,
+                      LengthLimitingTextInputFormatter(13)
                     ],
                   ),
                   Container(
@@ -168,10 +166,9 @@ class _LoginPageState extends State<LoginPage>{
                               )
                             ),
                           ),
-                          maxLines: 1,
-                          maxLength: 6,
                           inputFormatters: <TextInputFormatter>[
                             WhitelistingTextInputFormatter.digitsOnly,
+                            LengthLimitingTextInputFormatter(6)
                           ],
                           onSaved: (val) {
                             _verifyCode = val;
