@@ -14,6 +14,7 @@ class API {
   static const String EXPLOREREPICE = 'getIndexList';
   static const String DETAIL = 'getCookDetail';
   static const String MARKSTART = 'getMarkStart';
+  static const String SENDSMSCODE = 'sendSMSCode';
 
   var nonceStr = new DateTime.now().millisecondsSinceEpoch.toString();
 
@@ -119,6 +120,19 @@ class API {
     var startWeight = result['result']['startWeight'];
     Start start = Start.fromJson(markStart);
     requestCallBack({'start':start,'total':startWeight});
+  }
+
+  /// 发送验证码
+  void sendSMSCode(String phoneNumbers, RequestCallBack requestCallBack) async {
+    Map data = {
+      'nonce_str': nonceStr,
+      'phone_numbers': phoneNumbers
+    };
+    data['sign'] = signParams(data);
+    print(json.encode(data));
+    final result = await _request.post(SENDSMSCODE, json.encode(data));
+    Login res = Login.fromJson(result);
+    requestCallBack(res);
   }
 
 }

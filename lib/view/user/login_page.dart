@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:chuyi/util/api.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +12,8 @@ class LoginPage extends StatefulWidget{
   _LoginPageState createState() => _LoginPageState();
 }
 
+final API _api = API();
+
 class _LoginPageState extends State<LoginPage>{
   final _formKey = GlobalKey<FormState>();
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -19,6 +22,7 @@ class _LoginPageState extends State<LoginPage>{
   int coldDownSeconds = 0;
   Timer timer;
   bool _autoValidate = false;
+  Login _loginRes;
 
   final _PhoneTextInputFormatter _phoneNumberFormatter = _PhoneTextInputFormatter();
 
@@ -37,11 +41,18 @@ class _LoginPageState extends State<LoginPage>{
       return showInSnackBar('请输入11位手机号码');
     }
     try {
-      print('await 请求数据接口');
-      setState(() {
-        coldDownSeconds = 30;
+      _api.sendSMSCode(_phoneNumber.replaceAll(new RegExp(r"\s+\b|\b\s"), ""), (value) {
+        _loginRes = value;
       });
-      coldDown();
+      if (_loginRes.code == 1) {
+        setState(() {
+          coldDownSeconds = 30;
+        });
+        coldDown();
+        showInSnackBar(_loginRes.message);
+      } else {
+        showInSnackBar(_loginRes.message);
+      }
     } catch(e) {
       showInSnackBar(e.toString());
     }
@@ -278,7 +289,7 @@ class _LoginPageState extends State<LoginPage>{
                     child: Image.asset(
                       'assets/images/login/apple.png',
                       fit: BoxFit.contain,
-                    ),                    
+                    ),
                   ),
                 ),
                 GestureDetector(

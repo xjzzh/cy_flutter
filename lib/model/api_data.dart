@@ -145,6 +145,9 @@ class Subject {
   // 分类
   String sortName;
   String sortImg;
+  // 直接返回
+  int resCode;
+  String msg;
 
   Subject.fromMap(Map<String, dynamic> map) {
     title = map['title'];
@@ -159,6 +162,9 @@ class Subject {
 
     sortImg = map['sort_img'];
     sortName = map['sort_name'];
+
+    resCode = map['code'];
+    msg = map['msg'];
   }
 }
 /// 解析Detail
@@ -284,4 +290,26 @@ class Start {
     fiveStart = jsonRes['fiveStart']; 
   }
 
+}
+
+class Login {
+  int code;
+  String message;
+  String result;
+
+  Login({this.code, this.message, this.result});
+
+  Login.fromJson(Map<String, dynamic> json) {
+    code = json['code'];
+    message = json['message'];
+    result = json['result'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['code'] = this.code;
+    data['message'] = this.message;
+    data['result'] = this.result;
+    return data;
+  }
 }
