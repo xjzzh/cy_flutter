@@ -292,14 +292,14 @@ class Start {
 
 }
 
-class Login {
+class SendCode {
   int code;
   String message;
   String result;
 
-  Login({this.code, this.message, this.result});
+  SendCode({this.code, this.message, this.result});
 
-  Login.fromJson(Map<String, dynamic> json) {
+  SendCode.fromJson(Map<String, dynamic> json) {
     code = json['code'];
     message = json['message'];
     result = json['result'];

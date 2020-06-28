@@ -22,7 +22,7 @@ class _LoginPageState extends State<LoginPage>{
   int coldDownSeconds = 0;
   Timer timer;
   bool _autoValidate = false;
-  Login _loginRes;
+  SendCode _sendSmsCode;
 
   final _PhoneTextInputFormatter _phoneNumberFormatter = _PhoneTextInputFormatter();
 
@@ -42,16 +42,16 @@ class _LoginPageState extends State<LoginPage>{
     }
     try {
       _api.sendSMSCode(_phoneNumber.replaceAll(new RegExp(r"\s+\b|\b\s"), ""), (value) {
-        _loginRes = value;
+        _sendSmsCode = value;
       });
-      if (_loginRes.code == 1) {
+      if (_sendSmsCode.code == 1) {
         setState(() {
           coldDownSeconds = 30;
         });
         coldDown();
-        showInSnackBar(_loginRes.message);
+        showInSnackBar(_sendSmsCode.result);
       } else {
-        showInSnackBar(_loginRes.message);
+        showInSnackBar(_sendSmsCode.result);
       }
     } catch(e) {
       showInSnackBar(e.toString());

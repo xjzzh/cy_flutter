@@ -130,8 +130,8 @@ class API {
     };
     data['sign'] = signParams(data);
     print(json.encode(data));
-    final result = await _request.post(SENDSMSCODE, json.encode(data));
-    Login res = Login.fromJson(result);
+    final result = await _request.post(SENDSMSCODE, jsonEncode(data), headers: {"Content-Type": "application/json","Cookie": "__ChuYi:d32c86f2b962e1c74a59__"});
+    SendCode res = SendCode.fromJson(result);
     requestCallBack(res);
   }
 
