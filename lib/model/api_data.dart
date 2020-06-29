@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'Dart:math';
 
 class TabIconData {
   TabIconData({
@@ -114,15 +115,31 @@ class NowDate {
   }
 
   String hours() {
+    // List txt = [
+    //   '夜半酣酒江月下，美人纤手炙鱼头。',
+    //   '惟有莼鲈堪漫吃，下官亦为啖鱼回。',
+    //   '时绕麦田求野荠，强为僧舍煮山羹。',
+    //   '长江绕郭知鱼美，好竹连山觉笋香。',
+    //   '色如玉版猫头笋，味抵驼峰牛尾猩。',
+    //   '扬州鲜笋趁鲥鱼，烂煮春风三月初。',
+    //   '蒸鸡最知名，美不数鱼鳖。',
+    //   '夜雨剪春韭，新炊间黄梁。',
+    //   '围炉聚炊欢呼处，百味消融小釜中。',
+    //   '雪沫乳花浮午盏 蓼茸蒿笋试春盘 人间有味是清欢。',
+    //   '桂花香馅裹胡桃，江米如珠井水淘。',
+    //   '螯封嫩玉双双满，壳凸红脂块块香。'
+    // ];
+    // var rng = new Random();
+    // return txt[rng.nextInt(txt.length)];
     var hour = int.parse(now.hour.toString());
     if (hour >= 5 && hour < 10) {
-      return '记得吃早餐喔 🥪';
+      return '夜雨剪春韭，新炊间黄梁。';
     } else if (hour >=10 && hour < 15) {
-      return '午餐准备好了吗 🍛';
+      return '兰陵美酒郁金香，玉碗盛来琥珀光。';
     } else if (hour >=15 && hour < 17){
-      return '喝水是必不可少的 🥤';
+      return '螯封嫩玉双双满，壳凸红脂块块香。';
     } else if (hour >= 17 && hour < 20) {
-      return '和家人共进晚餐吧 🥘';
+      return '围炉聚炊欢呼处，百味消融小釜中。';
     } else {
       return '雪沫乳花浮午盏，蓼茸蒿笋试春盘。人间有味是清欢。';
     }
@@ -293,23 +310,23 @@ class Start {
 }
 
 class SendCode {
-  int code;
   String message;
   String result;
+  int code;
 
-  SendCode({this.code, this.message, this.result});
+  SendCode({this.message, this.result, this.code});
 
   SendCode.fromJson(Map<String, dynamic> json) {
-    code = json['code'];
     message = json['message'];
     result = json['result'];
+    code = json['code'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['code'] = this.code;
     data['message'] = this.message;
     data['result'] = this.result;
+    data['code'] = this.code;
     return data;
   }
 }

@@ -132,6 +132,7 @@ class API {
     data['sign'] = signParams(data);
     final result = await _request.post(SENDSMSCODE, jsonEncode(data), headers: {"Cookie": "PYCKET_ID=2|1:0|10:1593410375|9:PYCKET_ID|48:MDdlODIyNzctYzg1MC00MWMwLWFiZGMtMmUxNDQ0ZDc1ZDlk|e7be5e4389d737e032233c61dcd153cbcb096570f13410bbd9f838d1678469d1"});
     SendCode res = SendCode.fromJson(result);
+    print(result);
     requestCallBack(res);
   }
 
