@@ -49,9 +49,9 @@ class _LoginPageState extends State<LoginPage>{
           coldDownSeconds = 30;
         });
         coldDown();
-        showInSnackBar(_sendSmsCode.result);
+        showInSnackBar(_sendSmsCode.message);
       } else {
-        showInSnackBar(_sendSmsCode.result);
+        showInSnackBar(_sendSmsCode.message);
       }
     } catch(e) {
       showInSnackBar(e.toString());

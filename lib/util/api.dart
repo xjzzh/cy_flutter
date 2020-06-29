@@ -15,6 +15,7 @@ class API {
   static const String DETAIL = 'getCookDetail';
   static const String MARKSTART = 'getMarkStart';
   static const String SENDSMSCODE = 'sendSMSCode';
+  static const String LOGINCODE = 'verificationCodeLogin';
 
   var nonceStr = new DateTime.now().millisecondsSinceEpoch.toString();
 
@@ -129,10 +130,18 @@ class API {
       'phone_numbers': phoneNumbers
     };
     data['sign'] = signParams(data);
-    print(json.encode(data));
-    final result = await _request.post(SENDSMSCODE, jsonEncode(data), headers: {"Content-Type": "application/json","Cookie": "__ChuYi:d32c86f2b962e1c74a59__"});
+    final result = await _request.post(SENDSMSCODE, jsonEncode(data), headers: {"Cookie": "PYCKET_ID=2|1:0|10:1593410375|9:PYCKET_ID|48:MDdlODIyNzctYzg1MC00MWMwLWFiZGMtMmUxNDQ0ZDc1ZDlk|e7be5e4389d737e032233c61dcd153cbcb096570f13410bbd9f838d1678469d1"});
     SendCode res = SendCode.fromJson(result);
     requestCallBack(res);
   }
 
+  void codeLogin(String phoneNumbers, String code, RequestCallBack requestCallBack) async {
+    Map data = {
+      'nonce_str': nonceStr,
+      'phone_numbers': phoneNumbers,
+      'code': code
+    };
+    data['sign'] = signParams(data);
+    final login = await _request.post(LOGINCODE, jsonEncode(data));
+  }
 }
