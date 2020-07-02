@@ -1,5 +1,7 @@
 import 'dart:async';
+import 'package:chuyi/model/count_down_time.dart';
 import 'package:chuyi/util/api.dart';
+import 'package:chuyi/widget/partial_component.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -19,8 +21,6 @@ class _LoginPageState extends State<LoginPage>{
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   String _phoneNumber = '';
   String _verifyCode = '';
-  int coldDownSeconds = 0;
-  Timer timer;
   bool _autoValidate = false;
   SendCode _sendSmsCode;
 
@@ -34,25 +34,11 @@ class _LoginPageState extends State<LoginPage>{
   }
 
   fetchSmsCode() async {
-    _formKey.currentState.save();
-    FocusScope.of(context).requestFocus(FocusNode());
-    if (_phoneNumber.isEmpty || _phoneNumber.length != 13) {
-      //_autoValidate = true;
-      return showInSnackBar('请输入11位手机号码');
-    }
     try {
       _api.sendSMSCode(_phoneNumber.replaceAll(new RegExp(r"\s+\b|\b\s"), ""), (value) {
         _sendSmsCode = value;
       });
-      if (_sendSmsCode.code == 1) {
-        setState(() {
-          coldDownSeconds = 30;
-        });
-        coldDown();
-        showInSnackBar(_sendSmsCode.message);
-      } else {
-        showInSnackBar(_sendSmsCode.message);
-      }
+      showInSnackBar(_sendSmsCode.message);
     } catch(e) {
       showInSnackBar(e.toString());
     }
@@ -68,19 +54,7 @@ class _LoginPageState extends State<LoginPage>{
     }
   }
 
-  coldDown() {
-    timer = Timer(Duration(seconds: 1), (){
-      setState(() {
-        --coldDownSeconds;
-      });
-      coldDown();
-    });
-  }
-
   @override dispose() {
-    if (timer != null) {
-      timer.cancel();
-    }
     super.dispose();
   }
 
@@ -188,10 +162,33 @@ class _LoginPageState extends State<LoginPage>{
                         ),
                         Align(
                           alignment: Alignment.bottomRight,
-                          child: CodeButton(
-                            onPressed: fetchSmsCode, 
-                            coldDownSeconds: coldDownSeconds,
-                          ),
+                          child: PartialConsumeComponent<CountDownTimeModel>(
+                            model: CountDownTimeModel(30, 1), 
+                            builder: (context, model, _) => GestureDetector(
+                              child: Container(
+                                alignment: Alignment.center,
+                                width: 95,
+                                height: 36,
+                                margin: EdgeInsets.only(top:10),
+                                color: model.isFinish ? Color(0xFFe6d1bf) : Colors.grey.withOpacity(.4),
+                                child: Text(
+                                  model.isFinish ? '获取验证码' : '重新获取(${model.currentTime.toString()})',
+                                  style: TextStyle(color: model.isFinish ? Color(0xFF583e3c) : Colors.grey[100]),
+                                ),
+                              ),
+                              onTap: !model.isFinish ? null : () {
+                                _formKey.currentState.save();
+                                FocusScope.of(context).requestFocus(FocusNode());
+                                if (_phoneNumber.isEmpty || _phoneNumber.length != 13) {
+                                  //_autoValidate = true;
+                                  return showInSnackBar('请输入11位手机号码');
+                                } else {
+                                  model.startCountDown();
+                                  fetchSmsCode();
+                                }
+                              },
+                            )
+                          )
                         )
                       ],
                     ),
@@ -225,9 +222,10 @@ class _LoginPageState extends State<LoginPage>{
               padding: EdgeInsets.symmetric(vertical: 16),
               child: Text(
                 '未注册手机验证后自动注册',
-                style: TextStyle(color: Colors.grey),
+                style: TextStyle(color: Colors.grey,fontSize: 13),
               )
             ),
+            SizedBox(height: 40),
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
