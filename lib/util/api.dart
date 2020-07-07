@@ -135,7 +135,7 @@ class API {
     print(result);
     requestCallBack(res);
   }
-
+  /// 登录
   void codeLogin(String phoneNumbers, String code, RequestCallBack requestCallBack) async {
     Map data = {
       'nonce_str': nonceStr,
@@ -144,5 +144,6 @@ class API {
     };
     data['sign'] = signParams(data);
     final login = await _request.post(LOGINCODE, jsonEncode(data));
+    requestCallBack(login);
   }
 }

@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'package:chuyi/model/count_down_time.dart';
 import 'package:chuyi/util/api.dart';
 import 'package:chuyi/widget/partial_component.dart';
@@ -6,7 +5,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:chuyi/view/user/code_button.dart';
 import 'package:chuyi/model/api_data.dart';
 
 class LoginPage extends StatefulWidget{
@@ -39,6 +37,7 @@ class _LoginPageState extends State<LoginPage>{
         _sendSmsCode = value;
       });
       showInSnackBar(_sendSmsCode.message);
+      print(_sendSmsCode.message);
     } catch(e) {
       showInSnackBar(e.toString());
     }
