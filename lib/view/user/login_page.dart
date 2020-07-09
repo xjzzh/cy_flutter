@@ -25,7 +25,6 @@ class _LoginPageState extends State<LoginPage>{
   final _PhoneTextInputFormatter _phoneNumberFormatter = _PhoneTextInputFormatter();
 
   void showInSnackBar(String value) {
-    print(value);
     _scaffoldKey.currentState.hideCurrentSnackBar();
     _scaffoldKey.currentState.showSnackBar(SnackBar(
       content: Text(value),
@@ -36,11 +35,9 @@ class _LoginPageState extends State<LoginPage>{
     try {
       _api.sendSMSCode(_phoneNumber.replaceAll(new RegExp(r"\s+\b|\b\s"), ""), (value){
         _sendSmsCode = value;
-        setState(() {
-          this._sendSmsCode = value;
-        });
+        showInSnackBar('${_sendSmsCode.message}');
       });
-      showInSnackBar('${_sendSmsCode.message}');
+      
     } catch(e) {
       showInSnackBar(e.toString());
     }
