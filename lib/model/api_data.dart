@@ -320,12 +320,4 @@ class SendCode {
     result = json['result'];
     code = json['code'];
   }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['message'] = this.message;
-    data['result'] = this.result;
-    data['code'] = this.code;
-    return data;
-  }
 }
