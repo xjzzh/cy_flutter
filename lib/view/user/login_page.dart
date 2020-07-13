@@ -1,10 +1,11 @@
-import 'package:chuyi/model/count_down_time.dart';
-import 'package:chuyi/util/api.dart';
-import 'package:chuyi/widget/partial_component.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:chuyi/model/count_down_time.dart';
+import 'package:chuyi/util/api.dart';
+import 'package:chuyi/widget/partial_component.dart';
 import 'package:chuyi/model/api_data.dart';
 
 class LoginPage extends StatefulWidget{
@@ -17,12 +18,13 @@ final API _api = API();
 class _LoginPageState extends State<LoginPage>{
   final _formKey = GlobalKey<FormState>();
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  final _PhoneTextInputFormatter _phoneNumberFormatter = _PhoneTextInputFormatter();
   String _phoneNumber = '';
   String _verifyCode = '';
   bool _autoValidate = false;
+  String _userId = '';
   SendCode _sendSmsCode;
-
-  final _PhoneTextInputFormatter _phoneNumberFormatter = _PhoneTextInputFormatter();
+  SendCode _loginCallBack;
 
   void showInSnackBar(String value) {
     _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -49,7 +51,19 @@ class _LoginPageState extends State<LoginPage>{
       _autoValidate = true;
     } else {
       form.save();
-      print({_phoneNumber,_verifyCode});
+      _api.codeLogin(_phoneNumber.replaceAll(RegExp(r"\s+\b|\b\s"), ''),
+        _verifyCode, (value) async{
+        await value;
+        _loginCallBack = value;
+        if (_loginCallBack.code == 1) {
+          _userId = _loginCallBack.result;
+          SharedPreferences prefs = await SharedPreferences.getInstance();
+          prefs.setString('userId', _userId);
+          Navigator.pop(context,true);
+        } else {
+          showInSnackBar(_loginCallBack.message);
+        }
+      });
     }
   }
 
@@ -68,7 +82,9 @@ class _LoginPageState extends State<LoginPage>{
           icon: Icon(CupertinoIcons.clear_thick_circled, size: 30, color: Colors.grey),
           padding: new EdgeInsets.all(0.0),
           splashColor: Colors.transparent, // remove ripple effect
-          onPressed: (){Navigator.pop(context,true);}
+          onPressed: (){
+            Navigator.pop(context,true);
+          }
         ),
       ),
       body: SingleChildScrollView(

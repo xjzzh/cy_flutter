@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'dart:ui' as ui show window;
 import 'package:share/share.dart';
 import 'package:flutter/services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class DetailPage extends StatefulWidget {
   final cookId;
@@ -25,6 +26,7 @@ class _DetailPageState extends State<DetailPage> {
   DetailData _getDetailData;
   Start _getMarkStart;
   String startWeight;
+  String _userId;
   ScrollController scrollController = ScrollController();
   double navAlpha = 0;
   MediaQueryData mediaQuery = MediaQueryData.fromWindow(ui.window);
@@ -65,7 +67,17 @@ class _DetailPageState extends State<DetailPage> {
         });
       }
     });
+    /// 获取用户信息
+    _getUserId();
     super.initState();
+  }
+
+  _getUserId() async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _userId = (prefs.getString('userId') ?? null);
+      print(_userId);
+    });
   }
 
   @override
@@ -619,7 +631,7 @@ class _DetailPageState extends State<DetailPage> {
                 children: <Widget>[
                   GestureDetector(
                     onTap: (){
-                      Navigator.of(context).push(loginRoute());
+                      _userId == null ? Navigator.of(context).push(loginRoute()) : print("请求点赞接口");/
                     },
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,

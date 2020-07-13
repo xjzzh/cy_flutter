@@ -137,13 +137,15 @@ class API {
   }
   /// 登录
   void codeLogin(String phoneNumbers, String code, RequestCallBack requestCallBack) async {
+    print(code);
     Map data = {
       'nonce_str': nonceStr,
       'phone_numbers': phoneNumbers,
       'code': code
     };
     data['sign'] = signParams(data);
-    final login = await _request.post(LOGINCODE, jsonEncode(data));
-    requestCallBack(login);
+    final login = await _request.post(LOGINCODE, jsonEncode(data), headers: {'Cookie': 'PYCKET_ID=2|1:0|10:1593410375|9:PYCKET_ID|48:MDdlODIyNzctYzg1MC00MWMwLWFiZGMtMmUxNDQ0ZDc1ZDlk|e7be5e4389d737e032233c61dcd153cbcb096570f13410bbd9f838d1678469d1'});
+    SendCode res = SendCode.fromJson(login);
+    requestCallBack(res);
   }
 }
