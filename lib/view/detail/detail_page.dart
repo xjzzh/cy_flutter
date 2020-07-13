@@ -631,7 +631,7 @@ class _DetailPageState extends State<DetailPage> {
                 children: <Widget>[
                   GestureDetector(
                     onTap: (){
-                      _userId == null ? Navigator.of(context).push(loginRoute()) : print("请求点赞接口");/
+                      _userId == null ? Navigator.of(context).push(loginRoute()) : print("请求点赞接口");
                     },
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
