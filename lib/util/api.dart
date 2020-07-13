@@ -16,7 +16,7 @@ class API {
   static const String CLASSIFY = 'getCookSort';
   static const String EXPLOREREPICE = 'getIndexList';
   static const String DETAIL = 'getCookDetail';
-  static const String COOKIE = 'getSession';
+  static const String USERISLIKE = 'getCookUserStatus';
   static const String MARKSTART = 'getMarkStart';
   static const String SENDSMSCODE = 'sendSMSCode';
   static const String LOGINCODE = 'verificationCodeLogin';
@@ -127,32 +127,46 @@ class API {
     requestCallBack({'start':start,'total':startWeight});
   }
 
+  var dio = Dio();
+  var cookieJar= CookieJar();
+
   /// 发送验证码
   void sendSMSCode(String phoneNumbers, RequestCallBack requestCallBack) async {
-    var dio = Dio();
-    var cookieJar= CookieJar();
     dio.interceptors.add(CookieManager(cookieJar));
     Map data = {
       'nonce_str': nonceStr,
       'phone_numbers': phoneNumbers
     };
     data['sign'] = signParams(data);
-    final result = await dio.post(BASE_URL+SENDSMSCODE,data: jsonEncode(data));
-    print(result);
-    SendCode res = SendCode.fromJson(result);
+    Response result = await dio.post(BASE_URL+SENDSMSCODE,data: jsonEncode(data));
+    DetailUser res = DetailUser.fromJson(json.decode(result.data));
     requestCallBack(res);
   }
   /// 登录
   void codeLogin(String phoneNumbers, String code, RequestCallBack requestCallBack) async {
-    print(code);
+    dio.interceptors.add(CookieManager(cookieJar));
     Map data = {
       'nonce_str': nonceStr,
       'phone_numbers': phoneNumbers,
       'code': code
     };
     data['sign'] = signParams(data);
-    final login = await _request.post(LOGINCODE, jsonEncode(data), headers: {'Cookie': 'PYCKET_ID=2|1:0|10:1593410375|9:PYCKET_ID|48:MDdlODIyNzctYzg1MC00MWMwLWFiZGMtMmUxNDQ0ZDc1ZDlk|e7be5e4389d737e032233c61dcd153cbcb096570f13410bbd9f838d1678469d1'});
-    SendCode res = SendCode.fromJson(login);
+    Response result = await dio.post(BASE_URL+LOGINCODE, data: jsonEncode(data));
+    DetailUser res = DetailUser.fromJson(json.decode(result.data));
+    requestCallBack(res);
+  }
+
+  /// 查询用户状态
+  void getIsLike(String userId, int id,RequestCallBack requestCallBack) async {
+    Map data = {
+      'nonce_str': nonceStr,
+      'userId': userId,
+      'cokId': id.toString()
+    };
+    data['sign'] = signParams(data);
+    final result = await _request.post(USERISLIKE, jsonEncode(data));
+    var response = result['result'];
+    DetailUser res = DetailUser.fromJson(response);
     requestCallBack(res);
   }
 }

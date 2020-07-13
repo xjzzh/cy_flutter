@@ -308,16 +308,26 @@ class Start {
 
 }
 
-class SendCode {
+class DetailUser {
   String message;
   String result;
   int code;
+  int isCollect;
+  int isLike;
 
-  SendCode({this.message, this.result, this.code});
+  DetailUser({
+    this.message,
+    this.result,
+    this.code,
+    this.isCollect,
+    this.isLike
+  });
 
-  SendCode.fromJson(Map<String, dynamic> json) {
+  DetailUser.fromJson(Map<String, dynamic> json) {
     message = json['message'];
     result = json['result'];
     code = json['code'];
+    isCollect = json['isCollect'];
+    isLike = json['isLike'];
   }
 }

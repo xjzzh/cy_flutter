@@ -27,12 +27,14 @@ class _DetailPageState extends State<DetailPage> {
   Start _getMarkStart;
   String startWeight;
   String _userId;
+  DetailUser _cookUserStatus;
   ScrollController scrollController = ScrollController();
   double navAlpha = 0;
   MediaQueryData mediaQuery = MediaQueryData.fromWindow(ui.window);
   
   @override
   void initState(){
+    /// 获取详情
     _api.getDetail(cookId, (value) async{
       await value;
       _getDetailData = value;
@@ -40,6 +42,7 @@ class _DetailPageState extends State<DetailPage> {
         this._getDetailData = value;
       });
     });
+    /// 获取评分
     _api.getMarkStart(cookId, (value) async{
       await value;
       _getMarkStart = value['start'];
@@ -49,6 +52,9 @@ class _DetailPageState extends State<DetailPage> {
         this.startWeight = value['total'];
       });
     });
+    /// 获取用户信息
+    _getUserId();
+
     scrollController.addListener(() {
       var offset = scrollController.offset;
       if (offset < 0) {
@@ -67,8 +73,6 @@ class _DetailPageState extends State<DetailPage> {
         });
       }
     });
-    /// 获取用户信息
-    _getUserId();
     super.initState();
   }
 
@@ -76,9 +80,14 @@ class _DetailPageState extends State<DetailPage> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       _userId = (prefs.getString('userId') ?? null);
-      print(_userId);
+      /// 获取用户是否点赞收藏
+      _userId != null ?? _api.getIsLike(_userId, cookId, (value) async{
+        await value;
+        _cookUserStatus = value;
+      });
     });
   }
+
 
   @override
   void dispose(){

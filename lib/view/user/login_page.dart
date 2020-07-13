@@ -23,8 +23,8 @@ class _LoginPageState extends State<LoginPage>{
   String _verifyCode = '';
   bool _autoValidate = false;
   String _userId = '';
-  SendCode _sendSmsCode;
-  SendCode _loginCallBack;
+  DetailUser _sendSmsCode;
+  DetailUser _loginCallBack;
 
   void showInSnackBar(String value) {
     _scaffoldKey.currentState.hideCurrentSnackBar();
