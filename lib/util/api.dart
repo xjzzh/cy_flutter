@@ -1,4 +1,7 @@
 import 'dart:convert';
+import 'package:dio/dio.dart';
+import 'package:dio_cookie_manager/dio_cookie_manager.dart';
+import 'package:cookie_jar/cookie_jar.dart';
 import 'package:crypto/crypto.dart';
 import 'package:chuyi/util/request.dart';
 import 'package:chuyi/model/api_data.dart';
@@ -13,6 +16,7 @@ class API {
   static const String CLASSIFY = 'getCookSort';
   static const String EXPLOREREPICE = 'getIndexList';
   static const String DETAIL = 'getCookDetail';
+  static const String COOKIE = 'getSession';
   static const String MARKSTART = 'getMarkStart';
   static const String SENDSMSCODE = 'sendSMSCode';
   static const String LOGINCODE = 'verificationCodeLogin';
@@ -125,14 +129,17 @@ class API {
 
   /// 发送验证码
   void sendSMSCode(String phoneNumbers, RequestCallBack requestCallBack) async {
+    var dio = Dio();
+    var cookieJar= CookieJar();
+    dio.interceptors.add(CookieManager(cookieJar));
     Map data = {
       'nonce_str': nonceStr,
       'phone_numbers': phoneNumbers
     };
     data['sign'] = signParams(data);
-    final result = await _request.post(SENDSMSCODE, jsonEncode(data), headers: {"Cookie": "PYCKET_ID=2|1:0|10:1593410375|9:PYCKET_ID|48:MDdlODIyNzctYzg1MC00MWMwLWFiZGMtMmUxNDQ0ZDc1ZDlk|e7be5e4389d737e032233c61dcd153cbcb096570f13410bbd9f838d1678469d1"});
-    SendCode res = SendCode.fromJson(result);
+    final result = await dio.post(BASE_URL+SENDSMSCODE,data: jsonEncode(data));
     print(result);
+    SendCode res = SendCode.fromJson(result);
     requestCallBack(res);
   }
   /// 登录

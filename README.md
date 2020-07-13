@@ -249,3 +249,8 @@ _objTable.keys
   .toList() // create a copy to avoid concurrent modifications
   .forEach(_objTable.remove); // remove selected keys
 ```
+
+#### VSCode 连字符
+```json
+"editor.fontLigatures": true,
+```
