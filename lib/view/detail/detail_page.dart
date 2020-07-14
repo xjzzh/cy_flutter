@@ -211,7 +211,7 @@ class _DetailPageState extends State<DetailPage> {
         child: ClipRRect(
           borderRadius: BorderRadius.only(topLeft:Radius.circular(18.0),topRight: Radius.circular(18.0)),
           child: Container(
-            color: Theme.of(context).accentColor,
+            color: Theme.of(context).accentColor
           ),
         ),
       )
@@ -221,6 +221,7 @@ class _DetailPageState extends State<DetailPage> {
   Container storyTextScene(DetailData recipes, Color textColor) {
     return Container(
       color: Theme.of(context).accentColor,
+      transform: Matrix4.translationValues(0.0, -1.0, 0.0),
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 16.0),
         child: Column(
@@ -349,7 +350,7 @@ class _DetailPageState extends State<DetailPage> {
   }
 
   GridView ingredientsScene(List ingredients){
-    // GridView.count ===> SliverGridDelegateWithFixedCrossAxisCount 的简写
+    // GridView.count ==> SliverGridDelegateWithFixedCrossAxisCount 的简写
     return GridView.count(
       crossAxisCount: 2,
       shrinkWrap: true,
@@ -624,6 +625,7 @@ class _DetailPageState extends State<DetailPage> {
 
   // bottom bar
   Widget bottomBar() {
+    bool isLike = _cookUserStatus == null || _cookUserStatus.isLike == 0 ? false : true;
     return Stack(
       children: <Widget>[
         Positioned(
@@ -645,8 +647,8 @@ class _DetailPageState extends State<DetailPage> {
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        Icon(Icons.thumb_up, color: Colors.grey),
-                        Text('${_getDetailData.like ?? 0}', style: TextStyle(fontSize: 14, color: Colors.grey))
+                        Icon(Icons.thumb_up, color: isLike ? Color(0xFFFB7101) : Colors.grey),
+                        Text('${_getDetailData.like ?? 0}', style: TextStyle(fontSize: 14, color: isLike ? Color(0xFFFB7101) : Colors.grey))
                       ],
                     ),
                   ),
@@ -657,7 +659,7 @@ class _DetailPageState extends State<DetailPage> {
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        Icon(Icons.favorite_border, color: Colors.grey),
+                        Icon(Icons.favorite_border, color:  Colors.grey),
                         Text('${_getDetailData.collect ?? ''}', style: TextStyle(fontSize: 14, color: Colors.grey))
                       ],
                     ),
