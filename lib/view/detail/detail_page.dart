@@ -27,7 +27,7 @@ class _DetailPageState extends State<DetailPage> {
   Start _getMarkStart;
   String startWeight;
   String _userId;
-  var _cookUserStatus;
+  DetailUser _cookUserStatus;
   ScrollController scrollController = ScrollController();
   double navAlpha = 0;
   MediaQueryData mediaQuery = MediaQueryData.fromWindow(ui.window);
@@ -82,14 +82,16 @@ class _DetailPageState extends State<DetailPage> {
       _userId = (prefs.getString('userId') ?? null);
     });
     /// 获取用户是否点赞收藏
-    _api.getIsLike(_userId, cookId, (value) async{
-      await value;
-      _cookUserStatus = value;
-      setState(() {
-        this._cookUserStatus = value;
+    if (_userId != null) {
+      _api.getIsLike(_userId, cookId, (value) async{
+        await value;
+        _cookUserStatus = value;
+        setState(() {
+          this._cookUserStatus = value;
+        });
+        print(_cookUserStatus.isLike);
       });
-      print(_cookUserStatus["is_like"]);
-    });
+    }
   }
 
   @override
@@ -135,7 +137,7 @@ class _DetailPageState extends State<DetailPage> {
                       tipsScene(),
                       ratingScene(),
                       //markScene(),
-                      SizedBox(height: mediaQuery.padding.bottom+20)
+                      SizedBox(height: mediaQuery.padding.bottom + 20)
                     ],
                   )
                 )
@@ -225,7 +227,6 @@ class _DetailPageState extends State<DetailPage> {
     return Container(
       transform: Matrix4.translationValues(0.0, -1.0, 0.0),
       color: Theme.of(context).accentColor,
-      transform: Matrix4.translationValues(0.0, -1.0, 0.0),
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 16.0),
         child: Column(

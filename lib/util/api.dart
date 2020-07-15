@@ -166,7 +166,6 @@ class API {
     data['sign'] = signParams(data);
     final result = await _request.post(USERISLIKE, jsonEncode(data));
     DetailUser res = DetailUser.fromJson(result['result']);
-    print(result['result']);
-    requestCallBack(result['result']);
+    requestCallBack(res);
   }
 }

@@ -327,7 +327,7 @@ class DetailUser {
     message = json['message'];
     result = json['result'];
     code = json['code'];
-    isCollect = json['isCollect'];
-    isLike = json['isLike'];
+    isCollect = json['is_collect'];
+    isLike = json['is_like'];
   }
 }
