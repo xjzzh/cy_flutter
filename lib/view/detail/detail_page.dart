@@ -83,15 +83,43 @@ class _DetailPageState extends State<DetailPage> {
     });
     /// 获取用户是否点赞收藏
     if (_userId != null) {
-      _api.getIsLike(_userId, cookId, (value) async{
-        await value;
-        _cookUserStatus = value;
-        setState(() {
-          this._cookUserStatus = value;
-        });
-        print(_cookUserStatus.isLike);
-      });
+      _getUserStart(_userId);
     }
+  }
+
+  _removeUserId() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.remove('userId');
+  }
+
+  /// 获取用户是否点赞收藏
+  _getUserStart(_userId) {
+    _api.getIsLike(_userId, cookId, (value) async{
+      await value;
+      _cookUserStatus = value;
+      setState(() {
+        this._cookUserStatus = value;
+      });
+    });
+  }
+
+  /// 请求点赞/取消
+  _setLike(userId) async {
+    _api.getCookLike(userId, cookId, (value) async{
+      await value;
+      if (value['is_like'] == 1) {
+        setState(() {
+          _getDetailData.like += 1;
+          HapticFeedback.selectionClick();
+          _getUserStart(userId);
+        });
+      } else {
+        setState(() {
+          _getDetailData.like -= 1;
+          _getUserStart(userId);
+        });
+      }
+    });
   }
 
   @override
@@ -631,6 +659,7 @@ class _DetailPageState extends State<DetailPage> {
   // bottom bar
   Widget bottomBar() {
     bool isLike = _cookUserStatus == null || _cookUserStatus.isLike == 0 ? false : true;
+    bool isCollect = _cookUserStatus == null || _cookUserStatus.isCollect == 0? false : true;
     return Stack(
       children: <Widget>[
         Positioned(
@@ -647,7 +676,7 @@ class _DetailPageState extends State<DetailPage> {
                 children: <Widget>[
                   GestureDetector(
                     onTap: (){
-                      _userId == null ? Navigator.of(context).push(loginRoute()) : print("请求点赞接口");
+                      _userId == null ? Navigator.of(context).push(loginRoute()) : _setLike(_userId);
                     },
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -659,13 +688,13 @@ class _DetailPageState extends State<DetailPage> {
                   ),
                   GestureDetector(
                     onTap: (){
-
+                      _removeUserId();
                     },
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        Icon(Icons.favorite_border, color:  Colors.grey),
-                        Text('${_getDetailData.collect ?? ''}', style: TextStyle(fontSize: 14, color: Colors.grey))
+                        Icon(Icons.favorite_border, color:  isCollect ? Color(0xFFFB7101) : Colors.grey),
+                        Text('${_getDetailData.collect ?? ''}', style: TextStyle(fontSize: 14, color: isCollect ? Color(0xFFFB7101) : Colors.grey))
                       ],
                     ),
                   ),

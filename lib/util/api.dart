@@ -20,6 +20,7 @@ class API {
   static const String MARKSTART = 'getMarkStart';
   static const String SENDSMSCODE = 'sendSMSCode';
   static const String LOGINCODE = 'verificationCodeLogin';
+  static const String GETCOOKLIKE = 'getCookLike';
 
   var nonceStr = new DateTime.now().millisecondsSinceEpoch.toString();
 
@@ -156,7 +157,7 @@ class API {
     requestCallBack(res);
   }
 
-  /// 查询用户状态
+  /// 查询用户点赞收藏状态
   void getIsLike(String userId, int id,RequestCallBack requestCallBack) async {
     Map data = {
       'nonce_str': nonceStr,
@@ -167,5 +168,17 @@ class API {
     final result = await _request.post(USERISLIKE, jsonEncode(data));
     DetailUser res = DetailUser.fromJson(result['result']);
     requestCallBack(res);
+  }
+
+  /// 请求点赞接口
+  void getCookLike(String userId, int id, RequestCallBack requestCallBack) async{
+    Map data = {
+      'nonce_str': nonceStr,
+      'userId': userId,
+      'id': id.toString()
+    };
+    data['sign'] = signParams(data);
+    final result = await _request.post(GETCOOKLIKE, jsonEncode(data));
+    requestCallBack(result['result']);
   }
 }

@@ -59,6 +59,7 @@ class _LoginPageState extends State<LoginPage>{
           _userId = _loginCallBack.result;
           SharedPreferences prefs = await SharedPreferences.getInstance();
           prefs.setString('userId', _userId);
+          // Navigator.push(context, new MaterialPageRoute(builder: (context) => new SecondPage()));
           Navigator.pop(context,true);
         } else {
           showInSnackBar(_loginCallBack.message);
