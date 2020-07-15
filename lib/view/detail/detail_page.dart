@@ -27,7 +27,7 @@ class _DetailPageState extends State<DetailPage> {
   Start _getMarkStart;
   String startWeight;
   String _userId;
-  DetailUser _cookUserStatus;
+  var _cookUserStatus;
   ScrollController scrollController = ScrollController();
   double navAlpha = 0;
   MediaQueryData mediaQuery = MediaQueryData.fromWindow(ui.window);
@@ -80,14 +80,17 @@ class _DetailPageState extends State<DetailPage> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       _userId = (prefs.getString('userId') ?? null);
-      /// 获取用户是否点赞收藏
-      _userId != null ?? _api.getIsLike(_userId, cookId, (value) async{
-        await value;
-        _cookUserStatus = value;
+    });
+    /// 获取用户是否点赞收藏
+    _api.getIsLike(_userId, cookId, (value) async{
+      await value;
+      _cookUserStatus = value;
+      setState(() {
+        this._cookUserStatus = value;
       });
+      print(_cookUserStatus["is_like"]);
     });
   }
-
 
   @override
   void dispose(){
@@ -220,6 +223,7 @@ class _DetailPageState extends State<DetailPage> {
 
   Container storyTextScene(DetailData recipes, Color textColor) {
     return Container(
+      transform: Matrix4.translationValues(0.0, -1.0, 0.0),
       color: Theme.of(context).accentColor,
       transform: Matrix4.translationValues(0.0, -1.0, 0.0),
       child: Padding(

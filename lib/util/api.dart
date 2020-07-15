@@ -165,8 +165,8 @@ class API {
     };
     data['sign'] = signParams(data);
     final result = await _request.post(USERISLIKE, jsonEncode(data));
-    var response = result['result'];
-    DetailUser res = DetailUser.fromJson(response);
-    requestCallBack(res);
+    DetailUser res = DetailUser.fromJson(result['result']);
+    print(result['result']);
+    requestCallBack(result['result']);
   }
 }
