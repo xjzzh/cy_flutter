@@ -19,7 +19,7 @@ class ExploreRecipesView extends StatefulWidget {
 final API _api = API();
 class _ExploreRecipesViewState extends State<ExploreRecipesView> with TickerProviderStateMixin {
   List<Subject> getExplore = List();
-  String pageNo = '1';
+  String pageNo = '2';
 
   @override
   void initState() {

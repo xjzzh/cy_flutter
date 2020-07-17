@@ -536,9 +536,9 @@ class _DetailPageState extends State<DetailPage> {
                       '${startWeight.toString()}',
                       style: TextStyle(fontSize: 45.0)
                     ),
-                    RatingBar(4.5,size: 17.0,fontSize: 0.0),
+                    RatingBar(double.parse(startWeight),size: 17.0,fontSize: 0.0),
                     Text(
-                      '${_getMarkStart.totalNum ?? _getDetailData.score}人评分',
+                      '${_getMarkStart.totalNum == 0 ? '暂无' : _getMarkStart.totalNum }人评分',
                       style: TextStyle(fontSize: 12.0, color: Colors.grey),
                     )
                   ],
@@ -546,21 +546,7 @@ class _DetailPageState extends State<DetailPage> {
               ),
               Expanded(
                 flex: 3,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    _buildRatingRow('5', (_getMarkStart.fiveStart/_getMarkStart.totalNum).toDouble(),
-                      '${_getMarkStart.fiveStart/_getMarkStart.totalNum*100 == 100 ? 100 : (_getMarkStart.fiveStart/_getMarkStart.totalNum*100).toStringAsFixed(1)}%'),
-                    _buildRatingRow('4', (_getMarkStart.fourStart/_getMarkStart.totalNum).toDouble(),
-                      '${_getMarkStart.fourStart/_getMarkStart.totalNum*100 == 100 ? 100 : (_getMarkStart.fourStart/_getMarkStart.totalNum*100).toStringAsFixed(1)}%'),
-                    _buildRatingRow('3', (_getMarkStart.threeStart/_getMarkStart.totalNum).toDouble(),
-                      '${_getMarkStart.threeStart/_getMarkStart.totalNum*100 == 100 ? 100 : (_getMarkStart.threeStart/_getMarkStart.totalNum*100).toStringAsFixed(1)}%'),
-                    _buildRatingRow('2', (_getMarkStart.twoStart/_getMarkStart.totalNum).toDouble(), 
-                      '${_getMarkStart.twoStart/_getMarkStart.totalNum*100 == 100 ? 100 : (_getMarkStart.twoStart/_getMarkStart.totalNum*100).toStringAsFixed(1)}%'),
-                    _buildRatingRow('1', (_getMarkStart.oneStart/_getMarkStart.totalNum).toDouble(),
-                      '${_getMarkStart.oneStart/_getMarkStart.totalNum*100 == 100 ? 100 : (_getMarkStart.oneStart/_getMarkStart.totalNum*100).toStringAsFixed(1)}%'),
-                  ],
-                )
+                child: _rangIsNan()
               )
             ],
           ),
@@ -724,11 +710,42 @@ class _DetailPageState extends State<DetailPage> {
   _navigateLoginScreen(BuildContext context) async {
     final result = await Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => LoginPage()),
+      LoginRouter(builder: (context) => new LoginPage()),
     );
-    if (_userId == null) {
+    if (result != null) {
       _userId = result;
       _setLike(_userId);
+    }
+  }
+
+  _rangIsNan() {
+    if (_getMarkStart.totalNum == 0) {
+      return Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          _buildRatingRow('5', 0.0, '0.0%'),
+          _buildRatingRow('4', 0.0, '0.0%'),
+          _buildRatingRow('3', 0.0, '0.0%'),
+          _buildRatingRow('2', 0.0, '0.0%'),
+          _buildRatingRow('1', 0.0, '0.0%'),
+        ],
+      );
+    } else {
+      return Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          _buildRatingRow('5', (_getMarkStart.fiveStart/_getMarkStart.totalNum).toDouble(),
+            '${_getMarkStart.fiveStart/_getMarkStart.totalNum*100 == 100 ? 100 : (_getMarkStart.fiveStart/_getMarkStart.totalNum*100).toStringAsFixed(1)}%'),
+          _buildRatingRow('4', (_getMarkStart.fourStart/_getMarkStart.totalNum).toDouble(),
+            '${_getMarkStart.fourStart/_getMarkStart.totalNum*100 == 100 ? 100 : (_getMarkStart.fourStart/_getMarkStart.totalNum*100).toStringAsFixed(1)}%'),
+          _buildRatingRow('3', (_getMarkStart.threeStart/_getMarkStart.totalNum).toDouble(),
+            '${_getMarkStart.threeStart/_getMarkStart.totalNum*100 == 100 ? 100 : (_getMarkStart.threeStart/_getMarkStart.totalNum*100).toStringAsFixed(1)}%'),
+          _buildRatingRow('2', (_getMarkStart.twoStart/_getMarkStart.totalNum).toDouble(), 
+            '${_getMarkStart.twoStart/_getMarkStart.totalNum*100 == 100 ? 100 : (_getMarkStart.twoStart/_getMarkStart.totalNum*100).toStringAsFixed(1)}%'),
+          _buildRatingRow('1', (_getMarkStart.oneStart/_getMarkStart.totalNum).toDouble(),
+            '${_getMarkStart.oneStart/_getMarkStart.totalNum*100 == 100 ? 100 : (_getMarkStart.oneStart/_getMarkStart.totalNum*100).toStringAsFixed(1)}%'),
+        ],
+      );
     }
   }
 }

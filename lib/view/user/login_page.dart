@@ -84,7 +84,7 @@ class _LoginPageState extends State<LoginPage>{
           padding: new EdgeInsets.all(0.0),
           splashColor: Colors.transparent, // remove ripple effect
           onPressed: (){
-            Navigator.pop(context,true);
+            Navigator.pop(context, null);
           }
         ),
       ),
@@ -200,7 +200,7 @@ class _LoginPageState extends State<LoginPage>{
                                   return showInSnackBar('请输入11位手机号码');
                                 } else {
                                   fetchSmsCode();
-                                  model.startCountDown();
+                                  return model.startCountDown();
                                 }
                               },
                             )

@@ -290,20 +290,20 @@ class Start {
     this.fourStart,
     this.fiveStart
   });
-  int totalNum;
-  int fiveStart;
-  int fourStart;
-  int oneStart;
-  int threeStart;
-  int twoStart;
+  num totalNum;
+  num fiveStart;
+  num fourStart;
+  num oneStart;
+  num threeStart;
+  num twoStart;
 
   Start.fromJson(jsonRes) {
-    totalNum = jsonRes['TotalNum'];
-    oneStart = jsonRes['oneStart'];
-    twoStart = jsonRes['twoStart'];
-    threeStart = jsonRes['threeStart'];
-    fourStart = jsonRes['fourStart'];
-    fiveStart = jsonRes['fiveStart']; 
+    totalNum = jsonRes['TotalNum'] == null ? 0 : jsonRes['TotalNum'];
+    oneStart = jsonRes['oneStart'] == null ? 0 : jsonRes['oneStart'];
+    twoStart = jsonRes['twoStart'] == null ? 0 : jsonRes['twoStart'];
+    threeStart = jsonRes['threeStart'] == null ? 0 : jsonRes['threeStart'];
+    fourStart = jsonRes['fourStart'] == null ? 0 : jsonRes['fourStart'];
+    fiveStart = jsonRes['fiveStart'] == null ? 0 : jsonRes['fiveStart']; 
   }
 
 }

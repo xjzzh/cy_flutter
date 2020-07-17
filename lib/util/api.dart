@@ -91,7 +91,7 @@ class API {
   void getExploreRecipes(pageNo, RequestCallBack requestCallBack) async {
     Map data = {
       'nonce_str': nonceStr,
-      'pageNo': pageNo,
+      'pageNo': '2',
       'pageSize': '10'
     };
     data['sign'] = signParams(data);
@@ -110,7 +110,6 @@ class API {
     data['sign'] = signParams(data);
     final result = await _request.post(DETAIL, json.encode(data));
     DetailData detail = DetailData.fromJson(result['result']);
-    
     requestCallBack(detail);
   }
 
@@ -121,6 +120,7 @@ class API {
       'cokId': id.toString()
     };
     data['sign'] = signParams(data);
+    print(json.encode(data));
     final result = await _request.post(MARKSTART, json.encode(data));
     var markStart = result['result']['start'];
     var startWeight = result['result']['startWeight'];
