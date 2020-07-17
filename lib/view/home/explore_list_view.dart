@@ -70,7 +70,7 @@ class _ExploreRecipesViewState extends State<ExploreRecipesView> with TickerProv
   Widget _exploreRecipesList(BuildContext context, index) {
     return GestureDetector(
       onTap: (){
-        homeRouter(context, getExplore[index&getExplore.length].id);
+        homeRouter(context, getExplore[index%getExplore.length].id);
       },
       child: ClipRRect(
         borderRadius: const BorderRadius.all(Radius.circular(12)),

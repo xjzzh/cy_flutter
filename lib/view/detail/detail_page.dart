@@ -1,6 +1,7 @@
 import 'package:chuyi/model/api_data.dart';
 import 'package:chuyi/model/router.dart';
 import 'package:chuyi/util/api.dart';
+import 'package:chuyi/view/user/login_page.dart';
 import 'package:chuyi/widget/reting_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -676,7 +677,7 @@ class _DetailPageState extends State<DetailPage> {
                 children: <Widget>[
                   GestureDetector(
                     onTap: (){
-                      _userId == null ? Navigator.of(context).push(loginRoute()) : _setLike(_userId);
+                      _userId == null ? _navigateLoginScreen(context): _setLike(_userId);
                     },
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -717,4 +718,17 @@ class _DetailPageState extends State<DetailPage> {
     );
   }
 
+  /* 从屏幕返回数据
+  * Doc: https://flutter.dev/docs/cookbook/navigation/returning-data
+  */
+  _navigateLoginScreen(BuildContext context) async {
+    final result = await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => LoginPage()),
+    );
+    if (_userId == null) {
+      _userId = result;
+      _setLike(_userId);
+    }
+  }
 }
