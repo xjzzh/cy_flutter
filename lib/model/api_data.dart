@@ -331,3 +331,56 @@ class DetailUser {
     isLike = json['is_like'];
   }
 }
+
+class UserInfo {
+  String city;
+  String avatar;
+  String createdTime;
+  String phoneNumber;
+  String userId;
+  String points;
+  String nickname;
+  int gender;
+  int isActive;
+  String province;
+
+  UserInfo(
+      {this.city,
+      this.avatar,
+      this.createdTime,
+      this.phoneNumber,
+      this.userId,
+      this.points,
+      this.nickname,
+      this.gender,
+      this.isActive,
+      this.province});
+
+  UserInfo.fromJson(Map<String, dynamic> json) {
+    city = json['city'];
+    avatar = json['avatar'];
+    createdTime = json['created_time'];
+    phoneNumber = json['phone_number'];
+    userId = json['user_id'];
+    points = json['points'];
+    nickname = json['nickname'];
+    gender = json['gender'];
+    isActive = json['is_active'];
+    province = json['province'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['city'] = this.city;
+    data['avatar'] = this.avatar;
+    data['created_time'] = this.createdTime;
+    data['phone_number'] = this.phoneNumber;
+    data['user_id'] = this.userId;
+    data['points'] = this.points;
+    data['nickname'] = this.nickname;
+    data['gender'] = this.gender;
+    data['is_active'] = this.isActive;
+    data['province'] = this.province;
+    return data;
+  }
+}

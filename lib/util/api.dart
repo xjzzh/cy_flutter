@@ -21,6 +21,10 @@ class API {
   static const String SENDSMSCODE = 'sendSMSCode';
   static const String LOGINCODE = 'verificationCodeLogin';
   static const String GETCOOKLIKE = 'getCookLike';
+  static const String GETCOOKCOLLECT = 'getCookCollect';
+
+  static const String GETUSERINFO = 'getProfile';
+
 
   var nonceStr = new DateTime.now().millisecondsSinceEpoch.toString();
 
@@ -120,7 +124,6 @@ class API {
       'cokId': id.toString()
     };
     data['sign'] = signParams(data);
-    print(json.encode(data));
     final result = await _request.post(MARKSTART, json.encode(data));
     var markStart = result['result']['start'];
     var startWeight = result['result']['startWeight'];
@@ -180,5 +183,29 @@ class API {
     data['sign'] = signParams(data);
     final result = await _request.post(GETCOOKLIKE, jsonEncode(data));
     requestCallBack(result['result']);
+  }
+
+  /// 请求收藏
+  void getFavorite(String userId, int id, RequestCallBack requestCallBack) async {
+    Map data = {
+      'nonce_str': nonceStr,
+      'userId': userId,
+      'id': id.toString()
+    };
+    data['sign'] = signParams(data);
+    final result = await _request.post(GETCOOKCOLLECT, jsonEncode(data));
+    requestCallBack(result['result']);
+  }
+
+  /// 获取用户资料
+  void getUserInfo(String userId, RequestCallBack requestCallBack) async {
+    Map data = {
+      'nonce_str': nonceStr,
+      'userId': userId,
+    };
+    data['sign'] = signParams(data);
+    final result = await _request.post(GETUSERINFO, jsonEncode(data));
+    UserInfo res = UserInfo.fromJson(result['result']);
+    requestCallBack(res);
   }
 }

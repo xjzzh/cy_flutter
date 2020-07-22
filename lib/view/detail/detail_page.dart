@@ -123,6 +123,25 @@ class _DetailPageState extends State<DetailPage> {
     });
   }
 
+  /// 请求收藏
+  _setFavorite(userId) async {
+    _api.getFavorite(userId, cookId, (val) async{
+      await val;
+      if (val['is_collect'] == 1) {
+        setState(() {
+          _getDetailData.collect += 1;
+          HapticFeedback.vibrate();
+          _getUserStart(userId);
+        });
+      } else {
+        setState(() {
+          _getDetailData.collect -= 1;
+          _getUserStart(userId);
+        });
+      }
+    });
+  }
+
   @override
   void dispose(){
     scrollController.dispose();
@@ -675,12 +694,15 @@ class _DetailPageState extends State<DetailPage> {
                   ),
                   GestureDetector(
                     onTap: (){
-                      _removeUserId();
+                      _userId == null ? _navigateLoginScreen(context): _setFavorite(_userId);
                     },
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        Icon(Icons.favorite_border, color:  isCollect ? Color(0xFFFB7101) : Colors.grey),
+                        Icon(
+                          isCollect ? Icons.favorite : Icons.favorite_border,
+                          color:  isCollect ? Colors.redAccent : Colors.grey
+                        ),
                         Text('${_getDetailData.collect ?? ''}', style: TextStyle(fontSize: 14, color: isCollect ? Color(0xFFFB7101) : Colors.grey))
                       ],
                     ),
@@ -714,7 +736,6 @@ class _DetailPageState extends State<DetailPage> {
     );
     if (result != null) {
       _userId = result;
-      _setLike(_userId);
     }
   }
 

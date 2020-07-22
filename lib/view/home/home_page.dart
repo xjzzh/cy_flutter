@@ -1,5 +1,6 @@
 import 'dart:ui';
 import 'package:chuyi/model/api_data.dart';
+import 'package:chuyi/util/api.dart';
 import 'package:chuyi/view/home/classify_list_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +8,7 @@ import 'package:chuyi/view/home/meals_list_view.dart';
 import 'package:chuyi/view/home/new_recipes_view.dart';
 import 'package:chuyi/view/home/hot_recipes_view.dart';
 import 'package:chuyi/view/home/explore_list_view.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePageScreen extends StatefulWidget {
   const HomePageScreen({Key key, this.animationController}) : super(key:key);
@@ -16,13 +18,16 @@ class HomePageScreen extends StatefulWidget {
   _HomePageScreenState createState() => _HomePageScreenState();
 }
 
+final API _api = API();
+
 class _HomePageScreenState extends State<HomePageScreen> with TickerProviderStateMixin {
-  
   Animation<double> topBarAnimation;
   final ScrollController scrollController = ScrollController();
   double topBarOpacity = 0.0;
   List<Widget> listViews = <Widget>[];
   NowDate todayDate = NowDate();
+  String _userId;
+  UserInfo userInfo;
 
   @override
   void initState() {
@@ -57,9 +62,28 @@ class _HomePageScreenState extends State<HomePageScreen> with TickerProviderStat
         }
       }
     });
+
+    _getUserId();
+
     super.initState();
   }
 
+  /// 获取用户信息
+  _getUserId() async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _userId = (prefs.getString('userId') ?? null);
+    });
+    /// 获取用户信息
+    if (_userId != null) {
+      _api.getUserInfo(_userId, (value) async{
+        await value;
+        setState(() {
+          userInfo = value;
+        });
+      });
+    }
+  }
   
   void addAllListData() {
     const int count = 9;
@@ -325,9 +349,13 @@ class _HomePageScreenState extends State<HomePageScreen> with TickerProviderStat
                                 GestureDetector(
                                   onTap:(){},
                                   child: Container(
-                                    width: 55,
-                                    height: 55,
-                                    child: Image.asset('assets/images/userImage.png'),
+                                    width: 40,
+                                    height: 40,
+                                    child: userInfo.avatar == null ? Image.asset('assets/images/userImage.png') : 
+                                    FadeInImage.assetNetwork(
+                                      placeholder: 'assets/images/userImage.png', 
+                                      image: '${userInfo.avatar}'
+                                    )
                                   ),
                                 )
                               ],
