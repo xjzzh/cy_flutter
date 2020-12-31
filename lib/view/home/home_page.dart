@@ -197,6 +197,7 @@ class _HomePageScreenState extends State<HomePageScreen> with TickerProviderStat
         animationController: widget.animationController,
       )
     );
+
     listViews.add(
       ClassifyHomeView(
         animation: Tween<double>(begin: 0.0, end: 1.0).animate(
@@ -228,6 +229,7 @@ class _HomePageScreenState extends State<HomePageScreen> with TickerProviderStat
         animationController: widget.animationController,
       )
     );
+
     listViews.add(
       ExploreRecipesView(
         animation: Tween<double>(begin: 0.0, end: 1.0).animate(
@@ -330,7 +332,7 @@ class _HomePageScreenState extends State<HomePageScreen> with TickerProviderStat
                                         textAlign: TextAlign.left,
                                         style: TextStyle(
                                           fontWeight: FontWeight.w500,
-                                          fontSize: 14,
+                                          fontSize: 13,
                                           letterSpacing: 0.2,
                                           color: Colors.grey
                                         ),
@@ -340,7 +342,7 @@ class _HomePageScreenState extends State<HomePageScreen> with TickerProviderStat
                                         textAlign: TextAlign.left,
                                         style: TextStyle(
                                           fontWeight: FontWeight.bold,
-                                          fontSize: 17
+                                          fontSize: 16
                                         ),
                                       )
                                     ],
@@ -349,12 +351,11 @@ class _HomePageScreenState extends State<HomePageScreen> with TickerProviderStat
                                 GestureDetector(
                                   onTap:(){},
                                   child: Container(
-                                    width: 40,
-                                    height: 40,
-                                    child: userInfo.avatar == null ? Image.asset('assets/images/userImage.png') : 
-                                    FadeInImage.assetNetwork(
-                                      placeholder: 'assets/images/userImage.png', 
-                                      image: '${userInfo.avatar}'
+                                    width: 50,
+                                    height: 50,
+                                    child: FadeInImage.assetNetwork(
+                                      placeholder: 'assets/images/userImage.png',
+                                      image: 'assets/images/userImage.png'
                                     )
                                   ),
                                 )

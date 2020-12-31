@@ -39,7 +39,7 @@ class _BottomBarViewState extends State<BottomBarView> with TickerProviderStateM
             return Transform(
               transform: Matrix4.translationValues(0.0, 0.0, 0.0),
               child: Container(
-                color: Theme.of(context).primaryColor.withOpacity(.9),
+                color: Theme.of(context).primaryColor,// Theme.of(context).primaryColor.withOpacity(.9)
                 child: Column(
                   children: <Widget>[
                     SizedBox(
