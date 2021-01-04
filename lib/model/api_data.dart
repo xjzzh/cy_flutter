@@ -113,6 +113,36 @@ class NowDate {
     return todayWeek;
   }
 
+  String earthly() {
+    // 地支
+    var earthly = int.parse(DateFormat('HH').format(now));
+    if (earthly >= 23 && earthly < 1) {
+      return '子时，夜半更深';
+    } else if (earthly >= 1 && earthly < 3) {
+      return '丑时，东方未明';
+    } else if (earthly >= 3 && earthly < 5) {
+      return '寅时，晨光熹微';
+    } else if (earthly >= 5 && earthly < 7) {
+      return '卯时，东方破晓';
+    } else if (earthly >= 7 && earthly < 9) {
+      return '辰时，旭日东升';
+    } else if (earthly >= 9 && earthly < 11) {
+      return '巳时，丽日临空';
+    } else if (earthly >= 11 && earthly < 13) {
+      return '午时，当午日明';
+    } else if (earthly >= 13 && earthly < 15) {
+      return '未时，午后风和';
+    } else if (earthly >= 15 && earthly < 17) {
+      return '申时，日已偏西';
+    } else if (earthly >= 17 && earthly < 19) {
+      return '酉时，夕阳西下';
+    } else if (earthly >= 19 && earthly < 21) {
+      return '戌时，华灯初上';
+    } else if (earthly >= 21 && earthly < 23) {
+      return '亥时，夜阑人静';
+    }
+  }
+
   String hours() {
     // List txt = [
     //   '夜半酣酒江月下，美人纤手炙鱼头。',

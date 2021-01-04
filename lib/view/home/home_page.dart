@@ -331,6 +331,7 @@ class _HomePageScreenState extends State<HomePageScreen> with TickerProviderStat
                                         "${new DateTime.now().month.toString()}月${new DateTime.now().day.toString()}日 ${todayDate.todayWeek()}",
                                         textAlign: TextAlign.left,
                                         style: TextStyle(
+                                          fontFamily: 'RobotoSer',
                                           fontWeight: FontWeight.w500,
                                           fontSize: 13,
                                           letterSpacing: 0.2,
@@ -338,7 +339,7 @@ class _HomePageScreenState extends State<HomePageScreen> with TickerProviderStat
                                         ),
                                       ),
                                       Text(
-                                        "${todayDate.hours()}",
+                                        "${todayDate.earthly()}",
                                         textAlign: TextAlign.left,
                                         style: TextStyle(
                                           fontWeight: FontWeight.bold,
