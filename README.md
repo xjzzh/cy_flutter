@@ -218,7 +218,7 @@ SliverAppBar({
     this.floating = false,//滑动时是否悬浮
     this.pinned = false,//标题栏是否固定
     this.snap = false,//配合floating使用
-  })
+  });
 ```
 #### build iOS 真机
 ```shell
@@ -230,7 +230,7 @@ Try replacing 'com.example' with your signing id in Xcode:
 `rm -rf ios/Flutter/App.framework`
 
 #### Matrix4（矩阵变化） 参数：
-```dart
+```text
 scale：缩放
 transform: Matrix4.diagonal3Values(x, y, z),
 transform: 移动
@@ -254,3 +254,10 @@ _objTable.keys
 ```json
 "editor.fontLigatures": true,
 ```
+
+#### CocoaPods 无法安装
+
+- `2021-01-05`安装`cocoapods`错误：
+  - `ruby -v` 查看Ruby版本，`2.63`不支持cocoapods`1.9.0`以上版本
+  - 升级ruby，或者安装低版本 `sudo gem install cocoapods -v 1.8.4`
+  - 参考：https://github.com/CocoaPods/CocoaPods/issues/9602
