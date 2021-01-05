@@ -316,12 +316,12 @@ class _HomePageScreenState extends State<HomePageScreen> with TickerProviderStat
                     children: <Widget>[
                       ClipRect(
                         child: BackdropFilter(
-                          filter: ImageFilter.blur(sigmaX: 25.0, sigmaY: 25.0),
+                          filter: ImageFilter.blur(sigmaX: 0.0, sigmaY: 0.0), //模糊
                           child: Padding(
-                            padding: EdgeInsets.only(top:MediaQuery.of(context).padding.top,left: 16.0,right: 16.0,bottom: 8.0),
+                            padding: EdgeInsets.only(top:MediaQuery.of(context).padding.top,left: 16.0,right: 16.0,bottom: 4.0),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.end,
+                              crossAxisAlignment: CrossAxisAlignment.center,
                               children: <Widget>[
                                 Expanded(
                                   child: Column(
@@ -331,7 +331,6 @@ class _HomePageScreenState extends State<HomePageScreen> with TickerProviderStat
                                         "${new DateTime.now().month.toString()}月${new DateTime.now().day.toString()}日 ${todayDate.todayWeek()}",
                                         textAlign: TextAlign.left,
                                         style: TextStyle(
-                                          fontFamily: 'RobotoSer',
                                           fontWeight: FontWeight.w500,
                                           fontSize: 13,
                                           letterSpacing: 0.2,
@@ -342,7 +341,10 @@ class _HomePageScreenState extends State<HomePageScreen> with TickerProviderStat
                                         "${todayDate.earthly()}",
                                         textAlign: TextAlign.left,
                                         style: TextStyle(
+                                          fontFamily: 'NotoSerifSC',
+                                          letterSpacing: 0.5,
                                           fontWeight: FontWeight.bold,
+                                          color: Color(0xFF555555),
                                           fontSize: 16
                                         ),
                                       )
@@ -354,9 +356,8 @@ class _HomePageScreenState extends State<HomePageScreen> with TickerProviderStat
                                   child: Container(
                                     width: 50,
                                     height: 50,
-                                    child: FadeInImage.assetNetwork(
-                                      placeholder: 'assets/images/userImage.png',
-                                      image: 'assets/images/userImage.png'
+                                    child: Image(
+                                      image: AssetImage('assets/images/userImage.png'),
                                     )
                                   ),
                                 )
@@ -367,7 +368,6 @@ class _HomePageScreenState extends State<HomePageScreen> with TickerProviderStat
                       )
                     ],
                   ),
-                  
                 ),
               ),
             );
@@ -412,6 +412,7 @@ class TitleView extends StatelessWidget {
                         titleTxt,
                         textAlign: TextAlign.left,
                         style: TextStyle(
+                          fontFamily: 'NotoSerifSC',
                           fontWeight: FontWeight.w500,
                           fontSize: 18,
                           letterSpacing: 0.5,

@@ -211,18 +211,18 @@ class _DetailPageState extends State<DetailPage> {
           padding: EdgeInsets.fromLTRB(0, mediaQuery.padding.top - 14, 0, 0),
           child: GestureDetector(
             onTap: back,
-            child: Icon(CupertinoIcons.left_chevron, color: Colors.white, size: 30),
+            child: Icon(CupertinoIcons.chevron_left, color: Colors.white, size: 26),
           ),
         ),
         Opacity(
           opacity: navAlpha,
           child: CupertinoNavigationBar(
-            padding: EdgeInsetsDirectional.only(start: 5.0,end: 5.0),
+            padding: EdgeInsetsDirectional.only(start: 7.5,end: 8.0),
             leading: GestureDetector(
               onTap: () {
                 back();
               },
-              child: Icon(CupertinoIcons.left_chevron),
+              child: Icon(CupertinoIcons.chevron_left, size: 26),
             ),
             middle: Text(
               '${_getDetailData.title}',
@@ -238,7 +238,7 @@ class _DetailPageState extends State<DetailPage> {
                 Share.share('我在「厨易」App发现${_getDetailData.title}的做法');
               },
               child: Icon(
-                CupertinoIcons.ellipsis
+                CupertinoIcons.ellipsis_vertical, size: 26
               ),
             ),
           ),
@@ -342,11 +342,11 @@ class _DetailPageState extends State<DetailPage> {
                 children: <Widget>[
                   RatingBar(recipes.score, size: 18.0,),
                   SizedBox(width: 10.0),
-                  Icon(Icons.timer, size: 18, color: Color(0xFFFB7101).withAlpha(150)),
+                  Icon(CupertinoIcons.alarm, size: 18, color: Color(0xFFFB7101).withAlpha(150)),
                   SizedBox(width: 5.0),
                   Text('${recipes.cookTime}', style: TextStyle(fontSize: 13.0,color: Colors.grey[600])),
                   SizedBox(width: 10.0),
-                  Icon(Icons.whatshot, size: 18, color: Color(0xFFFB7101).withAlpha(150)),
+                  Icon(CupertinoIcons.flame, size: 18, color: Color(0xFFFB7101).withAlpha(150)),
                   SizedBox(width: 5.0),
                   Text('难度${recipes.difficult}', style: TextStyle(fontSize: 13.0,color: Colors.grey[600]))
                 ],
@@ -411,7 +411,7 @@ class _DetailPageState extends State<DetailPage> {
       padding: EdgeInsets.symmetric(vertical: 0),
       childAspectRatio: 6,
       children: List.generate(
-        ingredients.length,
+        ingredients.length ?? 0,
         (f) {
           return Row(
             children: <Widget>[
@@ -461,14 +461,15 @@ class _DetailPageState extends State<DetailPage> {
             ]
           ),
           ..._getDetailData.step.map<Padding>((RecipeIngredient step){
-            return stepBuild(step, _getDetailData.step.length);
+            var index = _getDetailData.step.indexOf(step);
+            return stepBuild(index, step, _getDetailData.step.length ?? 0);
           })
         ],
       ),
     );
   }
 
-  Padding stepBuild(RecipeIngredient step, int allStep) {
+  Padding stepBuild(int index,RecipeIngredient step, int allStep) {
     return Padding(
       padding: EdgeInsets.only(top: 15.0),
       child: Column(
@@ -476,7 +477,7 @@ class _DetailPageState extends State<DetailPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(
-            '${step.amount}/$allStep',
+            '步骤 ${index + 1}/$allStep',
             style: TextStyle(fontSize: 17.0, fontWeight: FontWeight.w500,color: Theme.of(context).textTheme.bodyText1.color),
           ),
           SizedBox(height: 10),
@@ -496,7 +497,7 @@ class _DetailPageState extends State<DetailPage> {
             ),
           ),
           SizedBox(height: 10),
-          Text('${step.txt}', style: TextStyle(fontSize: 15.0,color: Theme.of(context).textTheme.bodyText1.color)),
+          Text('${step.txt}', style: TextStyle(fontSize: 16.0,color: Theme.of(context).textTheme.bodyText1.color)),
           SizedBox(height:15)
         ],
       ),
@@ -512,8 +513,8 @@ class _DetailPageState extends State<DetailPage> {
         children: <Widget>[
           Row(
             children: <Widget>[
-              Icon(Icons.lightbulb_outline),
-              Text('小贴士',style:TextStyle(fontSize: 20.0, fontWeight: FontWeight.w500))
+              Icon(CupertinoIcons.lightbulb, size: 18.0),
+              Text('小贴士',style:TextStyle(fontSize: 18.0, fontWeight: FontWeight.w500))
             ],
           ),
           SizedBox(height: 5.0),
@@ -687,7 +688,7 @@ class _DetailPageState extends State<DetailPage> {
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        Icon(Icons.thumb_up, color: isLike ? Color(0xFFFB7101) : Colors.grey),
+                        Icon(isLike ? CupertinoIcons.hand_thumbsup_fill : CupertinoIcons.hand_thumbsup, color: isLike ? Color(0xFFFB7101) : Colors.grey),
                         Text('${_getDetailData.like ?? 0}', style: TextStyle(fontSize: 14, color: isLike ? Color(0xFFFB7101) : Colors.grey))
                       ],
                     ),
@@ -700,7 +701,7 @@ class _DetailPageState extends State<DetailPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Icon(
-                          isCollect ? Icons.favorite : Icons.favorite_border,
+                          isCollect ? CupertinoIcons.heart_fill : CupertinoIcons.heart,
                           color:  isCollect ? Colors.redAccent : Colors.grey
                         ),
                         Text('${_getDetailData.collect ?? ''}', style: TextStyle(fontSize: 14, color: isCollect ? Color(0xFFFB7101) : Colors.grey))
@@ -712,7 +713,7 @@ class _DetailPageState extends State<DetailPage> {
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        Icon(Icons.chat_bubble_outline,color: Colors.grey),
+                        Icon(CupertinoIcons.captions_bubble,color: Colors.grey),
                         Text('0', style: TextStyle(fontSize: 14, color: Colors.grey))
                       ],
                     ),
