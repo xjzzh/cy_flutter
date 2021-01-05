@@ -23,7 +23,7 @@ final API _api = API();
 class _DetailPageState extends State<DetailPage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final cookId;
-  _DetailPageState(this.cookId);
+  _DetailPageState([this.cookId]);
   DetailData _getDetailData;
   Start _getMarkStart;
   String startWeight;
@@ -411,7 +411,7 @@ class _DetailPageState extends State<DetailPage> {
       padding: EdgeInsets.symmetric(vertical: 0),
       childAspectRatio: 6,
       children: List.generate(
-        ingredients.length ?? 0,
+        ingredients?.length ?? 0,
         (f) {
           return Row(
             children: <Widget>[
@@ -462,7 +462,7 @@ class _DetailPageState extends State<DetailPage> {
           ),
           ..._getDetailData.step.map<Padding>((RecipeIngredient step){
             var index = _getDetailData.step.indexOf(step);
-            return stepBuild(index, step, _getDetailData.step.length ?? 0);
+            return stepBuild(index, step, _getDetailData.step?.length ?? 0);
           })
         ],
       ),
@@ -488,7 +488,7 @@ class _DetailPageState extends State<DetailPage> {
               decoration: BoxDecoration(
                 image: DecorationImage(
                   image: NetworkImage(
-                    '${step.img}?x-oss-process=image/resize,m_fill,h_320' ?? '',
+                    '${step.img}?x-oss-process=image/resize,m_fill,h_320' ?? 'assets/images/placeholder.svg',
                   ),
                   fit: BoxFit.cover
                 ),

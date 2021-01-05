@@ -255,8 +255,8 @@ class DetailData {
   String difficult;
   String cookTime;
   String tips;
-  List<RecipeIngredient> ingredients;
-  List<RecipeIngredient> step;
+  List<RecipeIngredient> ingredients = [];
+  List<RecipeIngredient> step = [];
 
   DetailData({
     this.image,
