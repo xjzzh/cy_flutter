@@ -316,7 +316,7 @@ class _HomePageScreenState extends State<HomePageScreen> with TickerProviderStat
                     children: <Widget>[
                       ClipRect(
                         child: BackdropFilter(
-                          filter: ImageFilter.blur(sigmaX: 2.0, sigmaY: 0.0), //模糊
+                          filter: ImageFilter.blur(sigmaX: 0.0, sigmaY: 0.0), //模糊
                           child: Padding(
                             padding: EdgeInsets.only(top:MediaQuery.of(context).padding.top,left: 16.0,right: 16.0,bottom: 4.0),
                             child: Row(
@@ -412,11 +412,11 @@ class TitleView extends StatelessWidget {
                         titleTxt,
                         textAlign: TextAlign.left,
                         style: TextStyle(
-                          fontFamily: 'NotoSerifSC',
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18,
-                          letterSpacing: 0.5,
-                          color: Theme.of(context).textTheme.bodyText1.color
+                            fontFamily: 'NotoSerifSC',
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18,
+                            letterSpacing: 0.5,
+                            color: Theme.of(context).textTheme.bodyText1.color
                         ),
                       ),
                     ),
