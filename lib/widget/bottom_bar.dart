@@ -46,7 +46,7 @@ class _BottomBarViewState extends State<BottomBarView> with TickerProviderStateM
                       height: 50.0 + MediaQuery.of(context).padding.bottom,
                       child: ClipRRect(
                         child: BackdropFilter(
-                          filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
+                          filter: ImageFilter.blur(sigmaX: 1.0, sigmaY: 1.0),
                           child: Padding(
                             padding: EdgeInsets.only(left: 8, right: 8, top: 4, bottom: MediaQuery.of(context).padding.bottom),
                             child: Row(
