@@ -113,7 +113,8 @@ class API {
     };
     data['sign'] = signParams(data);
     final result = await _request.post(DETAIL, json.encode(data));
-    DetailData detail = DetailData.fromJson(result['result']);
+    var resultList = result['result'];
+    DetailData detail = DetailData.fromJson(resultList);
     requestCallBack(detail);
   }
 

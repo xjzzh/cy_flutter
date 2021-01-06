@@ -11,9 +11,10 @@ import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class DetailPage extends StatefulWidget {
-  final cookId;
+  final int cookId;
 
-  DetailPage(this.cookId,{Key key}): super(key: key);
+  DetailPage({Key key, @required this.cookId}): super(key: key);
+
   @override
   _DetailPageState createState() => _DetailPageState(cookId);
 }
@@ -23,7 +24,7 @@ final API _api = API();
 class _DetailPageState extends State<DetailPage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final cookId;
-  _DetailPageState([this.cookId]);
+  _DetailPageState(this.cookId);
   DetailData _getDetailData;
   Start _getMarkStart;
   String startWeight;
@@ -32,13 +33,12 @@ class _DetailPageState extends State<DetailPage> {
   ScrollController scrollController = ScrollController();
   double navAlpha = 0;
   MediaQueryData mediaQuery = MediaQueryData.fromWindow(ui.window);
-  
+
   @override
   void initState(){
     /// 获取详情
     _api.getDetail(cookId, (value) async{
-      await value;
-      _getDetailData = value;
+      _getDetailData = await value;
       setState(() {
         this._getDetailData = value;
       });
@@ -88,10 +88,10 @@ class _DetailPageState extends State<DetailPage> {
     }
   }
 
-  _removeUserId() async {
+  /*_removeUserId() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.remove('userId');
-  }
+  }*/
 
   /// 获取用户是否点赞收藏
   _getUserStart(_userId) {
@@ -151,51 +151,61 @@ class _DetailPageState extends State<DetailPage> {
   back(){
     Navigator.pop(context);
   }
+
+  Future<bool> getData() async {
+    await Future<dynamic>.delayed(const Duration(milliseconds: 500));
+    return true;
+  }
   
   @override
   Widget build(BuildContext context) {
     Color textColor = Theme.of(context).textTheme.bodyText1.color;
 
-    if ( _getDetailData == null) {
-      return Scaffold(
-        body: Center(
-          child: CupertinoActivityIndicator(),
-        ),
-      );
-    }
-
-    return Scaffold(
-      key: _scaffoldKey,
-      body: AnnotatedRegion(
-        // 设置状态栏样式
-        value: navAlpha > 0.5 ? SystemUiOverlayStyle.dark : SystemUiOverlayStyle.light,
-        child: Stack(
-          children: <Widget>[
-            Column(
-              children: <Widget>[
-                Expanded(
-                  child: ListView(
-                    controller: scrollController,
-                    padding: EdgeInsets.only(top: 0),
-                    children: <Widget>[
-                      buildBackground(_getDetailData.image),
-                      storyTextScene(_getDetailData,textColor),
-                      ingrView(),
-                      recipeStepScene(),
-                      tipsScene(),
-                      ratingScene(),
-                      //markScene(),
-                      SizedBox(height: mediaQuery.padding.bottom + 20)
-                    ],
-                  )
-                )
-              ],
+    return FutureBuilder<bool>(
+      future: getData(),
+      builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+        if (!snapshot.hasData && snapshot.connectionState != ConnectionState.done) {
+          return Scaffold(
+            body: Center(
+              child: CupertinoActivityIndicator(),
             ),
-            buildNavigationBar(),
-            bottomBar(),
-          ],
-        ),
-      ),
+          );
+        } else {
+          return Scaffold(
+            key: _scaffoldKey,
+            body: AnnotatedRegion(
+              // 设置状态栏样式
+              value: navAlpha > 0.5 ? SystemUiOverlayStyle.dark : SystemUiOverlayStyle.light,
+              child: Stack(
+                children: <Widget>[
+                  Column(
+                    children: <Widget>[
+                      Expanded(
+                          child: ListView(
+                            controller: scrollController,
+                            padding: EdgeInsets.only(top: 0),
+                            children: <Widget>[
+                              buildBackground(_getDetailData.image),
+                              storyTextScene(_getDetailData,textColor),
+                              ingrView(),
+                              recipeStepScene(),
+                              tipsScene(),
+                              ratingScene(),
+                              //markScene(),
+                              SizedBox(height: mediaQuery.padding.bottom + 20)
+                            ],
+                          )
+                      )
+                    ],
+                  ),
+                  buildNavigationBar(),
+                  bottomBar(),
+                ],
+              ),
+            ),
+          );
+        }
+      }
     );
   }
 
@@ -325,7 +335,7 @@ class _DetailPageState extends State<DetailPage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Text('${recipes.nickname}', style: TextStyle(fontSize: 14, color: Colors.grey.shade600)),
-                          Text('${recipes.creaDate}', style: TextStyle(fontSize: 13, color: Colors.grey.shade600))
+                          Text('${recipes.creatDate}', style: TextStyle(fontSize: 13, color: Colors.grey.shade600))
                         ],
                       )
                     ],
@@ -411,7 +421,7 @@ class _DetailPageState extends State<DetailPage> {
       padding: EdgeInsets.symmetric(vertical: 0),
       childAspectRatio: 6,
       children: List.generate(
-        ingredients?.length ?? 0,
+        ingredients.length == null ? 0 : ingredients.length,
         (f) {
           return Row(
             children: <Widget>[
@@ -462,7 +472,7 @@ class _DetailPageState extends State<DetailPage> {
           ),
           ..._getDetailData.step.map<Padding>((RecipeIngredient step){
             var index = _getDetailData.step.indexOf(step);
-            return stepBuild(index, step, _getDetailData.step?.length ?? 0);
+            return stepBuild(index, step, _getDetailData.step.length);
           })
         ],
       ),

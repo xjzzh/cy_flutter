@@ -213,6 +213,7 @@ class Subject {
     msg = map['msg'];
   }
 }
+
 /// 解析Detail
 class DetailData {
   String readTimestamp(int timestamp) {
@@ -250,13 +251,13 @@ class DetailData {
   int like;
   int collect;
   double score;
-  String creaDate;
+  String creatDate;
   String avatar;
   String difficult;
   String cookTime;
   String tips;
-  List<RecipeIngredient> ingredients = [];
-  List<RecipeIngredient> step = [];
+  List<RecipeIngredient> ingredients;
+  List<RecipeIngredient> step;
 
   DetailData({
     this.image,
@@ -265,7 +266,7 @@ class DetailData {
     this.collect,
     this.score,
     this.nickname,
-    this.creaDate,
+    this.creatDate,
     this.title,
     this.avatar,
     this.difficult,
@@ -276,26 +277,27 @@ class DetailData {
   });
   DetailData.fromJson(jsonRes) {
     image = jsonRes['cov_img'];
-    story = jsonRes["story"];
-    like = jsonRes["like_num"] as int;
+    story = jsonRes['story'];
+    like = jsonRes['like_num'] as int;
     collect = jsonRes['collect_num'] as int;
-    title = jsonRes["title"];
-    nickname = jsonRes["nickname"];
-    avatar = jsonRes["avatar"];
-    creaDate = readTimestamp(int.parse(jsonRes["crea_date"]));
-    difficult = degreeDifficulty(jsonRes["difficult"] as double);
+    title = jsonRes['title'];
+    nickname = jsonRes['nickname'];
+    avatar = jsonRes['avatar'];
+    creatDate = readTimestamp(int.parse(jsonRes['crea_date']));
+    difficult = degreeDifficulty(jsonRes['difficult'] as double);
     score = double.parse(jsonRes['score']);
-    cookTime = jsonRes["time_consum"];
-    tips = jsonRes["tips"];
-    ingredients = jsonRes["ingr"].map<RecipeIngredient>((i) => RecipeIngredient.fromMap(i)).toList();
-    step = jsonRes['step'].map<RecipeIngredient>((item) => RecipeIngredient.fromMap(item)).toList();
+    cookTime = jsonRes['time_consum'];
+    tips = jsonRes['tips'];
+    ingredients = jsonRes['ingr'] == null ? [] : jsonRes['ingr'].map<RecipeIngredient>((i) => RecipeIngredient.fromJson(i)).toList();
+    step = jsonRes['step'] == null ? [] : jsonRes['step'].map<RecipeIngredient>((item) => RecipeIngredient.fromJson(item)).toList();
   }
 }
 class RecipeIngredient {
   RecipeIngredient({
-    this.amount, 
-    this.description, 
+    this.amount,
+    this.description,
     this.img,
+    this.txt,
   });
 
   String amount;
@@ -303,11 +305,13 @@ class RecipeIngredient {
   String img;
   String txt;
 
-  RecipeIngredient.fromMap(Map<String, dynamic> map) {
-    amount = map["tit"];
-    description = map["value"];
-    txt = map['txt'];
-    img = map['img'];
+  factory RecipeIngredient.fromJson(Map<String, dynamic> json) {
+    return RecipeIngredient(
+      amount: json['tit'],
+      description: json['value'],
+      txt: json['txt'],
+      img: json['img']
+    );
   }
 }
 

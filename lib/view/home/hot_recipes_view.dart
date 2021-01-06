@@ -48,7 +48,7 @@ class _HotRecipesViewState extends State<HotRecipesView> with TickerProviderStat
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
                   padding: EdgeInsets.symmetric(horizontal: 10),
-                  itemBuilder: (context, index) => _hotReciptsList(context, index),
+                  itemBuilder: (context, index) => _hotRecipesList(context, index),
                   itemCount: math.min(getHotRecipes.length, 10),
                 ),
               ),
@@ -59,9 +59,9 @@ class _HotRecipesViewState extends State<HotRecipesView> with TickerProviderStat
     );
   }
 
-  Widget _hotReciptsList(BuildContext context,int index){
+  Widget _hotRecipesList(BuildContext context,int index){
     return GestureDetector(
-      onTap: (){
+      onTap: () async {
         homeRouter(context, getHotRecipes[index%getHotRecipes.length].id);
       },
       child: Container(

@@ -4,9 +4,12 @@ import 'package:flutter/material.dart';
 
 
 void homeRouter(BuildContext context, dynamic id) {
-  Navigator.push(context, MaterialPageRoute(
-    builder: (context) => new DetailPage(id),
-  ));
+  Navigator.push(
+    context,
+    MaterialPageRoute(
+      builder: (context) => DetailPage(cookId: id),
+    ),
+  );
 }
 
 Route loginRoute(){
