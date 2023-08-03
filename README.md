@@ -250,11 +250,6 @@ _objTable.keys
   .forEach(_objTable.remove); // remove selected keys
 ```
 
-#### VSCode 连字符
-```json
-"editor.fontLigatures": true,
-```
-
 #### CocoaPods 无法安装
 
 - `2021-01-05`安装`cocoapods`错误：
