@@ -122,19 +122,6 @@ flutter:
     )
 ```
 
-#### light/dark
-
-```dart
-    return MaterialApp(
-        theme: ThemeData(
-          brightness: Brightness.light,
-        ),
-        darkTheme: ThemeData(
-          brightness: Brightness.dark,
-        ),
-    );
-```
-
 #### Container
 
 ```dart
